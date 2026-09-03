@@ -1,0 +1,47 @@
+---
+/**
+ * Jeu d'icônes en ligne (pas de dépendance externe).
+ * `nom` correspond au champ `icone` des fiches services.
+ */
+interface Props {
+  nom: string;
+  class?: string;
+}
+
+const { nom, class: classe = 'h-6 w-6' } = Astro.props;
+
+const traces: Record<string, string> = {
+  parking:
+    'M9 17V7h4a3 3 0 0 1 0 6H9M4 4h16v16H4z',
+  pmr:
+    'M12 5.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM10 8v5h4l3 6M10 11H7a4 4 0 1 0 4 7',
+  colis:
+    'M3.5 8.5 12 4l8.5 4.5v7L12 20l-8.5-4.5v-7ZM3.5 8.5 12 13m0 0 8.5-4.5M12 13v7',
+  recharge:
+    'M13 3 5.5 13.5H11L10 21l7.5-10.5H12L13 3Z',
+  repas:
+    'M6 3v8a2 2 0 0 0 2 2v8M6 3v4M9 3v4M17 3c-1.5 2-2 4-2 7 0 1.5.7 2.5 2 3v8',
+  pain:
+    'M5 9c0-2.2 3.1-4 7-4s7 1.8 7 4v6c0 2.2-3.1 4-7 4s-7-1.8-7-4V9Zm3.5-3v12m7-12v12',
+  horloge: 'M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z',
+  localisation:
+    'M12 21s7-5.3 7-11a7 7 0 1 0-14 0c0 5.7 7 11 7 11Zm0-8.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z',
+  boutique:
+    'M4 9h16v11H4V9Zm0 0 1.5-5h13L20 9M9 20v-6h6v6',
+};
+
+const trace = traces[nom] ?? traces.boutique;
+---
+
+<svg
+  class={classe}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  <path d={trace} />
+</svg>

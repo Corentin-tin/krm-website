@@ -1,0 +1,113 @@
+---
+import { NAV, SITE } from '../lib/site';
+
+const chemin = Astro.url.pathname.replace(/\/$/, '') || '/';
+const estActif = (href: string) =>
+  chemin === href || (href !== '/' && chemin.startsWith(href));
+---
+
+<header class="sticky top-0 z-50 border-b border-albizia-100 bg-sable-50/95 backdrop-blur">
+  <div class="conteneur flex items-center justify-between gap-4 py-3">
+    <a
+      href="/"
+      class="flex items-center gap-2.5 rounded-md text-albizia-800 transition-colors hover:text-terracotta-600"
+    >
+      <svg
+        class="h-8 w-8 shrink-0 text-albizia-600"
+        viewBox="0 0 32 32"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M16 27v-8m0 0c0-4 3-6 7-6.5C22.5 8 19.5 6 16 6s-6.5 2-7 6.5c4 .5 7 2.5 7 6.5Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <span class="flex flex-col leading-tight">
+        <span class="text-base font-semibold tracking-tight sm:text-lg">
+          {SITE.nomCourt}
+        </span>
+        <span class="text-[0.7rem] font-medium text-albizia-500">
+          Pôle commercial · Montech
+        </span>
+      </span>
+    </a>
+
+    <!-- Navigation bureau -->
+    <nav aria-label="Navigation principale" class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {
+          NAV.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={estActif(item.href) ? 'page' : undefined}
+                class:list={[
+                  'rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                  estActif(item.href)
+                    ? 'bg-albizia-100 text-albizia-800'
+                    : 'text-albizia-700 hover:bg-albizia-50 hover:text-albizia-900',
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <!-- Navigation mobile : <details> pour fonctionner sans JavaScript -->
+    <details class="group relative lg:hidden">
+      <summary
+        class="flex cursor-pointer items-center gap-2 rounded-md border border-albizia-200 px-3 py-2 text-sm font-medium text-albizia-800 marker:content-none [&::-webkit-details-marker]:hidden"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            class="group-open:hidden"
+            d="M4 7h16M4 12h16M4 17h16"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            class="hidden group-open:block"
+            d="M6 6l12 12M18 6L6 18"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+        <span>Menu</span>
+      </summary>
+      <nav
+        aria-label="Navigation principale"
+        class="absolute right-0 top-full mt-2 w-60 rounded-xl border border-albizia-100 bg-white p-2 shadow-lg"
+      >
+        <ul class="flex flex-col">
+          {
+            NAV.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={estActif(item.href) ? 'page' : undefined}
+                  class:list={[
+                    'block rounded-md px-3 py-2.5 text-sm font-medium transition-colors',
+                    estActif(item.href)
+                      ? 'bg-albizia-100 text-albizia-800'
+                      : 'text-albizia-700 hover:bg-albizia-50',
+                  ]}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>

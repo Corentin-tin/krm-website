@@ -1,0 +1,40 @@
+---
+import Vignette from './Vignette.astro';
+import { CATEGORIES, type CategorieId } from '../lib/site';
+import type { Commerce } from '../lib/contenu';
+
+interface Props {
+  commerce: Commerce;
+  prioritaire?: boolean;
+}
+
+const { commerce, prioritaire = false } = Astro.props;
+const { nom, categorie, accroche, image } = commerce.data;
+const label = CATEGORIES[categorie as CategorieId]?.label ?? categorie;
+---
+
+<article
+  class="group relative flex flex-col overflow-hidden rounded-[--radius-card] border border-albizia-100 bg-white transition-shadow hover:shadow-md focus-within:shadow-md"
+>
+  <div class="aspect-[4/3] overflow-hidden bg-albizia-50">
+    <Vignette
+      nom={nom}
+      categorie={categorie}
+      image={image}
+      prioritaire={prioritaire}
+      class="transition-transform duration-300 group-hover:scale-[1.03]"
+    />
+  </div>
+
+  <div class="flex flex-1 flex-col gap-2 p-4">
+    <p class="text-xs font-semibold uppercase tracking-wide text-terracotta-600">
+      {label}
+    </p>
+    <h3 class="text-lg font-semibold leading-snug text-albizia-900">
+      <a href={`/commerces/${commerce.id}`} class="after:absolute after:inset-0">
+        {nom}
+      </a>
+    </h3>
+    <p class="text-sm leading-relaxed text-albizia-700">{accroche}</p>
+  </div>
+</article>

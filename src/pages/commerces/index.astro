@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EnTetePage from '../../components/EnTetePage.astro';
+import CarteCommerce from '../../components/CarteCommerce.astro';
+import { schemaFilAriane } from '../../lib/seo';
+import { SITE } from '../../lib/site';
+import { getCommerces, getCommercesParCategorie } from '../../lib/contenu';
+
+const commerces = await getCommerces();
+const groupes = await getCommercesParCategorie();
+
+const siteUrl = Astro.site!.href;
+const schemas = [
+  schemaFilAriane([
+    { nom: 'Accueil', url: siteUrl },
+    { nom: 'Les commerces', url: new URL('/commerces', siteUrl).href },
+  ]),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `Les commerces du ${SITE.nom}`,
+    numberOfItems: commerces.length,
+    itemListElement: commerces.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: c.data.nom,
+      url: new URL(`/commerces/${c.id}`, siteUrl).href,
+    })),
+  },
+];
+---
+
+<BaseLayout
+  titre="Les commerces"
+  description={`Annuaire des commerces et artisans du ${SITE.nom} à Montech : beauté, restauration, auto, services et produits locaux. Parking gratuit sur place.`}
+  schemas={schemas}
+>
+  <EnTetePage
+    titre="Les commerces du pôle"
+    intro="Des enseignes indépendantes réunies au même endroit, à l'entrée de Montech. Beauté, restauration, auto, services, artisanat."
+  >
+    {
+      groupes.length > 1 && (
+        <nav aria-label="Aller à une catégorie" class="mt-8">
+          <ul class="flex flex-wrap gap-2">
+            {groupes.map((groupe) => (
+              <li>
+                <a
+                  href={`#${groupe.id}`}
+                  class="inline-block rounded-full border border-albizia-200 bg-white px-4 py-2 text-sm font-medium text-albizia-800 transition-colors hover:border-albizia-400 hover:bg-albizia-50"
+                >
+                  {groupe.label}
+                  <span class="ml-1.5 text-albizia-500">
+                    {groupe.commerces.length}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+  </EnTetePage>
+
+  <div class="conteneur py-14 sm:py-16">
+    {
+      groupes.length === 0 ? (
+        <p class="text-albizia-700">
+          L'annuaire est en cours de constitution. Revenez prochainement.
+        </p>
+      ) : (
+        <div class="space-y-16">
+          {groupes.map((groupe) => (
+            <section id={groupe.id} class="scroll-mt-24">
+              <h2 class="text-xl font-bold tracking-tight text-albizia-900 sm:text-2xl">
+                {groupe.label}
+              </h2>
+              <ul class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {groupe.commerces.map((commerce) => (
+                  <li class="flex">
+                    <CarteCommerce commerce={commerce} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      )
+    }
+
+    <aside class="mt-16 rounded-[--radius-card] border border-albizia-200 bg-sable-100 p-6 sm:p-8">
+      <h2 class="text-lg font-semibold text-albizia-900">
+        Vous êtes commerçant sur le pôle&nbsp;?
+      </h2>
+      <p class="mt-2 max-w-2xl text-sm leading-relaxed text-albizia-700">
+        Votre enseigne n'apparaît pas encore dans cet annuaire, ou les
+        informations affichées sont à corriger&nbsp;? Écrivez-nous pour que
+        votre fiche soit ajoutée ou mise à jour.
+      </p>
+      <a
+        href="/contact"
+        class="mt-4 inline-block rounded-lg bg-albizia-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
+      >
+        Nous contacter
+      </a>
+    </aside>
+  </div>
+</BaseLayout>

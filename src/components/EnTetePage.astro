@@ -1,0 +1,24 @@
+---
+interface Props {
+  titre: string;
+  intro?: string;
+}
+
+const { titre, intro } = Astro.props;
+---
+
+<section class="border-b border-albizia-100 bg-white">
+  <div class="conteneur py-12 sm:py-16">
+    <h1 class="max-w-3xl text-3xl font-bold tracking-tight text-albizia-900 sm:text-4xl">
+      {titre}
+    </h1>
+    {
+      intro && (
+        <p class="mt-4 max-w-2xl text-lg leading-relaxed text-albizia-700">
+          {intro}
+        </p>
+      )
+    }
+    <slot />
+  </div>
+</section>
