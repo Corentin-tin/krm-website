@@ -9,14 +9,16 @@ import type { CategorieId } from '../lib/site';
  * vignette = ajouter `image:` au frontmatter, rien d'autre à toucher.
  *
  * Deux cadrages : une photo de devanture remplit le cadre (`object-cover`),
- * un logo est affiché entier sur fond clair (`object-contain` + marge), sans
- * quoi le recadrage 4/3 amputerait le lettrage.
+ * un logo épouse toute la hauteur du cadre (`h-full w-auto`) et déborde en
+ * largeur si besoin, le fond blanc comblant les côtés. Les logos ont des
+ * ratios trop hétérogènes (2.1 à 0.94) pour remplir un 4/3 sans déformation ;
+ * caler la hauteur donne au moins une assise visuelle commune.
  */
 interface Props {
   nom: string;
   categorie: CategorieId | string;
   image?: ImageMetadata;
-  /** L'image est un logo, pas une photo : à cadrer entier, sans recadrage. */
+  /** L'image est un logo, pas une photo : calé sur la hauteur du cadre. */
   logo?: boolean;
   class?: string;
   /** Charge l'image en priorité (au-dessus de la ligne de flottaison). */
@@ -55,14 +57,14 @@ const initiales = nom
 {
   image ? (
     logo ? (
-      <div class="flex h-full w-full items-center justify-center bg-albizia-50 p-6 sm:p-8">
+      <div class="flex h-full w-full items-center justify-center overflow-hidden bg-white">
         <Image
           src={image}
           alt={`Logo de ${nom}`}
           widths={[400, 800]}
-          sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
+          sizes="(min-width: 1024px) 540px, (min-width: 640px) 68vw, 138vw"
           loading={prioritaire ? 'eager' : 'lazy'}
-          class:list={['max-h-full w-auto max-w-full object-contain', classe]}
+          class:list={['h-full w-auto max-w-none object-contain', classe]}
         />
       </div>
     ) : (
