@@ -102,12 +102,12 @@ export const NAV = [
 
 /** Libellés et ordre d'affichage des catégories de commerces. */
 export const CATEGORIES = {
-  beaute: { label: 'Beauté & bien-être', pluriel: 'Beauté & bien-être' },
   restauration: { label: 'Restauration', pluriel: 'Restauration' },
-  auto: { label: 'Auto & mobilité', pluriel: 'Auto & mobilité' },
-  services: { label: 'Services', pluriel: 'Services' },
-  commerce: { label: 'Commerces', pluriel: 'Commerces' },
   artisanat: { label: 'Artisanat & produits locaux', pluriel: 'Artisanat & produits locaux' },
+  commerce: { label: 'Commerces', pluriel: 'Commerces' },
+  beaute: { label: 'Beauté & bien-être', pluriel: 'Beauté & bien-être' },
+  services: { label: 'Services', pluriel: 'Services' },
+  auto: { label: 'Auto & mobilité', pluriel: 'Auto & mobilité' },
 } as const;
 
 export type CategorieId = keyof typeof CATEGORIES;
