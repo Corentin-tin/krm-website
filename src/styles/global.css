@@ -1,38 +1,50 @@
 @import 'tailwindcss';
 
 /**
- * Palette « albizia » — l'arbre qui donne son nom au pôle.
- * Verts profonds pour le fond de marque, terracotta pour l'accent et
- * les appels à l'action, sables neutres pour les surfaces.
+ * Palette « Albizia » — dérivée du logo du pôle (bâtiment vectoriel
+ * gris/bleu). Trois familles :
+ *
+ *   albizia-*    bleu ardoise, couleur de marque, reprise du vitrage
+ *                et du bleu profond du logo. Sert aux textes, à
+ *                l'en-tête et au pied de page.
+ *   terracotta-* accent chaud (ambre/cuivre) pour les appels à
+ *                l'action et le focus clavier : c'est le seul contrepoint
+ *                chaud, il ne doit jamais servir de couleur de fond large.
+ *   sable-*      gris pierre neutres, repris de la structure du bâtiment,
+ *                pour les surfaces et les bordures.
+ *
+ * Les noms de jetons sont conservés tels quels : toutes les classes
+ * `albizia-*` / `terracotta-*` / `sable-*` du site restent valides.
  */
 @theme {
-  --color-albizia-50: #f2f7f3;
-  --color-albizia-100: #e0ece2;
-  --color-albizia-200: #c2d9c7;
-  --color-albizia-300: #97bda1;
-  --color-albizia-400: #6a9c78;
-  --color-albizia-500: #4a7f5a;
-  --color-albizia-600: #386546;
-  --color-albizia-700: #2d5039;
-  --color-albizia-800: #26412f;
-  --color-albizia-900: #1f3527;
+  --color-albizia-50: #f2f6fa;
+  --color-albizia-100: #e2ebf3;
+  --color-albizia-200: #c4d8e8;
+  --color-albizia-300: #9dbfd6;
+  --color-albizia-400: #7fb2d9;
+  --color-albizia-500: #4d7592;
+  --color-albizia-600: #44677f;
+  --color-albizia-700: #3a5f79;
+  --color-albizia-800: #2b4c66;
+  --color-albizia-900: #223c50;
+  --color-albizia-950: #16283a;
 
-  --color-terracotta-50: #fdf5f2;
-  --color-terracotta-100: #fae8e1;
-  --color-terracotta-200: #f5d0c2;
-  --color-terracotta-300: #ecae98;
-  --color-terracotta-400: #e0836a;
-  --color-terracotta-500: #d15f43;
-  --color-terracotta-600: #bd4830;
-  --color-terracotta-700: #9d3928;
-  --color-terracotta-800: #813226;
-  --color-terracotta-900: #6c2d23;
+  --color-terracotta-50: #fdf7ef;
+  --color-terracotta-100: #f9ecd8;
+  --color-terracotta-200: #f2d5ab;
+  --color-terracotta-300: #e8b877;
+  --color-terracotta-400: #dd9c4a;
+  --color-terracotta-500: #d98e2b;
+  --color-terracotta-600: #9a5a1c;
+  --color-terracotta-700: #7f4a18;
+  --color-terracotta-800: #683d18;
+  --color-terracotta-900: #663c1b;
 
-  --color-sable-50: #faf8f5;
-  --color-sable-100: #f4efe7;
-  --color-sable-200: #e8dfd1;
-  --color-sable-300: #d7c8b2;
-  --color-sable-400: #bfa98c;
+  --color-sable-50: #f7f9fb;
+  --color-sable-100: #eef1f4;
+  --color-sable-200: #dfe4e9;
+  --color-sable-300: #c3cbd3;
+  --color-sable-400: #9aa5ad;
 
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
@@ -79,7 +91,7 @@
 
   /* Cible de focus visible et cohérente au clavier. */
   :focus-visible {
-    outline: 3px solid var(--color-terracotta-500);
+    outline: 3px solid var(--color-terracotta-600);
     outline-offset: 2px;
     border-radius: 2px;
   }
