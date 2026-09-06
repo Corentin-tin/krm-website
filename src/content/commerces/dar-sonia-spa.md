@@ -17,7 +17,7 @@ horaires:
     horaire: "10h00 – 13h00 · 15h00 – 19h00"
   - jours: "Dimanche"
     horaire: "Fermé"
-image: ../../assets/commerces/dar-sonia.jpg
+image: ../../assets/commerces/dar-sonia.png
 logo: true
 ---
 
