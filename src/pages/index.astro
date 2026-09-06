@@ -8,6 +8,7 @@ import {
   formaterDate,
   getActualites,
   getCommerces,
+  getPermanents,
   getServices,
 } from '../lib/contenu';
 
@@ -19,7 +20,11 @@ const siteUrl = Astro.site!.href;
 const schemas = [schemaPole(siteUrl, services.map((s) => s.data.nom))];
 
 const misEnAvant = commerces.slice(0, 6);
-const permanents = services.filter((s) => s.data.permanent);
+const permanents = await getPermanents();
+
+/** Évite un compte en dur qui se périme dès qu'un équipement change. */
+const NOMBRES = ['Aucun', 'Un', 'Deux', 'Trois', 'Quatre', 'Cinq', 'Six', 'Sept'];
+const nbPermanents = NOMBRES[permanents.length] ?? String(permanents.length);
 ---
 
 <BaseLayout
@@ -37,7 +42,7 @@ const permanents = services.filter((s) => s.data.permanent);
         {SITE.nom}
       </h1>
       <p class="mt-5 max-w-2xl text-lg leading-relaxed text-albizia-700 sm:text-xl">
-        Une quinzaine de commerces et d'artisans de proximité réunis au même
+        Des commerces et artisans de proximité réunis au même
         endroit, à l'entrée de Montech. Parking gratuit, accès de plain-pied,
         et des services accessibles à toute heure.
       </p>
@@ -95,16 +100,16 @@ const permanents = services.filter((s) => s.data.permanent);
             Ouvert même quand tout est fermé
           </h2>
           <p class="mt-3 max-w-2xl text-albizia-100">
-            Trois services en libre accès fonctionnent 24 heures sur 24 et
-            7 jours sur 7, y compris le dimanche et les jours fériés.
+            {nbPermanents} services en libre accès fonctionnent 24 heures sur 24
+            et 7 jours sur 7, y compris le dimanche et les jours fériés.
           </p>
           <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {permanents.map((service) => (
+            {permanents.map((equipement) => (
               <li class="rounded-[--radius-card] bg-albizia-700/60 p-5">
-                <Icone nom={service.data.icone} class="h-7 w-7 text-terracotta-300" />
-                <h3 class="mt-3 text-base font-semibold">{service.data.nom}</h3>
+                <Icone nom={equipement.icone} class="h-7 w-7 text-terracotta-300" />
+                <h3 class="mt-3 text-base font-semibold">{equipement.nom}</h3>
                 <p class="mt-1.5 text-sm leading-relaxed text-albizia-100">
-                  {service.data.resume}
+                  {equipement.resume}
                 </p>
               </li>
             ))}

@@ -5,7 +5,13 @@ resume: "Pain, viennoiseries et plats préparés sont désormais disponibles à 
 tags:
   - services
   - nouveauté
+brouillon: true
 ---
+
+> **Article dépublié.** Les deux distributeurs annoncés ici (pain et plats
+> préparés) ont depuis été retirés du site ; seul le distributeur de pizzas
+> Bergamo reste en place. L'article est conservé pour mémoire mais n'est plus
+> listé, pour ne pas annoncer un service qui n'existe plus.
 
 Le pôle commercial l'Albizia s'est équipé de **deux distributeurs automatiques**
 en libre-service, accessibles **24 heures sur 24 et 7 jours sur 7**.

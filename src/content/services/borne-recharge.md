@@ -5,6 +5,7 @@ icone: recharge
 enAvant: true
 permanent: true
 ordre: 4
+image: ../../assets/services/powerdot.jpg
 ---
 
 Le pôle est équipé depuis 2023 d'une **borne de recharge électrique Powerdot**
