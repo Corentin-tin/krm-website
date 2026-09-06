@@ -6,6 +6,8 @@ statut: actif
 fiabilite: source
 ordre: 1
 siteWeb: https://www.driveincar.fr/
+image: ../../assets/commerces/drive-in-car.jpg
+logo: true
 ---
 
 **Drive In Car** est l'auto-école implantée au pôle commercial l'Albizia.

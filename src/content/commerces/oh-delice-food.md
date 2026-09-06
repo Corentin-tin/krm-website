@@ -5,6 +5,8 @@ accroche: "Restauration rapide à emporter : sandwichs, plats chauds et formules
 statut: actif
 fiabilite: source
 ordre: 1
+image: ../../assets/commerces/oh-delice-food.png
+logo: true
 ---
 
 **Oh Délice Food** assure la restauration rapide du pôle commercial l'Albizia.
