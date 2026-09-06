@@ -4,7 +4,8 @@ resume: "Entrée, parking et sanitaires adaptés aux personnes à mobilité réd
 icone: pmr
 enAvant: true
 permanent: false
-ordre: 2
+ordre: 4
+image: ../../assets/services/pmr.png
 ---
 
 L'ensemble du pôle est accessible aux **personnes à mobilité réduite** :

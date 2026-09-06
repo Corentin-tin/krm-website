@@ -4,7 +4,8 @@ resume: "Un parking gratuit et sans limitation de durée, en accès direct depui
 icone: parking
 enAvant: true
 permanent: false
-ordre: 1
+ordre: 5
+image: ../../assets/services/parking.png
 ---
 
 Le pôle dispose d'un **parking gratuit** en accès direct, complété par le

@@ -4,7 +4,7 @@ resume: "Un locker Mondial Relay 24h/24 sur le parking, accessible jour et nuit 
 icone: colis
 enAvant: true
 permanent: true
-ordre: 3
+ordre: 2
 image: ../../assets/services/mondial-relay.png
 ---
 

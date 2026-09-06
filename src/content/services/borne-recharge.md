@@ -4,8 +4,8 @@ resume: "Une borne Powerdot avec trois points de charge rapide simultanés, en l
 icone: recharge
 enAvant: true
 permanent: true
-ordre: 4
-image: ../../assets/services/powerdot.jpg
+ordre: 1
+image: ../../assets/services/powerdot.png
 ---
 
 Le pôle est équipé depuis 2023 d'une **borne de recharge électrique Powerdot**

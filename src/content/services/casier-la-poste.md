@@ -4,7 +4,7 @@ resume: "Des casiers La Poste installés dans la laverie, aux heures d'ouverture
 icone: colis
 enAvant: false
 permanent: false
-ordre: 7
+ordre: 3
 image: ../../assets/services/la-poste.png
 ---
 

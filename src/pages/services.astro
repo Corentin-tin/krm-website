@@ -46,8 +46,19 @@ const schemas = [
             class="scroll-mt-24 rounded-[--radius-card] border border-albizia-100 bg-white p-6 sm:p-8"
           >
             <div class="flex flex-wrap items-start gap-4">
-              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-albizia-100 text-albizia-700">
-                <Icone nom={service.data.icone} class="h-6 w-6" />
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-albizia-100 text-albizia-700">
+                {service.data.image ? (
+                  <Image
+                    src={service.data.image}
+                    alt={`Logo ${service.data.nom}`}
+                    widths={[40, 80]}
+                    sizes="40px"
+                    loading="lazy"
+                    class="h-10 w-10 object-contain"
+                  />
+                ) : (
+                  <Icone nom={service.data.icone} class="h-6 w-6" />
+                )}
               </span>
               <div class="min-w-0 flex-1">
                 <div class="flex flex-wrap items-center gap-3">
@@ -63,16 +74,6 @@ const schemas = [
                 <div class="prose-albizia mt-3 max-w-2xl space-y-3 leading-relaxed text-albizia-800 [&_strong]:font-semibold [&_strong]:text-albizia-900">
                   <Content />
                 </div>
-                {service.data.image && (
-                  <Image
-                    src={service.data.image}
-                    alt={`Logo ${service.data.nom}`}
-                    widths={[160, 320]}
-                    sizes="160px"
-                    loading="lazy"
-                    class="mt-5 h-10 w-auto max-w-[160px] object-contain"
-                  />
-                )}
               </div>
             </div>
           </li>
