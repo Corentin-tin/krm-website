@@ -7,7 +7,7 @@ tags:
 ---
 
 Les artisans et commerçants du secteur se sont regroupés au sein de
-l'association **« La Mouscane artisans commerçants »**, présidée par
+l'association **« La Mouscane artisans commerçants »**, alors présidée par
 **Patrick Pillon**, barbier au pôle commercial l'Albizia.
 
 L'association réunit les commerçants du pôle et ceux du bâtiment voisin. Son
