@@ -7,17 +7,30 @@ import type { CategorieId } from '../lib/site';
  * Vignette d'une enseigne : la vraie photo si elle existe, sinon un
  * placeholder coloré par catégorie portant les initiales. Remplacer une
  * vignette = ajouter `image:` au frontmatter, rien d'autre à toucher.
+ *
+ * Deux cadrages : une photo de devanture remplit le cadre (`object-cover`),
+ * un logo est affiché entier sur fond clair (`object-contain` + marge), sans
+ * quoi le recadrage 4/3 amputerait le lettrage.
  */
 interface Props {
   nom: string;
   categorie: CategorieId | string;
   image?: ImageMetadata;
+  /** L'image est un logo, pas une photo : à cadrer entier, sans recadrage. */
+  logo?: boolean;
   class?: string;
   /** Charge l'image en priorité (au-dessus de la ligne de flottaison). */
   prioritaire?: boolean;
 }
 
-const { nom, categorie, image, class: classe = '', prioritaire = false } = Astro.props;
+const {
+  nom,
+  categorie,
+  image,
+  logo = false,
+  class: classe = '',
+  prioritaire = false,
+} = Astro.props;
 
 const teintes: Record<string, string> = {
   beaute: 'var(--color-terracotta-400)',
@@ -41,14 +54,27 @@ const initiales = nom
 
 {
   image ? (
-    <Image
-      src={image}
-      alt={`Devanture de ${nom}`}
-      widths={[400, 800]}
-      sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
-      loading={prioritaire ? 'eager' : 'lazy'}
-      class:list={['h-full w-full object-cover', classe]}
-    />
+    logo ? (
+      <div class="flex h-full w-full items-center justify-center bg-albizia-50 p-6 sm:p-8">
+        <Image
+          src={image}
+          alt={`Logo de ${nom}`}
+          widths={[400, 800]}
+          sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
+          loading={prioritaire ? 'eager' : 'lazy'}
+          class:list={['max-h-full w-auto max-w-full object-contain', classe]}
+        />
+      </div>
+    ) : (
+      <Image
+        src={image}
+        alt={`Devanture de ${nom}`}
+        widths={[400, 800]}
+        sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
+        loading={prioritaire ? 'eager' : 'lazy'}
+        class:list={['h-full w-full object-cover', classe]}
+      />
+    )
   ) : (
     <div
       class:list={[

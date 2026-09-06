@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { commerce, prioritaire = false } = Astro.props;
-const { nom, categorie, accroche, image } = commerce.data;
+const { nom, categorie, accroche, image, logo } = commerce.data;
 const label = CATEGORIES[categorie as CategorieId]?.label ?? categorie;
 ---
 
@@ -21,6 +21,7 @@ const label = CATEGORIES[categorie as CategorieId]?.label ?? categorie;
       nom={nom}
       categorie={categorie}
       image={image}
+      logo={logo}
       prioritaire={prioritaire}
       class="transition-transform duration-300 group-hover:scale-[1.03]"
     />

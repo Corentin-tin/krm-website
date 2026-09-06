@@ -27,9 +27,18 @@ const commerces = defineCollection({
         .array(z.object({ nom: z.string(), url: z.url() }))
         .optional(),
       horaires,
+      /**
+       * Enseigne accessible 24h/24 (distributeur automatique, libre-service) :
+       * elle rejoint alors les équipements permanents mis en avant en accueil.
+       */
+      permanent: z.boolean().default(false),
+      /** Icône (cf. Icone.astro), utilisée quand l'enseigne est `permanent`. */
+      icone: z.string().optional(),
       /** Bâtiment A (octogonal), B (rectangle) ou C (annexe). Interne, non affiché. */
       batiment: z.enum(['A', 'B', 'C']).optional(),
       image: image().optional(),
+      /** L'image est un logo d'enseigne : affiché entier, sans recadrage. */
+      logo: z.boolean().default(false),
       /**
        * Seules les fiches `actif` sont rendues et listées.
        * `brouillon` = enseigne repérée mais non confirmée : le fichier existe,
@@ -68,6 +77,8 @@ const services = defineCollection({
       /** Accessible 24h/24 — argument de recherche locale fort. */
       permanent: z.boolean().default(false),
       image: image().optional(),
+      /** L'image est un logo de partenaire : affiché entier, sans recadrage. */
+      logo: z.boolean().default(false),
       ordre: z.number().default(99),
     }),
 });

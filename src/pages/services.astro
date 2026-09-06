@@ -1,5 +1,6 @@
 ---
 import { render } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EnTetePage from '../components/EnTetePage.astro';
 import Icone from '../components/Icone.astro';
@@ -28,12 +29,12 @@ const schemas = [
 
 <BaseLayout
   titre="Services et équipements"
-  description={`Parking gratuit, accès PMR, casier Mondial Relay, borne de recharge électrique et distributeurs 24h/24 au ${SITE.nom} à Montech.`}
+  description={`Parking gratuit, accès PMR, casiers Mondial Relay et La Poste et borne de recharge électrique au ${SITE.nom} à Montech.`}
   schemas={schemas}
 >
   <EnTetePage
     titre="Services et équipements"
-    intro="Au-delà des commerces, le pôle met à disposition des équipements en libre accès — dont trois services qui fonctionnent 24 heures sur 24."
+    intro="Au-delà des commerces, le pôle met à disposition des équipements en libre accès — dont plusieurs fonctionnent 24 heures sur 24."
   />
 
   <div class="conteneur py-14 sm:py-16">
@@ -62,6 +63,16 @@ const schemas = [
                 <div class="prose-albizia mt-3 max-w-2xl space-y-3 leading-relaxed text-albizia-800 [&_strong]:font-semibold [&_strong]:text-albizia-900">
                   <Content />
                 </div>
+                {service.data.image && (
+                  <Image
+                    src={service.data.image}
+                    alt={`Logo ${service.data.nom}`}
+                    widths={[160, 320]}
+                    sizes="160px"
+                    loading="lazy"
+                    class="mt-5 h-10 w-auto max-w-[160px] object-contain"
+                  />
+                )}
               </div>
             </div>
           </li>

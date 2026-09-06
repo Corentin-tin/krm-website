@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 }
 
 const { commerce } = Astro.props;
-const { nom, categorie, accroche, telephone, email, siteWeb, reseaux, horaires, image } =
+const { nom, categorie, accroche, telephone, email, siteWeb, reseaux, horaires, image, logo } =
   commerce.data;
 
 const { Content } = await render(commerce);
@@ -74,7 +74,7 @@ const schemas = [
         <p class="mt-4 text-lg leading-relaxed text-albizia-700">{accroche}</p>
 
         <div class="mt-8 aspect-[16/9] overflow-hidden rounded-[--radius-card] bg-albizia-50">
-          <Vignette nom={nom} categorie={categorie} image={image} prioritaire />
+          <Vignette nom={nom} categorie={categorie} image={image} logo={logo} prioritaire />
         </div>
 
         <div
