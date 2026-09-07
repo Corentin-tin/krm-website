@@ -1,0 +1,52 @@
+---
+import Icone from './Icone.astro';
+import { AGENCE, AGENCE_ADRESSE } from '../lib/site';
+
+/**
+ * Mise en relation avec l'agence qui commercialise les locaux.
+ *
+ * Ni téléphone ni horaires : ils figurent sur le site de l'agence, qui les
+ * tient à jour. On renvoie donc vers lui plutôt que d'en maintenir une copie
+ * qui finirait par diverger. Aucune coordonnée du bailleur n'apparaît ici —
+ * la commercialisation passe exclusivement par l'agence.
+ */
+interface Props {
+  /** Référence du local, quand le bloc est affiché sur une fiche. */
+  reference?: string;
+  class?: string;
+}
+
+const { reference, class: classe = '' } = Astro.props;
+---
+
+<section
+  class:list={[
+    'rounded-[--radius-card] border border-albizia-200 bg-sable-100 p-6 sm:p-8',
+    classe,
+  ]}
+>
+  <h2 class="text-lg font-semibold text-albizia-900">
+    {reference ? `Visiter ${reference}` : 'Intéressé par un local ?'}
+  </h2>
+  <p class="mt-2 max-w-2xl text-sm leading-relaxed text-albizia-700">
+    La location des locaux du pôle est confiée à <strong
+      class="font-semibold text-albizia-900">{AGENCE.nom}</strong
+    >. Contactez l'agence pour obtenir les conditions, le détail des surfaces
+    et convenir d'une visite.
+  </p>
+
+  <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-4">
+    <a
+      href={AGENCE.siteWeb}
+      rel="noopener"
+      class="inline-flex items-center gap-2 rounded-lg bg-albizia-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
+    >
+      Contacter {AGENCE.nom}
+    </a>
+
+    <p class="flex items-start gap-1.5 text-sm text-albizia-700">
+      <Icone nom="localisation" class="mt-0.5 h-4 w-4 shrink-0" />
+      <address class="not-italic">{AGENCE_ADRESSE}</address>
+    </p>
+  </div>
+</section>
