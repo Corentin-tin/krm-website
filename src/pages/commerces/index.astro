@@ -36,6 +36,7 @@ const schemas = [
   schemas={schemas}
 >
   <EnTetePage
+    video="commerces"
     titre="Les commerces du pôle"
     intro="Des enseignes indépendantes réunies au même endroit, à l'entrée de Montech. Beauté, restauration, auto, services, artisanat."
   >
@@ -47,10 +48,10 @@ const schemas = [
               <li>
                 <a
                   href={`#${groupe.id}`}
-                  class="inline-block rounded-full border border-albizia-200 bg-white px-4 py-2 text-sm font-medium text-albizia-800 transition-colors hover:border-albizia-400 hover:bg-albizia-50"
+                  class="inline-block rounded-full border border-white/40 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:border-white/70 hover:bg-white/20"
                 >
                   {groupe.label}
-                  <span class="ml-1.5 text-albizia-500">
+                  <span class="ml-1.5 text-white/70">
                     {groupe.commerces.length}
                   </span>
                 </a>

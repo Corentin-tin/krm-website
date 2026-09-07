@@ -72,6 +72,21 @@
     }
   }
 
+  /**
+   * Hauteur de l'en-tête collant : logo (h-9, puis h-11 dès `sm`) plus la
+   * marge verticale et le filet du bas. Le hero plein écran s'en sert pour
+   * occuper exactement ce qui reste de la fenêtre.
+   */
+  :root {
+    --hauteur-entete: 3.9375rem;
+  }
+
+  @media (min-width: 640px) {
+    :root {
+      --hauteur-entete: 4.3125rem;
+    }
+  }
+
   body {
     background-color: var(--color-sable-50);
     color: var(--color-albizia-900);
