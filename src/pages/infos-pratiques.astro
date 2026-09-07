@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EnTetePage from '../components/EnTetePage.astro';
 import Icone from '../components/Icone.astro';
+import { Image } from 'astro:assets';
+import logoMaps from '../assets/reseaux/google-maps.png';
 import { schemaFilAriane, schemaPole } from '../lib/seo';
 import { ADRESSE, ADRESSE_COMPLETE, HORAIRES, SITE } from '../lib/site';
 import { getServices } from '../lib/contenu';
@@ -19,7 +21,7 @@ const schemas = [
 
 const requete = encodeURIComponent(`${SITE.nom}, ${ADRESSE_COMPLETE}`);
 const lienItineraire = `https://www.google.com/maps/dir/?api=1&destination=${requete}`;
-const lienCarte = `https://www.openstreetmap.org/search?query=${requete}`;
+const lienCarte = `https://www.google.com/maps/search/?api=1&query=${requete}`;
 ---
 
 <BaseLayout
@@ -55,15 +57,17 @@ const lienCarte = `https://www.openstreetmap.org/search?query=${requete}`;
           <a
             href={lienItineraire}
             rel="noopener"
-            class="rounded-lg bg-albizia-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
+            class="inline-flex items-center gap-2 rounded-lg bg-albizia-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
           >
+            <Image src={logoMaps} alt="" width={32} height={45} class="h-5 w-auto" />
             Calculer mon itinéraire
           </a>
           <a
             href={lienCarte}
             rel="noopener"
-            class="rounded-lg border border-albizia-300 bg-white px-5 py-3 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
+            class="inline-flex items-center gap-2 rounded-lg border border-albizia-300 bg-white px-5 py-3 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
           >
+            <Image src={logoMaps} alt="" width={32} height={45} class="h-5 w-auto" />
             Voir sur la carte
           </a>
         </div>
