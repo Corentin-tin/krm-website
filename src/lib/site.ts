@@ -85,6 +85,36 @@ export const CONTACT = {
   email: null as string | null,
 } as const;
 
+/**
+ * Agence en charge de la commercialisation des locaux vacants.
+ *
+ * Volontairement limité à l'adresse et au site : ni téléphone ni horaires.
+ * Ce sont des informations qui changent sans que nous en soyons avertis, et
+ * les publier ici reviendrait à maintenir en double ce que l'agence tient
+ * déjà à jour sur son propre site. On y renvoie donc directement.
+ */
+export const AGENCE = {
+  nom: 'Laforêt Montech',
+  raisonSociale: 'A2T Immo',
+  rue: '18 place Jean Jaurès',
+  codePostal: '82700',
+  ville: 'Montech',
+  siteWeb: 'https://www.laforet.com/agence-immobiliere/montech',
+} as const;
+
+export const AGENCE_ADRESSE = `${AGENCE.rue}, ${AGENCE.codePostal} ${AGENCE.ville}`;
+
+/** Libellés des statuts d'un local, et ordre d'affichage des groupes. */
+export const STATUTS_LOCAL = {
+  disponible: { label: 'Disponible', description: 'Libre à la location' },
+  reserve: { label: 'Réservé', description: 'Sous option, nous consulter' },
+  loue: { label: 'Loué', description: 'Occupé' },
+} as const;
+
+export type StatutLocal = keyof typeof STATUTS_LOCAL;
+
+export const ORDRE_STATUTS = Object.keys(STATUTS_LOCAL) as StatutLocal[];
+
 /** Éditeur du site — mentions légales uniquement. */
 export const EDITEUR = {
   raisonSociale: 'SCI KRM',

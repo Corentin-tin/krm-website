@@ -1,7 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'zod';
 import { glob } from 'astro/loaders';
-import { ORDRE_CATEGORIES } from './lib/site';
+import { ORDRE_CATEGORIES, ORDRE_STATUTS } from './lib/site';
 
 /**
  * Fiabilité de la donnée, reprise de la convention du dossier KRM.
@@ -83,4 +83,53 @@ const services = defineCollection({
     }),
 });
 
-export const collections = { commerces, actualites, services };
+/**
+ * Locaux vacants proposés à la location.
+ *
+ * Objectif de la section : maximiser le taux de remplissage du pôle. On
+ * publie donc ce qui aide un porteur de projet à se décider (surface,
+ * disponibilité, atouts, visuel) et rien qui relève du bail ou de la SCI.
+ * La commercialisation est confiée à l'agence (cf. `AGENCE` dans site.ts) :
+ * aucune coordonnée du bailleur n'apparaît sur ces pages.
+ */
+const locaux = defineCollection({
+  loader: glob({ base: './src/content/locaux', pattern: '**/*.md' }),
+  schema: ({ image }) =>
+    z.object({
+      /** Référence publique, neutre. Jamais le numéro de lot interne. */
+      reference: z.string(),
+      /** Surface en m². Sert au tri et à l'affichage. */
+      surface: z.number().positive().optional(),
+      statut: z.enum(ORDRE_STATUTS as [string, ...string[]]).default('disponible'),
+      /** Texte libre : « Immédiate », « Mars 2027»… */
+      disponibilite: z.string().default('Nous consulter'),
+      /** Bâtiment A (octogonal), B (rectangle) ou C (annexe). */
+      batiment: z.enum(['A', 'B', 'C']).optional(),
+      accroche: z.string().max(160),
+      /** Points forts affichés en liste sur la fiche. */
+      atouts: z.array(z.string()).default([]),
+      /** Activités envisageables dans le local. */
+      destinations: z.array(z.string()).default([]),
+      /**
+       * Loyer : laissé vide, la politique retenue est « sur demande ».
+       * Le champ existe pour le jour où l'on choisirait de l'afficher.
+       */
+      loyer: z.string().optional(),
+      image: image().optional(),
+      /** Racine d'une vidéo de `public/videos/` (sans suffixe ni extension). */
+      video: z.string().optional(),
+      /** Photos complémentaires, affichées en galerie sous le visuel principal. */
+      galerie: z
+        .array(z.object({ image: image(), legende: z.string().optional() }))
+        .default([]),
+      /**
+       * Comme pour les commerces : `brouillon` = fiche préparée mais non
+       * publiée. La page n'est pas générée tant que ce n'est pas `actif`.
+       */
+      publication: z.enum(['actif', 'brouillon']).default('brouillon'),
+      /** Ordre d'affichage manuel ; à défaut, tri par surface croissante. */
+      ordre: z.number().optional(),
+    }),
+});
+
+export const collections = { commerces, actualites, services, locaux };

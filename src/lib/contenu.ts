@@ -1,9 +1,16 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { CATEGORIES, ORDRE_CATEGORIES, type CategorieId } from './site';
+import {
+  CATEGORIES,
+  ORDRE_CATEGORIES,
+  ORDRE_STATUTS,
+  type CategorieId,
+  type StatutLocal,
+} from './site';
 
 export type Commerce = CollectionEntry<'commerces'>;
 export type Actualite = CollectionEntry<'actualites'>;
 export type Service = CollectionEntry<'services'>;
+export type Local = CollectionEntry<'locaux'>;
 
 const parNom = (a: Commerce, b: Commerce) => {
   const oa = a.data.ordre ?? Number.MAX_SAFE_INTEGER;
@@ -91,6 +98,36 @@ export async function getPermanents(): Promise<Permanent[]> {
 
   return [...services, ...commerces];
 }
+
+/**
+ * Les locaux publiés. Comme pour les commerces, le filtre de publication est
+ * appliqué ici et nulle part ailleurs.
+ *
+ * Tri : les disponibles d'abord (c'est l'objet de la page), puis par ordre
+ * manuel, puis par surface croissante — un porteur de projet cherche
+ * généralement la plus petite surface qui lui convient.
+ */
+export async function getLocaux(): Promise<Local[]> {
+  const tous = await getCollection('locaux', (e) => e.data.publication === 'actif');
+  return tous.sort((a, b) => {
+    const sa = ORDRE_STATUTS.indexOf(a.data.statut as StatutLocal);
+    const sb = ORDRE_STATUTS.indexOf(b.data.statut as StatutLocal);
+    if (sa !== sb) return sa - sb;
+    const oa = a.data.ordre ?? Number.MAX_SAFE_INTEGER;
+    const ob = b.data.ordre ?? Number.MAX_SAFE_INTEGER;
+    if (oa !== ob) return oa - ob;
+    return (a.data.surface ?? 0) - (b.data.surface ?? 0);
+  });
+}
+
+/** Locaux effectivement libres — ce que compte le bandeau d'accroche. */
+export async function getLocauxDisponibles(): Promise<Local[]> {
+  return (await getLocaux()).filter((l) => l.data.statut === 'disponible');
+}
+
+/** « 120 m² » ou null si la surface n'est pas encore relevée. */
+export const formaterSurface = (surface?: number): string | null =>
+  typeof surface === 'number' ? `${surface} m²` : null;
 
 export const formaterDate = (date: Date): string =>
   date.toLocaleDateString('fr-FR', {

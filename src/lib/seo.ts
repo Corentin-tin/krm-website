@@ -1,4 +1,4 @@
-import { ADRESSE, HORAIRES, SITE, CONTACT } from './site';
+import { ADRESSE, AGENCE, HORAIRES, SITE, CONTACT } from './site';
 
 const adressePostale = {
   '@type': 'PostalAddress',
@@ -65,6 +65,71 @@ export function schemaCommerce(opts: {
       name: SITE.nom,
       url: opts.siteUrl,
       address: adressePostale,
+    },
+  };
+}
+
+/**
+ * Annonce d'un local à louer.
+ *
+ * `RealEstateListing` est le type dédié aux annonces immobilières ; il est
+ * compris par Google et permet de faire remonter la surface et la
+ * disponibilité. Le loyer n'étant pas publié (politique « sur demande »),
+ * aucune `offers.price` n'est déclarée : mieux vaut pas de prix qu'un prix
+ * faux. L'agence figure en `provider`, jamais le bailleur.
+ */
+export function schemaLocal(opts: {
+  reference: string;
+  description: string;
+  url: string;
+  siteUrl: string;
+  surface?: number;
+  image?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateListing',
+    name: `${opts.reference} — local commercial à louer, ${SITE.nom}`,
+    description: opts.description,
+    url: opts.url,
+    ...(opts.image ? { image: opts.image } : {}),
+    datePosted: new Date().toISOString().slice(0, 10),
+    provider: {
+      '@type': 'RealEstateAgent',
+      name: AGENCE.nom,
+      url: AGENCE.siteWeb,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: AGENCE.rue,
+        postalCode: AGENCE.codePostal,
+        addressLocality: AGENCE.ville,
+        addressCountry: 'FR',
+      },
+    },
+    about: {
+      '@type': 'Place',
+      name: `${opts.reference} — ${SITE.nom}`,
+      address: adressePostale,
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: ADRESSE.geo.latitude,
+        longitude: ADRESSE.geo.longitude,
+      },
+      ...(opts.surface
+        ? {
+            floorSize: {
+              '@type': 'QuantitativeValue',
+              value: opts.surface,
+              unitCode: 'MTK',
+            },
+          }
+        : {}),
+      containedInPlace: {
+        '@type': 'ShoppingCenter',
+        name: SITE.nom,
+        url: opts.siteUrl,
+        address: adressePostale,
+      },
     },
   };
 }
