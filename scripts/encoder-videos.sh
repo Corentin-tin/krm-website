@@ -31,6 +31,9 @@ PLANS=(
   "services|mondial-relay.MP4:0:0,powerdot.MP4:0:0:inverse"
   "infos-pratiques|info.mp4:0:0"
   "contact|contact.mp4:0:0"
+  # Fiches des locaux à louer. Seul le local 3 a son propre plan ; les locaux
+  # 1 et 2 réutilisent `pole` (cf. la prop `video` dans leur frontmatter).
+  "local-3|local-3.MP4:0:0"
 )
 
 # Les fichiers intermédiaires du montage sont jetables : un seul dossier
