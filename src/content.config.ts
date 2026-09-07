@@ -9,9 +9,11 @@ import { ORDRE_CATEGORIES, ORDRE_STATUTS } from './lib/site';
  */
 const fiabilite = z.enum(['source', 'a-confirmer']);
 
-const horaires = z
-  .array(z.object({ jours: z.string(), horaire: z.string() }))
-  .optional();
+/**
+ * Réseaux pour lesquels on dispose d'un logo (cf. src/assets/reseaux/).
+ * `lien` couvre le reste (Planity, annuaire d'une enseigne de réseau…).
+ */
+const reseau = z.enum(['instagram', 'facebook', 'linkedin', 'lien']);
 
 const commerces = defineCollection({
   loader: glob({ base: './src/content/commerces', pattern: '**/*.md' }),
@@ -23,10 +25,14 @@ const commerces = defineCollection({
       telephone: z.string().optional(),
       email: z.email().optional(),
       siteWeb: z.url().optional(),
+      /**
+       * Fiche Google Maps de l'enseigne. On y renvoie plutôt que de
+       * recopier horaires et avis : c'est le commerçant qui la tient à jour.
+       */
+      googleMaps: z.url().optional(),
       reseaux: z
-        .array(z.object({ nom: z.string(), url: z.url() }))
+        .array(z.object({ reseau: reseau, url: z.url() }))
         .optional(),
-      horaires,
       /**
        * Enseigne accessible 24h/24 (distributeur automatique, libre-service) :
        * elle rejoint alors les équipements permanents mis en avant en accueil.
@@ -79,6 +85,10 @@ const services = defineCollection({
       image: image().optional(),
       /** L'image est un logo de partenaire : affiché entier, sans recadrage. */
       logo: z.boolean().default(false),
+      /** Site de l'exploitant de l'équipement. */
+      siteWeb: z.url().optional(),
+      /** Fiche Google Maps de l'équipement, quand il en a une propre. */
+      googleMaps: z.url().optional(),
       ordre: z.number().default(99),
     }),
 });

@@ -5,9 +5,9 @@ icone: colis
 enAvant: true
 permanent: true
 ordre: 2
+googleMaps: https://www.google.com/maps/place/Locker+Mondial+Relay/@43.9622087,1.2433303,19z/data=!3m1!4b1!4m6!3m5!1s0x12ac09719d9abf7d:0xc7a86ac17d95ff0d!8m2!3d43.9622087!4d1.2433303!16s%2Fg%2F11l5nnphcw
 image: ../../assets/services/mondial-relay.png
 ---
-
 Un **casier automatique Mondial Relay** est installé **sur le parking** du pôle
 depuis 2023. Il fonctionne **24 heures sur 24, 7 jours sur 7**, y compris quand
 les commerces sont fermés.

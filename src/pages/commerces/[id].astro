@@ -3,6 +3,7 @@ import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Vignette from '../../components/Vignette.astro';
 import Icone from '../../components/Icone.astro';
+import LiensEnseigne from '../../components/LiensEnseigne.astro';
 import { schemaCommerce, schemaFilAriane } from '../../lib/seo';
 import { ADRESSE_COMPLETE, CATEGORIES, type CategorieId } from '../../lib/site';
 import { getCommerces } from '../../lib/contenu';
@@ -16,7 +17,8 @@ export async function getStaticPaths() {
 }
 
 const { commerce } = Astro.props;
-const { nom, categorie, accroche, telephone, email, siteWeb, reseaux, horaires, image, logo } =
+// `telephone` n'est plus affiché : il ne sert qu'au balisage schema.org.
+const { nom, categorie, accroche, telephone, siteWeb, googleMaps, reseaux, image, logo } =
   commerce.data;
 
 const { Content } = await render(commerce);
@@ -104,85 +106,15 @@ const schemas = [
                 </address>
               </dd>
             </div>
-
-            {
-              telephone && (
-                <div>
-                  <dt class="font-medium text-albizia-600">Téléphone</dt>
-                  <dd class="mt-1">
-                    <a
-                      href={`tel:${telephone.replace(/\s/g, '')}`}
-                      class="rounded font-medium text-albizia-900 underline underline-offset-4 hover:text-terracotta-600"
-                    >
-                      {telephone}
-                    </a>
-                  </dd>
-                </div>
-              )
-            }
-
-            {
-              email && (
-                <div>
-                  <dt class="font-medium text-albizia-600">Courriel</dt>
-                  <dd class="mt-1">
-                    <a
-                      href={`mailto:${email}`}
-                      class="rounded break-all font-medium text-albizia-900 underline underline-offset-4 hover:text-terracotta-600"
-                    >
-                      {email}
-                    </a>
-                  </dd>
-                </div>
-              )
-            }
-
-            {
-              horaires && horaires.length > 0 && (
-                <div>
-                  <dt class="flex items-center gap-1.5 font-medium text-albizia-600">
-                    <Icone nom="horloge" class="h-4 w-4" />
-                    Horaires
-                  </dt>
-                  <dd class="mt-1">
-                    <ul class="space-y-1">
-                      {horaires.map((h) => (
-                        <li class="flex justify-between gap-3 text-albizia-900">
-                          <span>{h.jours}</span>
-                          <span class="font-medium">{h.horaire}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </dd>
-                </div>
-              )
-            }
           </dl>
 
-          {
-            (siteWeb || (reseaux && reseaux.length > 0)) && (
-              <div class="mt-6 space-y-2 border-t border-albizia-100 pt-5">
-                {siteWeb && (
-                  <a
-                    href={siteWeb}
-                    rel="noopener"
-                    class="block rounded-lg bg-albizia-700 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
-                  >
-                    Visiter le site web
-                  </a>
-                )}
-                {reseaux?.map((lien) => (
-                  <a
-                    href={lien.url}
-                    rel="noopener"
-                    class="block rounded-lg border border-albizia-300 px-4 py-2.5 text-center text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
-                  >
-                    {lien.nom}
-                  </a>
-                ))}
-              </div>
-            )
-          }
+          <LiensEnseigne
+            nom={nom}
+            siteWeb={siteWeb}
+            googleMaps={googleMaps}
+            reseaux={reseaux}
+            class="mt-6 border-t border-albizia-100 pt-5"
+          />
 
           <p class="mt-6 border-t border-albizia-100 pt-4 text-xs leading-relaxed text-albizia-600">
             Parking gratuit et accès de plain-pied sur l'ensemble du pôle.

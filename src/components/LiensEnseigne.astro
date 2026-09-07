@@ -1,0 +1,92 @@
+---
+/**
+ * Liens externes d'une enseigne : site officiel, fiche Google Maps, réseaux.
+ *
+ * Parti pris éditorial : on renvoie vers les pages que l'enseigne tient
+ * elle-même à jour plutôt que de recopier ici ses horaires ou ses tarifs.
+ * Une fiche Maps reste juste sans que nous ayons à y toucher ; une liste
+ * d'horaires recopiée, non.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import logoFacebook from '../assets/reseaux/facebook.png';
+import logoGoogleMaps from '../assets/reseaux/google-maps.png';
+import logoInstagram from '../assets/reseaux/instagram.png';
+import logoLinkedin from '../assets/reseaux/linkedin.png';
+
+type Reseau = 'instagram' | 'facebook' | 'linkedin' | 'lien';
+
+interface Props {
+  nom: string;
+  siteWeb?: string;
+  googleMaps?: string;
+  reseaux?: { reseau: Reseau; url: string }[];
+  class?: string;
+}
+
+const { nom, siteWeb, googleMaps, reseaux = [], class: classe = '' } = Astro.props;
+
+const LOGOS: Record<Exclude<Reseau, 'lien'>, { src: ImageMetadata; label: string }> = {
+  instagram: { src: logoInstagram, label: 'Instagram' },
+  facebook: { src: logoFacebook, label: 'Facebook' },
+  linkedin: { src: logoLinkedin, label: 'LinkedIn' },
+};
+
+const liens = reseaux.filter((r) => r.reseau !== 'lien');
+const aQuelqueChose = Boolean(siteWeb || googleMaps || liens.length > 0);
+---
+
+{
+  aQuelqueChose && (
+    <div class:list={['space-y-2', classe]}>
+      {siteWeb && (
+        <a
+          href={siteWeb}
+          rel="noopener"
+          class="block rounded-lg bg-albizia-700 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
+        >
+          Visiter le site web
+        </a>
+      )}
+
+      {googleMaps && (
+        <a
+          href={googleMaps}
+          rel="noopener"
+          class="flex items-center justify-center gap-2 rounded-lg border border-albizia-300 px-4 py-2.5 text-center text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
+        >
+          <Image src={logoGoogleMaps} alt="" width={32} height={45} class="h-5 w-auto" />
+          Voir sur Google Maps
+        </a>
+      )}
+
+      {liens.length > 0 && (
+        <ul class="flex flex-wrap gap-2 pt-1">
+          {liens.map(({ reseau, url }) => {
+            const logo = LOGOS[reseau as Exclude<Reseau, 'lien'>];
+            return (
+              <li>
+                <a
+                  href={url}
+                  rel="noopener"
+                  title={`${nom} sur ${logo.label}`}
+                  class="flex h-11 w-11 items-center justify-center rounded-lg border border-albizia-300 transition-colors hover:bg-albizia-50"
+                >
+                  <Image
+                    src={logo.src}
+                    alt={`${nom} sur ${logo.label}`}
+                    width={48}
+                    height={48}
+                    densities={[1, 2]}
+                    loading="lazy"
+                    class="h-6 w-6 object-contain"
+                  />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  )
+}

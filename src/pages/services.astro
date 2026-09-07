@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EnTetePage from '../components/EnTetePage.astro';
 import Icone from '../components/Icone.astro';
+import LiensEnseigne from '../components/LiensEnseigne.astro';
 import { schemaFilAriane } from '../lib/seo';
 import { SITE } from '../lib/site';
 import { getServices } from '../lib/contenu';
@@ -75,6 +76,12 @@ const schemas = [
                 <div class="prose-albizia mt-3 max-w-2xl space-y-3 leading-relaxed text-albizia-800 [&_strong]:font-semibold [&_strong]:text-albizia-900">
                   <Content />
                 </div>
+                <LiensEnseigne
+                  nom={service.data.nom}
+                  siteWeb={service.data.siteWeb}
+                  googleMaps={service.data.googleMaps}
+                  class="mt-5 max-w-xs"
+                />
               </div>
             </div>
           </li>
