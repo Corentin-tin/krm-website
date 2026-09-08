@@ -1,5 +1,7 @@
 ---
 import Icone from './Icone.astro';
+import { Image } from 'astro:assets';
+import logoAgence from '../assets/agence/laforet.png';
 import { AGENCE, AGENCE_ADRESSE } from '../lib/site';
 
 /**
@@ -36,11 +38,24 @@ const { reference, class: classe = '' } = Astro.props;
   </p>
 
   <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-4">
+    {/*
+      Bleu Laforêt (#203c87) plutôt qu'`albizia-700` : le bouton porte le logo
+      de l'agence et quitte le site, il s'affiche donc aux couleurs du
+      partenaire. Hors palette de marque à dessein, d'où la valeur en dur.
+    */}
     <a
       href={AGENCE.siteWeb}
       rel="noopener"
-      class="inline-flex items-center gap-2 rounded-lg bg-albizia-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
+      class="inline-flex items-center gap-2 rounded-lg bg-[#203c87] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1a3170]"
     >
+      <Image
+        src={logoAgence}
+        alt=""
+        width={64}
+        height={64}
+        class="h-5 w-auto rounded"
+        loading="lazy"
+      />
       Contacter {AGENCE.nom}
     </a>
 
