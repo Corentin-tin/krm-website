@@ -37,7 +37,24 @@ export default defineConfig({
   base,
   trailingSlash: 'ignore',
   output: 'static',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      /*
+       * Les mentions légales portent `noindex` (cf. BaseLayout) : les lister
+       * dans le sitemap reviendrait à en demander l'indexation tout en la
+       * refusant dans la page. Les moteurs signalent cette contradiction, et
+       * elle consomme du budget d'exploration pour rien.
+       *
+       * Le filtre reçoit des URL absolues, d'où le test par suffixe : il doit
+       * attraper les deux langues (`/mentions-legales`, `/en/legal-notice`)
+       * quelle que soit la base du site.
+       */
+      filter: (page) =>
+        !['mentions-legales', 'legal-notice'].some((segment) =>
+          new URL(page).pathname.replace(/\/$/, '').endsWith(`/${segment}`),
+        ),
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
