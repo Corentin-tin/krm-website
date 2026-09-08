@@ -2,7 +2,7 @@
 import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { schemaFilAriane } from '../../lib/seo';
-import { SITE } from '../../lib/site';
+import { SITE, lien } from '../../lib/site';
 import { formaterDate, getActualites } from '../../lib/contenu';
 
 export async function getStaticPaths() {
@@ -46,10 +46,10 @@ const schemas = [
   <article class="conteneur py-10 sm:py-14">
     <nav aria-label="Fil d'Ariane" class="text-sm text-albizia-600">
       <ol class="flex flex-wrap items-center gap-1.5">
-        <li><a href="/" class="rounded hover:underline underline-offset-4">Accueil</a></li>
+        <li><a href={lien('/')} class="rounded hover:underline underline-offset-4">Accueil</a></li>
         <li aria-hidden="true">/</li>
         <li>
-          <a href="/actualites" class="rounded hover:underline underline-offset-4">
+          <a href={lien('/actualites')} class="rounded hover:underline underline-offset-4">
             Actualités
           </a>
         </li>
@@ -88,7 +88,7 @@ const schemas = [
     }
 
     <a
-      href="/actualites"
+      href={lien('/actualites')}
       class="mt-10 inline-block rounded text-sm font-medium text-albizia-700 underline underline-offset-4 hover:text-terracotta-600"
     >
       ← Toutes les actualités

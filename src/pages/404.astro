@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { lien } from '../lib/site';
 ---
 
 <BaseLayout
@@ -20,13 +21,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </p>
     <div class="mt-8 flex flex-wrap gap-3">
       <a
-        href="/"
+        href={lien('/')}
         class="rounded-lg bg-albizia-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
       >
         Retour à l'accueil
       </a>
       <a
-        href="/commerces"
+        href={lien('/commerces')}
         class="rounded-lg border border-albizia-300 bg-white px-5 py-3 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
       >
         Voir les commerces

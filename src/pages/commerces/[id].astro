@@ -5,7 +5,7 @@ import Vignette from '../../components/Vignette.astro';
 import Icone from '../../components/Icone.astro';
 import LiensEnseigne from '../../components/LiensEnseigne.astro';
 import { schemaCommerce, schemaFilAriane } from '../../lib/seo';
-import { ADRESSE_COMPLETE, CATEGORIES, type CategorieId } from '../../lib/site';
+import { ADRESSE_COMPLETE, CATEGORIES, lien, type CategorieId } from '../../lib/site';
 import { getCommerces } from '../../lib/contenu';
 
 export async function getStaticPaths() {
@@ -52,10 +52,10 @@ const schemas = [
   <div class="conteneur py-8 sm:py-12">
     <nav aria-label="Fil d'Ariane" class="text-sm text-albizia-600">
       <ol class="flex flex-wrap items-center gap-1.5">
-        <li><a href="/" class="rounded hover:underline underline-offset-4">Accueil</a></li>
+        <li><a href={lien('/')} class="rounded hover:underline underline-offset-4">Accueil</a></li>
         <li aria-hidden="true">/</li>
         <li>
-          <a href="/commerces" class="rounded hover:underline underline-offset-4">
+          <a href={lien('/commerces')} class="rounded hover:underline underline-offset-4">
             Les commerces
           </a>
         </li>
@@ -122,7 +122,7 @@ const schemas = [
         </div>
 
         <a
-          href="/commerces"
+          href={lien('/commerces')}
           class="mt-4 inline-block rounded text-sm font-medium text-albizia-700 underline underline-offset-4 hover:text-terracotta-600"
         >
           ← Tous les commerces

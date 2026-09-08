@@ -1,5 +1,5 @@
 ---
-import { ADRESSE, CONTACT, HORAIRES, NAV, SITE } from '../lib/site';
+import { ADRESSE, CONTACT, HORAIRES, NAV, SITE, lien } from '../lib/site';
 
 const annee = new Date().getFullYear();
 ---
@@ -79,7 +79,7 @@ const annee = new Date().getFullYear();
     >
       <p>© {annee} {SITE.nom}. Tous droits réservés.</p>
       <a
-        href="/mentions-legales"
+        href={lien('/mentions-legales')}
         class="rounded transition-colors hover:text-white hover:underline underline-offset-4"
       >
         Mentions légales

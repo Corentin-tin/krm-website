@@ -1,6 +1,6 @@
 ---
 import Vignette from './Vignette.astro';
-import { CATEGORIES, type CategorieId } from '../lib/site';
+import { CATEGORIES, lien, type CategorieId } from '../lib/site';
 import type { Commerce } from '../lib/contenu';
 
 interface Props {
@@ -32,7 +32,7 @@ const label = CATEGORIES[categorie as CategorieId]?.label ?? categorie;
       {label}
     </p>
     <h3 class="text-lg font-semibold leading-snug text-albizia-900">
-      <a href={`/commerces/${commerce.id}`} class="after:absolute after:inset-0">
+      <a href={lien(`/commerces/${commerce.id}`)} class="after:absolute after:inset-0">
         {nom}
       </a>
     </h3>

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EnTetePage from '../components/EnTetePage.astro';
-import { EDITEUR, SITE } from '../lib/site';
+import { EDITEUR, lien, SITE } from '../lib/site';
 ---
 
 <BaseLayout
@@ -98,7 +98,7 @@ import { EDITEUR, SITE } from '../lib/site';
           Pour toute demande de correction ou de retrait d'une information vous
           concernant, rendez-vous sur la
           <a
-            href="/contact"
+            href={lien('/contact')}
             class="rounded font-medium underline underline-offset-4 hover:text-terracotta-600"
             >page contact</a
           >.

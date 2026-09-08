@@ -1,4 +1,6 @@
 ---
+import { lien } from '../lib/site';
+
 /**
  * Vidéo aérienne en fond d'un bandeau, avec le contenu posé par-dessus.
  *
@@ -57,7 +59,7 @@ const hauteurs = {
   -->
   <video
     class="fond-video absolute inset-0 -z-10 h-full w-full object-cover opacity-0 transition-opacity duration-700"
-    poster={`/videos/${nom}.jpg`}
+    poster={lien(`/videos/${nom}.jpg`)}
     autoplay
     muted
     loop
@@ -65,14 +67,14 @@ const hauteurs = {
     preload="none"
     aria-hidden="true"
     tabindex="-1"
-    data-video-large={`/videos/${nom}-1080.mp4`}
-    data-video-petit={`/videos/${nom}-720.mp4`}
+    data-video-large={lien(`/videos/${nom}-1080.mp4`)}
+    data-video-petit={lien(`/videos/${nom}-720.mp4`)}
   >
   </video>
 
   <!-- Image de repli : seule chose visible sans JavaScript ou si la vidéo échoue. -->
   <img
-    src={`/videos/${nom}.jpg`}
+    src={lien(`/videos/${nom}.jpg`)}
     alt=""
     aria-hidden="true"
     class="absolute inset-0 -z-20 h-full w-full object-cover"

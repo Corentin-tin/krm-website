@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { NAV, SITE } from '../lib/site';
+import { NAV, SITE, lien } from '../lib/site';
 import logo from '../assets/logo-albizia.png';
 
 const chemin = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -15,7 +15,7 @@ const estActif = (href: string) =>
       à côté, un alt le ferait annoncer deux fois par un lecteur d'écran.
     -->
     <a
-      href="/"
+      href={lien('/')}
       class="flex items-center gap-2.5 rounded-md text-albizia-800 transition-colors hover:text-terracotta-600"
     >
       <Image

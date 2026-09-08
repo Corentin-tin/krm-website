@@ -6,6 +6,21 @@
  * aucune donnée de bail ne doit apparaître ici.
  */
 
+/**
+ * Préfixe un chemin interne par la base du site.
+ *
+ * Sur GitHub Pages (URL par défaut) le site vit dans `/krm-website/` : un
+ * `href="/commerces"` écrit en dur pointerait à la racine du domaine et
+ * renverrait un 404. `lien('/commerces')` produit le bon chemin quelle que
+ * soit la base, et le jour du passage au domaine définitif (base `/`) il n'y
+ * a rien à modifier ici.
+ */
+export function lien(chemin: string): string {
+  if (/^(?:[a-z]+:|\/\/|#|mailto:|tel:)/i.test(chemin)) return chemin;
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  return `${base}/${chemin.replace(/^\//, '')}`;
+}
+
 export const SITE = {
   nom: "Pôle commercial l'Albizia",
   nomCourt: "L'Albizia",
@@ -123,11 +138,11 @@ export const EDITEUR = {
 } as const;
 
 export const NAV = [
-  { href: '/commerces', label: 'Les commerces' },
-  { href: '/services', label: 'Services' },
-  { href: '/actualites', label: 'Actualités' },
-  { href: '/infos-pratiques', label: 'Infos pratiques' },
-  { href: '/contact', label: 'Contact' },
+  { href: lien('/commerces'), label: 'Les commerces' },
+  { href: lien('/services'), label: 'Services' },
+  { href: lien('/actualites'), label: 'Actualités' },
+  { href: lien('/infos-pratiques'), label: 'Infos pratiques' },
+  { href: lien('/contact'), label: 'Contact' },
 ] as const;
 
 /** Libellés et ordre d'affichage des catégories de commerces. */

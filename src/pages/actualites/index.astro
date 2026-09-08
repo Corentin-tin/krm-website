@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import EnTetePage from '../../components/EnTetePage.astro';
 import { schemaFilAriane } from '../../lib/seo';
-import { SITE } from '../../lib/site';
+import { SITE, lien } from '../../lib/site';
 import { formaterDate, getActualites } from '../../lib/contenu';
 
 const actualites = await getActualites();
@@ -42,7 +42,7 @@ const schemas = [
               </time>
               <h2 class="mt-2 text-xl font-bold leading-snug tracking-tight text-albizia-900 sm:text-2xl">
                 <a
-                  href={`/actualites/${article.id}`}
+                  href={lien(`/actualites/${article.id}`)}
                   class="after:absolute after:inset-0"
                 >
                   {article.data.titre}

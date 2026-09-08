@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { STATUTS_LOCAL, type StatutLocal } from '../lib/site';
+import { STATUTS_LOCAL, lien, type StatutLocal } from '../lib/site';
 import { formaterSurface, type Local } from '../lib/contenu';
 
 /**
@@ -54,7 +54,7 @@ const teintes: Record<string, string> = {
         /* Le poster de la vidéo suffit en vignette : on ne lance pas trois
            lectures simultanées dans une grille. */
         <img
-          src={`/videos/${video}.jpg`}
+          src={lien(`/videos/${video}.jpg`)}
           alt={`Local ${reference} à louer au pôle commercial l'Albizia`}
           loading={prioritaire ? 'eager' : 'lazy'}
           class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
@@ -90,7 +90,7 @@ const teintes: Record<string, string> = {
 
   <div class="flex flex-1 flex-col gap-2 p-4">
     <h3 class="text-lg font-semibold leading-snug text-albizia-900">
-      <a href={`/locaux/${local.id}`} class="after:absolute after:inset-0">
+      <a href={lien(`/locaux/${local.id}`)} class="after:absolute after:inset-0">
         {reference}
         {libelleSurface && <span class="text-albizia-600"> · {libelleSurface}</span>}
       </a>

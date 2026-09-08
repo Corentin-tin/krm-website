@@ -4,7 +4,7 @@ import FondVideo from '../components/FondVideo.astro';
 import CarteCommerce from '../components/CarteCommerce.astro';
 import Icone from '../components/Icone.astro';
 import { schemaPole } from '../lib/seo';
-import { ADRESSE_COMPLETE, HORAIRES, SITE } from '../lib/site';
+import { ADRESSE_COMPLETE, HORAIRES, SITE, lien } from '../lib/site';
 import {
   formaterDate,
   getActualites,
@@ -49,13 +49,13 @@ const nbPermanents = NOMBRES[permanents.length] ?? String(permanents.length);
 
     <div class="mt-8 flex flex-wrap gap-3">
       <a
-        href="/commerces"
+        href={lien('/commerces')}
         class="rounded-lg bg-white px-5 py-3 text-sm font-semibold text-albizia-900 transition-colors hover:bg-albizia-50"
       >
         Découvrir les commerces
       </a>
       <a
-        href="/infos-pratiques"
+        href={lien('/infos-pratiques')}
         class="rounded-lg border border-white/50 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
       >
         Venir sur place
@@ -114,7 +114,7 @@ const nbPermanents = NOMBRES[permanents.length] ?? String(permanents.length);
             ))}
           </ul>
           <a
-            href="/services"
+            href={lien('/services')}
             class="mt-8 inline-block rounded-lg bg-white px-5 py-3 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
           >
             Tous les services du site
@@ -139,7 +139,7 @@ const nbPermanents = NOMBRES[permanents.length] ?? String(permanents.length);
             </p>
           </div>
           <a
-            href="/commerces"
+            href={lien('/commerces')}
             class="rounded-lg border border-albizia-300 px-4 py-2.5 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
           >
             Voir l'annuaire
@@ -167,7 +167,7 @@ const nbPermanents = NOMBRES[permanents.length] ?? String(permanents.length);
               Actualités du pôle
             </h2>
             <a
-              href="/actualites"
+              href={lien('/actualites')}
               class="rounded-lg border border-albizia-300 px-4 py-2.5 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
             >
               Toutes les actualités
@@ -185,7 +185,7 @@ const nbPermanents = NOMBRES[permanents.length] ?? String(permanents.length);
                 </time>
                 <h3 class="mt-2 text-lg font-semibold leading-snug text-albizia-900">
                   <a
-                    href={`/actualites/${article.id}`}
+                    href={lien(`/actualites/${article.id}`)}
                     class="after:absolute after:inset-0"
                   >
                     {article.data.titre}
@@ -217,7 +217,7 @@ const nbPermanents = NOMBRES[permanents.length] ?? String(permanents.length);
           commerciale de la Mouscane. Parking gratuit sur place.
         </p>
         <a
-          href="/infos-pratiques"
+          href={lien('/infos-pratiques')}
           class="mt-6 inline-block rounded-lg bg-albizia-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
         >
           Itinéraire et infos pratiques

@@ -8,6 +8,7 @@ import Icone from '../../components/Icone.astro';
 import { schemaFilAriane, schemaLocal } from '../../lib/seo';
 import {
   ADRESSE_COMPLETE,
+  lien,
   SITE,
   STATUTS_LOCAL,
   type StatutLocal,
@@ -120,14 +121,14 @@ const titre = libelleSurface
     <nav aria-label="Fil d'Ariane" class="text-sm text-albizia-600">
       <ol class="flex flex-wrap items-center gap-1.5">
         <li>
-          <a href="/" class="rounded hover:underline underline-offset-4">
+          <a href={lien('/')} class="rounded hover:underline underline-offset-4">
             Accueil
           </a>
         </li>
         <li aria-hidden="true">/</li>
         <li>
           <a
-            href="/contact#locaux"
+            href={lien('/contact#locaux')}
             class="rounded hover:underline underline-offset-4"
           >
             Locaux à louer
@@ -308,7 +309,7 @@ const titre = libelleSurface
         </div>
 
         <a
-          href="/contact#locaux"
+          href={lien('/contact#locaux')}
           class="mt-4 inline-block rounded text-sm font-medium text-albizia-700 underline underline-offset-4 hover:text-terracotta-600"
         >
           ← Tous les locaux

@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import EnTetePage from '../../components/EnTetePage.astro';
 import CarteCommerce from '../../components/CarteCommerce.astro';
 import { schemaFilAriane } from '../../lib/seo';
-import { SITE } from '../../lib/site';
+import { SITE, lien } from '../../lib/site';
 import { getCommerces, getCommercesParCategorie } from '../../lib/contenu';
 
 const commerces = await getCommerces();
@@ -99,7 +99,7 @@ const schemas = [
         votre fiche soit ajoutée ou mise à jour.
       </p>
       <a
-        href="/contact"
+        href={lien('/contact')}
         class="mt-4 inline-block rounded-lg bg-albizia-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
       >
         Nous contacter
