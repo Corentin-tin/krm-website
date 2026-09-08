@@ -1,0 +1,106 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FilAriane from '../components/FilAriane.astro';
+import { schemaFilAriane } from '../lib/seo';
+import { SITE } from '../lib/site';
+import { formaterDate, idPublic, langueEntree, type Actualite } from '../lib/contenu';
+import { dico, t, type Locale } from '../i18n';
+import { chemin, urlAbsolue } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  article: Actualite;
+}
+
+const { locale, article } = Astro.props;
+const { titre, date, resume, tags } = article.data;
+const textes = dico(locale);
+const { Content } = await render(article);
+
+const siteUrl = Astro.site!.href;
+const segment = idPublic(article.id);
+const urlPage = urlAbsolue('actualites', locale, siteUrl, segment);
+
+/* L'article peut être servi en repli : `inLanguage` suit le fichier, pas la page. */
+const langueArticle = langueEntree(article.id);
+
+const filAriane = [
+  { label: t(locale, 'commun.accueil'), href: chemin('accueil', locale) },
+  { label: t(locale, 'nav.actualites'), href: chemin('actualites', locale) },
+];
+
+const schemas = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: titre,
+    description: resume,
+    inLanguage: langueArticle,
+    datePublished: date.toISOString(),
+    url: urlPage,
+    publisher: {
+      '@type': 'Organization',
+      name: SITE.nom,
+      url: siteUrl,
+    },
+  },
+  schemaFilAriane([
+    { nom: t(locale, 'commun.accueil'), url: urlAbsolue('accueil', locale, siteUrl) },
+    { nom: t(locale, 'nav.actualites'), url: urlAbsolue('actualites', locale, siteUrl) },
+    { nom: titre, url: urlPage },
+  ]),
+];
+---
+
+<BaseLayout
+  titre={titre}
+  description={resume}
+  locale={locale}
+  cleRoute="actualites"
+  segmentRoute={segment}
+  schemas={schemas}
+>
+  <article class="conteneur py-10 sm:py-14">
+    <FilAriane locale={locale} items={filAriane} />
+
+    <header class="mt-8 max-w-3xl">
+      <time
+        datetime={date.toISOString()}
+        class="text-sm font-semibold uppercase tracking-wide text-terracotta-600"
+      >
+        {formaterDate(date, locale)}
+      </time>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight text-albizia-900 sm:text-4xl">
+        {titre}
+      </h1>
+      <p class="mt-4 text-lg leading-relaxed text-albizia-700">{resume}</p>
+    </header>
+
+    <div
+      class="prose-albizia mt-10 max-w-3xl space-y-4 leading-relaxed text-albizia-800 [&_a]:font-medium [&_a]:text-albizia-700 [&_a]:underline [&_a]:underline-offset-4 [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-albizia-900 [&_strong]:font-semibold [&_strong]:text-albizia-900"
+      lang={langueArticle !== locale ? langueArticle : undefined}
+    >
+      <Content />
+    </div>
+
+    {
+      tags.length > 0 && (
+        <ul class="mt-10 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <li class="rounded-full bg-albizia-50 px-3 py-1 text-xs font-medium text-albizia-700">
+              {tag}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    <a
+      href={chemin('actualites', locale)}
+      class="mt-10 inline-block rounded text-sm font-medium text-albizia-700 underline underline-offset-4 hover:text-terracotta-600"
+    >
+      {textes.actualite.retour}
+    </a>
+  </article>
+</BaseLayout>

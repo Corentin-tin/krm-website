@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import { EDITEUR, SITE } from '../lib/site';
+import { dico, type Locale } from '../i18n';
+import { chemin } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const textes = dico(locale).mentions;
+---
+
+<BaseLayout
+  titre={textes.metaTitre}
+  description={textes.metaDescription}
+  locale={locale}
+  cleRoute="mentionsLegales"
+  noindex
+>
+  <EnTetePage titre={textes.metaTitre} />
+
+  <div class="conteneur py-14 sm:py-16">
+    <div class="max-w-3xl space-y-10 leading-relaxed text-albizia-800">
+      <section>
+        <h2 class="text-xl font-bold tracking-tight text-albizia-900">
+          {textes.editeurTitre}
+        </h2>
+        <p class="mt-3">
+          <Fragment
+            set:html={textes.editeurTexte(EDITEUR.raisonSociale, EDITEUR.forme, SITE.nom)}
+          />
+        </p>
+        <p class="mt-2">{textes.siegeSocial(EDITEUR.adresse)}</p>
+        <p class="mt-2">{textes.siren(EDITEUR.siren)}</p>
+        <p class="mt-2">{textes.directeur(EDITEUR.directeurPublication)}</p>
+        <p class="mt-2">
+          {textes.contactLabel}{' '}
+          <a
+            href={`mailto:${EDITEUR.email}`}
+            class="rounded font-medium underline underline-offset-4 hover:text-terracotta-600"
+          >
+            {EDITEUR.email}
+          </a>
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold tracking-tight text-albizia-900">
+          {textes.hebergementTitre}
+        </h2>
+        <p class="mt-3">
+          <Fragment set:html={textes.hebergementTexte} />{' '}
+          <a
+            href="https://github.com"
+            rel="noopener"
+            class="rounded font-medium underline underline-offset-4 hover:text-terracotta-600"
+            >github.com</a
+          >.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold tracking-tight text-albizia-900">
+          {textes.proprieteTitre}
+        </h2>
+        <p class="mt-3">{textes.proprieteTexte}</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold tracking-tight text-albizia-900">
+          {textes.donneesTitre}
+        </h2>
+        <p class="mt-3">{textes.donneesTexte1}</p>
+        <p class="mt-2">{textes.donneesTexte2}</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold tracking-tight text-albizia-900">
+          {textes.commercesTitre}
+        </h2>
+        <p class="mt-3">{textes.commercesTexte}</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold tracking-tight text-albizia-900">
+          {textes.erreurTitre}
+        </h2>
+        <p class="mt-3">
+          {textes.erreurTexteAvant}
+          <a
+            href={chemin('contact', locale)}
+            class="rounded font-medium underline underline-offset-4 hover:text-terracotta-600"
+            >{textes.erreurLien}</a
+          >{textes.erreurTexteApres}
+        </p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

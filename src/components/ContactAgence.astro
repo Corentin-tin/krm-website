@@ -3,6 +3,7 @@ import Icone from './Icone.astro';
 import { Image } from 'astro:assets';
 import logoAgence from '../assets/agence/laforet.png';
 import { AGENCE, AGENCE_ADRESSE } from '../lib/site';
+import { dico, type Locale } from '../i18n';
 
 /**
  * Mise en relation avec l'agence qui commercialise les locaux.
@@ -13,6 +14,7 @@ import { AGENCE, AGENCE_ADRESSE } from '../lib/site';
  * la commercialisation passe exclusivement par l'agence.
  */
 interface Props {
+  locale: Locale;
   /** Référence du local, quand le bloc est affiché sur une fiche. */
   reference?: string;
   /** Annonce du local chez l'agence, quand elle existe. */
@@ -20,7 +22,8 @@ interface Props {
   class?: string;
 }
 
-const { reference, annonce, class: classe = '' } = Astro.props;
+const { locale, reference, annonce, class: classe = '' } = Astro.props;
+const textes = dico(locale).agence;
 
 /*
   Quand l'annonce du local est connue, le bouton y mène directement : le
@@ -38,16 +41,11 @@ const destination = annonce ?? AGENCE.siteWeb;
   ]}
 >
   <h2 class="text-lg font-semibold text-albizia-900">
-    {reference ? `Visiter ${reference}` : 'Intéressé par un local ?'}
+    {reference ? textes.titreLocal(reference) : textes.titreGenerique}
   </h2>
   <p class="mt-2 max-w-2xl text-sm leading-relaxed text-albizia-700">
-    La location des locaux du pôle est confiée à <strong
-      class="font-semibold text-albizia-900">{AGENCE.nom}</strong
-    >. {
-      annonce
-        ? "L'annonce de ce local sur son site donne les conditions, le détail des surfaces et le formulaire de demande de visite."
-        : "Contactez l'agence pour obtenir les conditions, le détail des surfaces et convenir d'une visite."
-    }
+    <Fragment set:html={textes.introAgence(AGENCE.nom)} />{' '}
+    {annonce ? textes.texteAvecAnnonce : textes.texteSansAnnonce}
   </p>
 
   <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-4">
@@ -69,7 +67,7 @@ const destination = annonce ?? AGENCE.siteWeb;
         class="h-5 w-auto rounded"
         loading="lazy"
       />
-      {annonce ? `Voir l'annonce ${AGENCE.nom}` : `Contacter ${AGENCE.nom}`}
+      {annonce ? textes.ctaAnnonce(AGENCE.nom) : textes.ctaContact(AGENCE.nom)}
     </a>
 
     <p class="flex items-start gap-1.5 text-sm text-albizia-700">

@@ -20,7 +20,7 @@ const commerces = defineCollection({
   schema: ({ image }) =>
     z.object({
       nom: z.string(),
-      categorie: z.enum(ORDRE_CATEGORIES as [string, ...string[]]),
+      categorie: z.enum(ORDRE_CATEGORIES),
       accroche: z.string().max(160),
       telephone: z.string().optional(),
       email: z.email().optional(),
@@ -110,9 +110,15 @@ const locaux = defineCollection({
       reference: z.string(),
       /** Surface en m². Sert au tri et à l'affichage. */
       surface: z.number().positive().optional(),
-      statut: z.enum(ORDRE_STATUTS as [string, ...string[]]).default('disponible'),
-      /** Texte libre : « Immédiate », « Mars 2027»… */
-      disponibilite: z.string().default('Nous consulter'),
+      statut: z.enum(ORDRE_STATUTS).default('disponible'),
+      /**
+       * Texte libre : « Immédiate », « Mars 2027 »…
+       *
+       * Optionnel plutôt que défaut en dur : un défaut français
+       * s'appliquerait tel quel aux fiches anglaises. L'absence de valeur est
+       * rendue par `local.disponibiliteDefaut`, qui existe dans chaque langue.
+       */
+      disponibilite: z.string().optional(),
       /** Bâtiment A (octogonal), B (rectangle) ou C (annexe). */
       batiment: z.enum(['A', 'B', 'C']).optional(),
       accroche: z.string().max(160),

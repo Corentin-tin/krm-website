@@ -1,0 +1,324 @@
+---
+import { render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FondVideo from '../components/FondVideo.astro';
+import ContactAgence from '../components/ContactAgence.astro';
+import Icone from '../components/Icone.astro';
+import FilAriane from '../components/FilAriane.astro';
+import { schemaFilAriane, schemaLocal } from '../lib/seo';
+import { ADRESSE_COMPLETE, SITE, type StatutLocal } from '../lib/site';
+import { formaterSurface, idPublic, langueEntree, type Local } from '../lib/contenu';
+import { dico, t, type Locale } from '../i18n';
+import { chemin, urlAbsolue } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  local: Local;
+}
+
+const { locale, local } = Astro.props;
+const {
+  reference,
+  surface,
+  statut,
+  disponibilite,
+  accroche,
+  atouts,
+  destinations,
+  loyer,
+  annonce,
+  image,
+  video,
+  galerie,
+} = local.data;
+
+const textes = dico(locale);
+const { Content } = await render(local);
+
+const badge = textes.statuts[statut as StatutLocal];
+const libelleSurface = formaterSurface(surface);
+const siteUrl = Astro.site!.href;
+const segment = idPublic(local.id);
+const urlPage = urlAbsolue('locaux', locale, siteUrl, segment);
+const langueFiche = langueEntree(local.id);
+
+/* Le défaut de disponibilité est traduit plutôt que figé dans le schéma. */
+const libelleDisponibilite = disponibilite ?? textes.local.disponibiliteDefaut;
+
+const schemas = [
+  schemaLocal({
+    reference,
+    nomAnnonce: textes.local.nomAnnonce(reference, SITE.nom),
+    description: accroche,
+    url: urlPage,
+    siteUrl,
+    surface,
+    annonce,
+    locale: langueFiche,
+  }),
+  schemaFilAriane([
+    { nom: t(locale, 'commun.accueil'), url: urlAbsolue('accueil', locale, siteUrl) },
+    { nom: t(locale, 'nav.contact'), url: urlAbsolue('contact', locale, siteUrl) },
+    { nom: reference, url: urlPage },
+  ]),
+];
+
+/**
+ * Le titre reprend la formulation d'une recherche réelle
+ * (« local commercial 120 m² à louer Montech ») plutôt que la seule
+ * référence interne, qui n'est tapée par personne.
+ */
+const titre = libelleSurface
+  ? textes.local.titreAvecSurface(libelleSurface)
+  : textes.local.titreSansSurface(reference);
+
+const filAriane = [
+  { label: t(locale, 'commun.accueil'), href: chemin('accueil', locale) },
+  { label: t(locale, 'nav.locaux'), href: chemin('contact', locale, undefined, 'locaux') },
+  { label: reference },
+];
+---
+
+<BaseLayout
+  titre={titre}
+  description={textes.local.metaDescription(
+    accroche,
+    reference,
+    libelleSurface,
+    SITE.nom,
+    ADRESSE_COMPLETE,
+    libelleDisponibilite,
+  )}
+  locale={locale}
+  cleRoute="locaux"
+  segmentRoute={segment}
+  schemas={schemas}
+>
+  <!--
+    Vidéo aérienne en en-tête, comme sur les autres pages du site. La photo
+    de repérage n'y figure pas : recadrée en bandeau et assombrie par le
+    voile, le cadre rouge qui signale le local y deviendrait illisible. Elle
+    est donc montrée entière plus bas, à sa vraie taille.
+  -->
+  {
+    video ? (
+      <FondVideo nom={video} taille="bandeau">
+        <p class="text-sm font-semibold uppercase tracking-wide text-white/80">
+          {badge.label} · {libelleDisponibilite}
+        </p>
+        <h1 class="mt-2 max-w-3xl text-3xl font-bold tracking-tight text-white drop-shadow-sm sm:text-4xl">
+          {reference}
+          {libelleSurface && <span class="text-white/85"> · {libelleSurface}</span>}
+        </h1>
+        <p class="mt-4 max-w-2xl text-lg leading-relaxed text-white/90">
+          {accroche}
+        </p>
+      </FondVideo>
+    ) : (
+      <section class="bg-sable-50">
+        <div class="conteneur py-10 sm:py-14">
+          <p class="text-sm font-semibold uppercase tracking-wide text-terracotta-600">
+            {badge.label} · {libelleDisponibilite}
+          </p>
+          <h1 class="mt-2 max-w-3xl text-3xl font-bold tracking-tight text-albizia-900 sm:text-4xl">
+            {reference}
+            {libelleSurface && (
+              <span class="text-albizia-600"> · {libelleSurface}</span>
+            )}
+          </h1>
+          <p class="mt-4 max-w-2xl text-lg leading-relaxed text-albizia-700">
+            {accroche}
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  <div class="conteneur py-8 sm:py-12">
+    <FilAriane locale={locale} items={filAriane} />
+
+    <div class="mt-8 grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:gap-14">
+      <!-- Colonne principale -->
+      <div>
+        {
+          /*
+            Situer le local dans le pôle : c'est la première question que se
+            pose quelqu'un qui regarde l'annonce. Affichée entière et non
+            recadrée, pour que le cadre rouge reste lisible.
+          */
+          image && (
+            <figure class="mb-10">
+              <Image
+                src={image}
+                alt={textes.a11y.altVueAerienne(SITE.nom, reference)}
+                widths={[600, 1000, 1600]}
+                sizes="(min-width: 1024px) 700px, 96vw"
+                loading="eager"
+                class="w-full rounded-[--radius-card] border border-albizia-100 bg-white"
+              />
+              <figcaption class="mt-2.5 text-sm text-albizia-600">
+                {textes.local.legendeSituation(reference)}
+              </figcaption>
+            </figure>
+          )
+        }
+
+        {
+          atouts.length > 0 && (
+            <section aria-labelledby="atouts">
+              <h2
+                id="atouts"
+                class="text-xl font-bold tracking-tight text-albizia-900"
+              >
+                {textes.local.atoutsTitre}
+              </h2>
+              <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+                {atouts.map((atout) => (
+                  <li class="flex items-start gap-2.5 rounded-lg border border-albizia-100 bg-white p-3.5 text-sm leading-relaxed text-albizia-800">
+                    <Icone
+                      nom="boutique"
+                      class="mt-0.5 h-4 w-4 shrink-0 text-terracotta-600"
+                    />
+                    <span lang={langueFiche !== locale ? langueFiche : undefined}>{atout}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        <div
+          class="prose-albizia mt-8 max-w-none space-y-4 leading-relaxed text-albizia-800 [&_a]:font-medium [&_a]:text-albizia-700 [&_a]:underline [&_a]:underline-offset-4 [&_blockquote]:border-l-4 [&_blockquote]:border-albizia-200 [&_blockquote]:pl-4 [&_blockquote]:text-sm [&_blockquote]:text-albizia-600 [&_strong]:font-semibold [&_strong]:text-albizia-900"
+          lang={langueFiche !== locale ? langueFiche : undefined}
+        >
+          <Content />
+        </div>
+
+        {
+          galerie.length > 0 && (
+            <section class="mt-10" aria-labelledby="galerie">
+              <h2
+                id="galerie"
+                class="text-xl font-bold tracking-tight text-albizia-900"
+              >
+                {textes.local.galerieTitre}
+              </h2>
+              <ul class="mt-4 grid gap-4 sm:grid-cols-2">
+                {galerie.map((vue) => (
+                  <li>
+                    <figure>
+                      <div class="aspect-[4/3] overflow-hidden rounded-[--radius-card] bg-white">
+                        <Image
+                          src={vue.image}
+                          alt={vue.legende ?? reference}
+                          widths={[400, 800]}
+                          sizes="(min-width: 640px) 45vw, 92vw"
+                          loading="lazy"
+                          class="h-full w-full object-cover"
+                        />
+                      </div>
+                      {vue.legende && (
+                        <figcaption
+                          class="mt-2 text-sm text-albizia-600"
+                          lang={langueFiche !== locale ? langueFiche : undefined}
+                        >
+                          {vue.legende}
+                        </figcaption>
+                      )}
+                    </figure>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+      </div>
+
+      <!-- Colonne latérale : la fiche technique, telle qu'un porteur de projet la lit -->
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <div class="rounded-[--radius-card] border border-albizia-200 bg-white p-6">
+          <h2 class="text-base font-semibold text-albizia-900">
+            {textes.local.caracteristiques}
+          </h2>
+
+          <dl class="mt-4 space-y-4 text-sm">
+            {
+              libelleSurface && (
+                <div class="flex justify-between gap-3">
+                  <dt class="font-medium text-albizia-600">{textes.local.surface}</dt>
+                  <dd class="font-semibold text-albizia-900">
+                    {libelleSurface}
+                  </dd>
+                </div>
+              )
+            }
+
+            <div class="flex justify-between gap-3">
+              <dt class="font-medium text-albizia-600">{textes.local.statut}</dt>
+              <dd class="font-semibold text-albizia-900">{badge.label}</dd>
+            </div>
+
+            <div class="flex justify-between gap-3">
+              <dt class="font-medium text-albizia-600">{textes.local.disponibilite}</dt>
+              <dd class="font-semibold text-albizia-900">{libelleDisponibilite}</dd>
+            </div>
+
+            <div class="flex justify-between gap-3">
+              <dt class="font-medium text-albizia-600">{textes.local.loyer}</dt>
+              <dd class="font-semibold text-albizia-900">
+                {loyer ?? textes.local.loyerDefaut}
+              </dd>
+            </div>
+
+            {
+              destinations.length > 0 && (
+                <div>
+                  <dt class="font-medium text-albizia-600">
+                    {textes.local.destinations}
+                  </dt>
+                  <dd class="mt-2 flex flex-wrap gap-1.5">
+                    {destinations.map((destination) => (
+                      <span
+                        class="rounded-full bg-albizia-50 px-2.5 py-1 text-xs font-medium text-albizia-700"
+                        lang={langueFiche !== locale ? langueFiche : undefined}
+                      >
+                        {destination}
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              )
+            }
+
+            <div class="border-t border-albizia-100 pt-4">
+              <dt class="flex items-center gap-1.5 font-medium text-albizia-600">
+                <Icone nom="localisation" class="h-4 w-4" />
+                {t(locale, 'commun.adresse')}
+              </dt>
+              <dd class="mt-1 text-albizia-900">
+                <address class="not-italic">
+                  {SITE.nom}<br />
+                  {ADRESSE_COMPLETE}
+                </address>
+              </dd>
+            </div>
+          </dl>
+
+          <p class="mt-6 border-t border-albizia-100 pt-4 text-xs leading-relaxed text-albizia-600">
+            {textes.local.mention}
+          </p>
+        </div>
+
+        <a
+          href={chemin('contact', locale, undefined, 'locaux')}
+          class="mt-4 inline-block rounded text-sm font-medium text-albizia-700 underline underline-offset-4 hover:text-terracotta-600"
+        >
+          {textes.local.retour}
+        </a>
+      </aside>
+    </div>
+
+    <ContactAgence locale={locale} reference={reference} annonce={annonce} class="mt-14" />
+  </div>
+</BaseLayout>

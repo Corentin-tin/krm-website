@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { lien, SITE } from '../lib/site';
+import { LOCALE_DEFAUT, t } from '../i18n';
 
 /**
  * Manifeste PWA généré au build.
@@ -8,13 +9,17 @@ import { lien, SITE } from '../lib/site';
  * icônes) doivent suivre la base du site — `/krm-website/` sur GitHub Pages,
  * `/` une fois le domaine définitif en place. Le générer ici évite de les
  * maintenir à la main.
+ *
+ * Volontairement mono-langue : un manifeste ne porte qu'une `lang` et une
+ * `start_url`, et l'installation PWA est un usage marginal pour un site
+ * vitrine. En dupliquer un par langue coûterait plus que ça ne rapporte.
  */
 export const GET: APIRoute = () => {
   const manifeste = {
     name: SITE.nom,
     short_name: SITE.nomCourt,
-    description: `${SITE.accroche}.`,
-    lang: SITE.lang,
+    description: `${t(LOCALE_DEFAUT, 'meta.siteAccroche')}.`,
+    lang: LOCALE_DEFAUT,
     start_url: lien('/'),
     scope: lien('/'),
     display: 'standalone',

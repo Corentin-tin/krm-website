@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { LOCALES, dico, t, type Locale } from '../i18n';
+import { chemin } from '../i18n/routes';
+
+/**
+ * Page 404.
+ *
+ * GitHub Pages ne sert qu'un seul `/404.html`, à la racine du site publié —
+ * y compris pour une URL introuvable sous `/en/`. Une page 404 propre à
+ * l'anglais ne serait donc jamais servie : celle-ci affiche les deux langues
+ * l'une sous l'autre. C'est le seul endroit du site qui les mélange, et
+ * c'est délibéré : l'alternative serait un cul-de-sac francophone pour un
+ * visiteur anglophone.
+ */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<BaseLayout
+  titre={t(locale, 'erreur404.metaTitre')}
+  description={t(locale, 'erreur404.metaDescription')}
+  locale={locale}
+  cleRoute="accueil"
+  noindex
+>
+  <div class="conteneur py-20 sm:py-28">
+    {
+      LOCALES.map((l, i) => {
+        const textes = dico(l).erreur404;
+        return (
+          <section lang={l} class:list={i > 0 ? 'mt-16 border-t border-albizia-100 pt-12' : undefined}>
+            <p class="text-sm font-semibold uppercase tracking-wide text-terracotta-600">
+              {textes.surtitre}
+            </p>
+            <h1
+              class:list={[
+                'mt-3 font-bold tracking-tight text-albizia-900',
+                i === 0 ? 'text-3xl sm:text-4xl' : 'text-2xl sm:text-3xl',
+              ]}
+            >
+              {textes.titre}
+            </h1>
+            <p class="mt-4 max-w-xl text-lg leading-relaxed text-albizia-700">
+              {textes.texte}
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a
+                href={chemin('accueil', l)}
+                class="rounded-lg bg-albizia-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
+              >
+                {textes.ctaAccueil}
+              </a>
+              <a
+                href={chemin('commerces', l)}
+                class="rounded-lg border border-albizia-300 bg-white px-5 py-3 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
+              >
+                {textes.ctaCommerces}
+              </a>
+            </div>
+          </section>
+        );
+      })
+    }
+  </div>
+</BaseLayout>

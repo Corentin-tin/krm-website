@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import type { CategorieId } from '../lib/site';
+import { dico, type Locale } from '../i18n';
 
 /**
  * Vignette d'une enseigne : la vraie photo si elle existe, sinon un
@@ -17,6 +18,7 @@ import type { CategorieId } from '../lib/site';
  */
 interface Props {
   nom: string;
+  locale: Locale;
   categorie: CategorieId | string;
   image?: ImageMetadata;
   /** L'image est un logo, pas une photo : affiché entier dans le cadre. */
@@ -28,12 +30,15 @@ interface Props {
 
 const {
   nom,
+  locale,
   categorie,
   image,
   logo = false,
   class: classe = '',
   prioritaire = false,
 } = Astro.props;
+
+const textes = dico(locale).a11y;
 
 const teintes: Record<string, string> = {
   beaute: 'var(--color-terracotta-400)',
@@ -61,7 +66,7 @@ const initiales = nom
       <div class="flex h-full w-full items-center justify-center overflow-hidden bg-white p-4">
         <Image
           src={image}
-          alt={`Logo de ${nom}`}
+          alt={textes.altLogo(nom)}
           widths={[400, 800]}
           sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
           loading={prioritaire ? 'eager' : 'lazy'}
@@ -71,7 +76,7 @@ const initiales = nom
     ) : (
       <Image
         src={image}
-        alt={`Devanture de ${nom}`}
+        alt={textes.altDevanture(nom)}
         widths={[400, 800]}
         sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
         loading={prioritaire ? 'eager' : 'lazy'}
@@ -86,7 +91,7 @@ const initiales = nom
       ]}
       style={`--teinte: ${teinte}`}
       role="img"
-      aria-label={`${nom} — photo à venir`}
+      aria-label={textes.ariaPhotoAvenir(nom)}
     >
       <span class="text-3xl font-bold tracking-wide text-white/90 drop-shadow-sm">
         {initiales}

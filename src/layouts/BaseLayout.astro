@@ -3,10 +3,21 @@ import '../styles/global.css';
 import EnTete from '../components/EnTete.astro';
 import PiedDePage from '../components/PiedDePage.astro';
 import { SITE, lien } from '../lib/site';
+import { LOCALES, LOCALE_DEFAUT, LOCALE_OG, t, type Locale } from '../i18n';
+import { chemin, type CleRoute } from '../i18n/routes';
 
 interface Props {
   titre: string;
   description: string;
+  locale: Locale;
+  /**
+   * Clé de route canonique. Avec `segmentRoute`, c'est la seule donnée dont
+   * dépendent le canonical, les hreflang et le sélecteur de langue : une page
+   * ne peut donc pas annoncer une adresse alternative incohérente.
+   */
+  cleRoute: CleRoute;
+  /** Segment dynamique de la route ([id]), quand il y en a un. */
+  segmentRoute?: string;
   /** Objets JSON-LD à injecter dans le <head>. */
   schemas?: unknown[];
   /** Chemin d'une image d'aperçu (Open Graph), relatif au site. */
@@ -15,15 +26,33 @@ interface Props {
   noindex?: boolean;
 }
 
-const { titre, description, schemas = [], imageOg, noindex = false } = Astro.props;
+const {
+  titre,
+  description,
+  locale,
+  cleRoute,
+  segmentRoute,
+  schemas = [],
+  imageOg,
+  noindex = false,
+} = Astro.props;
 
-const canonique = new URL(Astro.url.pathname, Astro.site).href;
+/*
+ * Canonical dérivé de la clé de route plutôt que de `Astro.url.pathname` :
+ * indépendant du réglage `trailingSlash`, et surtout identique au hreflang
+ * auto-référent — Google vérifie cette cohérence.
+ */
+const canonique = new URL(chemin(cleRoute, locale, segmentRoute), Astro.site).href;
+const alternates = LOCALES.map((l) => ({
+  lang: l,
+  href: new URL(chemin(cleRoute, l, segmentRoute), Astro.site).href,
+}));
 const urlImageOg = imageOg ? new URL(imageOg, Astro.site).href : undefined;
 const titreComplet = titre === SITE.nom ? titre : `${titre} | ${SITE.nom}`;
 ---
 
 <!doctype html>
-<html lang={SITE.lang}>
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -32,6 +61,13 @@ const titreComplet = titre === SITE.nom ? titre : `${titre} | ${SITE.nom}`;
     <link rel="manifest" href={lien('/site.webmanifest')} />
     <meta name="theme-color" content="#2b4c66" />
     <link rel="canonical" href={canonique} />
+
+    {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL(chemin(cleRoute, LOCALE_DEFAUT, segmentRoute), Astro.site).href}
+    />
 
     <title>{titreComplet}</title>
     <meta name="description" content={description} />
@@ -42,7 +78,12 @@ const titreComplet = titre === SITE.nom ? titre : `${titre} | ${SITE.nom}`;
     <meta property="og:title" content={titreComplet} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonique} />
-    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:locale" content={LOCALE_OG[locale]} />
+    {
+      LOCALES.filter((l) => l !== locale).map((l) => (
+        <meta property="og:locale:alternate" content={LOCALE_OG[l]} />
+      ))
+    }
     {urlImageOg && <meta property="og:image" content={urlImageOg} />}
 
     <meta name="twitter:card" content={urlImageOg ? 'summary_large_image' : 'summary'} />
@@ -61,11 +102,11 @@ const titreComplet = titre === SITE.nom ? titre : `${titre} | ${SITE.nom}`;
   </head>
 
   <body class="flex min-h-screen flex-col">
-    <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
-    <EnTete />
+    <a class="lien-evitement" href="#contenu">{t(locale, 'a11y.lienEvitement')}</a>
+    <EnTete locale={locale} cleRoute={cleRoute} segmentRoute={segmentRoute} />
     <main id="contenu" class="flex-1">
       <slot />
     </main>
-    <PiedDePage />
+    <PiedDePage locale={locale} cleRoute={cleRoute} segmentRoute={segmentRoute} />
   </body>
 </html>
