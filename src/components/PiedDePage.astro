@@ -1,5 +1,5 @@
 ---
-import { ADRESSE, CONTACT, HORAIRES, NAV, SITE, lien } from '../lib/site';
+import { ADRESSE, CONTACT, HORAIRES, NAV_PIED, SITE, lien } from '../lib/site';
 
 const annee = new Date().getFullYear();
 ---
@@ -39,7 +39,7 @@ const annee = new Date().getFullYear();
       </h2>
       <ul class="mt-3 space-y-2 text-sm">
         {
-          NAV.map((item) => (
+          NAV_PIED.map((item) => (
             <li>
               <a
                 href={item.href}

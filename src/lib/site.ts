@@ -145,6 +145,15 @@ export const NAV = [
   { href: lien('/contact'), label: 'Contact' },
 ] as const;
 
+/**
+ * Navigation du pied de page : la navigation principale + le raccourci vers les
+ * locaux à louer, qui vivent dans une section de la page contact.
+ */
+export const NAV_PIED = [
+  ...NAV,
+  { href: lien('/contact#locaux'), label: 'Locaux à louer' },
+] as const;
+
 /** Libellés et ordre d'affichage des catégories de commerces. */
 export const CATEGORIES = {
   restauration: { label: 'Restauration', pluriel: 'Restauration' },
