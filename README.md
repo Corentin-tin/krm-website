@@ -50,10 +50,26 @@ la lister.
 
 Tout le contenu est en Markdown dans `src/content/`. Aucune base de données.
 
+Chaque collection est rangée par langue : `fr/` pour le français, `en/` pour
+l'anglais. **Le français est la langue de référence** — une fiche qui n'existe
+qu'en `fr/` s'affiche telle quelle sur le site anglais, signalée par un
+attribut `lang="fr"` pour les lecteurs d'écran. Rien ne casse tant qu'une
+traduction manque.
+
+```
+src/content/commerces/
+  fr/wash-n-dry.md      ← version française
+  en/wash-n-dry.md      ← traduction, optionnelle
+```
+
+**Le nom du fichier doit être identique dans les deux langues** : c'est lui
+qui apparie les deux versions, produit l'URL et alimente le sélecteur de
+langue. Voir « Traduire une fiche » plus bas.
+
 ### Un commerce
 
-Créer `src/content/commerces/mon-enseigne.md`. Le nom du fichier devient
-l'URL (`/commerces/mon-enseigne`).
+Créer `src/content/commerces/fr/mon-enseigne.md`. Le nom du fichier devient
+l'URL (`/commerces/mon-enseigne`, et `/en/shops/mon-enseigne`).
 
 ```markdown
 ---
@@ -81,7 +97,7 @@ Le texte de présentation, en Markdown.
 
 ### Une actualité
 
-Créer `src/content/actualites/mon-actu.md` :
+Créer `src/content/actualites/fr/mon-actu.md` :
 
 ```markdown
 ---
@@ -98,7 +114,7 @@ Le corps de l'article.
 
 ### Un service
 
-Créer `src/content/services/mon-service.md` :
+Créer `src/content/services/fr/mon-service.md` :
 
 ```markdown
 ---
@@ -116,8 +132,45 @@ ordre: 1
 Déposer l'image dans `src/assets/`, puis référencer :
 
 ```yaml
-image: ../../assets/ma-photo.jpg
+image: ../../../assets/ma-photo.jpg
 ```
+
+> **Trois niveaux de `../`**, pas deux : le fichier vit dans
+> `src/content/<collection>/<langue>/`. Un chemin faux fait échouer le build.
+
+---
+
+## Traduire une fiche
+
+Copier le fichier de `fr/` vers `en/` **en gardant exactement le même nom**,
+puis traduire les champs de texte et le corps :
+
+```bash
+cp src/content/commerces/fr/wash-n-dry.md src/content/commerces/en/wash-n-dry.md
+```
+
+Le fichier anglais remplace alors le français sur `/en/shops/wash-n-dry`, et
+sur cette page seulement. Aucun code à toucher.
+
+Ce qui se traduit : `nom` (sauf si c'est un nom propre), `accroche`,
+`resume`, `titre`, `atouts`, `destinations`, `disponibilite`, `tags`, les
+légendes de galerie et le corps Markdown. Ce qui ne se traduit pas :
+`categorie`, `statut`, `icone`, `ordre`, les URLs et les coordonnées.
+
+> **Limites de longueur** : `accroche` est plafonnée à 160 caractères et
+> `resume` à 200 — ce sont les meta-descriptions. Un dépassement fait échouer
+> le build : c'est le signe qu'il faut resserrer la traduction, pas relever
+> la limite.
+
+### Textes de l'interface
+
+Les libellés du site (navigation, titres de sections, boutons, mentions
+légales) vivent dans `src/i18n/fr.ts` et `src/i18n/en.ts`. Le dictionnaire
+français est la source de vérité : ajouter une clé dans `fr.ts` sans son
+équivalent anglais fait échouer `npm run check`, et donc le déploiement.
+
+Les URLs des pages sont traduites elles aussi — la table de correspondance
+est dans `src/i18n/routes.ts` (`/commerces` ↔ `/en/shops`).
 
 Astro optimise et redimensionne automatiquement. Sans `image:`, une vignette
 de remplacement colorée avec les initiales s'affiche — le site reste
@@ -172,9 +225,13 @@ Il vit donc dans un **sous-dossier**, d'où le `base: '/krm-website'` dans
 `astro.config.mjs`. Conséquence à retenir en écrivant du contenu :
 
 > **Ne jamais écrire un lien interne en dur** (`href="/commerces"`) : il
-> pointerait à la racine du domaine et renverrait un 404. Utiliser le helper
-> `lien()` de `src/lib/site.ts` — `href={lien('/commerces')}` — qui ajoute la
-> base automatiquement.
+> pointerait à la racine du domaine et renverrait un 404, et il ignorerait la
+> langue de la page. Utiliser `chemin()` de `src/i18n/routes.ts` —
+> `href={chemin('commerces', locale)}` — qui ajoute la base **et** traduit le
+> segment (`/commerces` en français, `/en/shops` en anglais).
+>
+> `lien()` de `src/lib/site.ts` reste utilisé pour les fichiers qui ne sont
+> pas des pages (favicon, vidéos de `public/`) : il n'ajoute que la base.
 
 Les liens vers les images d'`src/assets/` et les pages générées par Astro
 sont préfixés tout seuls : seuls les chemins écrits à la main sont concernés.
@@ -231,7 +288,7 @@ validation :
   place.
 - **Coordonnées GPS** — approximatives dans `ADRESSE.geo`, à affiner.
 - **Mentions légales** — compléter le directeur de la publication, le SIREN
-  et le RCS dans `src/pages/mentions-legales.astro`.
+  et le RCS dans `EDITEUR` (`src/lib/site.ts`).
 - **Enseignes en brouillon** — deux fiches attendent confirmation
   (Cross Courtage, Delt@ Expertise) : leur logo est en place, la présence
   effective reste à vérifier bail en main.
@@ -249,15 +306,29 @@ validation :
 src/
 ├── assets/            # images sources, optimisées au build
 ├── components/        # composants réutilisables
-├── content/
-│   ├── actualites/    # articles
-│   ├── commerces/     # fiches enseignes (_ = brouillon)
-│   └── services/      # équipements communs
-├── layouts/           # gabarit de page + SEO
+├── content/           # contenu éditorial, une sous-dossier par langue
+│   ├── actualites/{fr,en}/
+│   ├── commerces/{fr,en}/    # fiches enseignes
+│   ├── locaux/{fr,en}/       # locaux à louer
+│   └── services/{fr,en}/     # équipements communs
+├── i18n/
+│   ├── fr.ts          # dictionnaire français — source de vérité du type
+│   ├── en.ts          # dictionnaire anglais — vérifié clé par clé au build
+│   ├── routes.ts      # table des slugs par langue + helper chemin()
+│   ├── navigation.ts  # entrées de menu, dérivées des deux tables
+│   └── index.ts       # locales, t(), dico(), formats
+├── layouts/           # gabarit de page + SEO (canonical, hreflang)
 ├── lib/
-│   ├── contenu.ts     # requêtes de contenu (filtre les brouillons)
+│   ├── contenu.ts     # requêtes de contenu : filtres, tri, repli FR
 │   ├── seo.ts         # données structurées schema.org
-│   └── site.ts        # constantes du site (adresse, horaires, contact)
-├── pages/             # routes
+│   └── site.ts        # constantes non traduisibles (adresse, éditeur…)
+├── pages/             # routes — points d'entrée minces
+│   └── en/            # mêmes pages, slugs anglais
+├── pages-partagees/   # le contenu réel des pages, paramétré par locale
 └── styles/            # styles globaux et palette
 ```
+
+Les pages de `src/pages/` ne contiennent que quelques lignes : elles
+délèguent à `src/pages-partagees/` en passant la langue. Une modification de
+page se fait donc à un seul endroit et vaut pour les deux versions — c'est ce
+qui les empêche de diverger.

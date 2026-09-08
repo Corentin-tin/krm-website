@@ -1,7 +1,20 @@
 ---
-import { ADRESSE, CONTACT, HORAIRES, NAV_PIED, SITE, lien } from '../lib/site';
+import { ADRESSE, CONTACT, HORAIRES, SITE } from '../lib/site';
 import { getPermanents } from '../lib/contenu';
+import SelecteurLangue from './SelecteurLangue.astro';
+import { dico, t, type Locale } from '../i18n';
+import { chemin, type CleRoute } from '../i18n/routes';
+import { navPied } from '../i18n/navigation';
 
+interface Props {
+  locale: Locale;
+  cleRoute: CleRoute;
+  segmentRoute?: string;
+}
+
+const { locale, cleRoute, segmentRoute } = Astro.props;
+const entrees = navPied(locale);
+const textes = dico(locale);
 const annee = new Date().getFullYear();
 
 /*
@@ -10,7 +23,7 @@ const annee = new Date().getFullYear();
  * repart : la liste est dérivée du contenu (`permanent: true`) pour rester
  * juste si un équipement 24h/24 est ajouté ou retiré.
  */
-const permanents = await getPermanents();
+const permanents = await getPermanents(locale);
 ---
 
 <footer class="mt-20 border-t border-albizia-100 bg-albizia-800 text-albizia-100">
@@ -22,7 +35,7 @@ const permanents = await getPermanents();
         {ADRESSE.codePostal}
         {ADRESSE.ville}<br />
         <span class="text-albizia-300">
-          En bordure de la RD 928 — avenue de Montauban
+          {t(locale, 'pied.situation')}
         </span>
       </address>
       {
@@ -38,17 +51,17 @@ const permanents = await getPermanents();
         )
       }
       <p class="mt-4 text-sm text-albizia-200">
-        Parking gratuit · Accès PMR · Services 24h/24
+        {t(locale, 'pied.arguments')}
       </p>
     </div>
 
     <div>
       <h2 class="text-sm font-semibold uppercase tracking-wide text-albizia-300">
-        Le site
+        {t(locale, 'pied.colonneSite')}
       </h2>
       <ul class="mt-3 space-y-2 text-sm">
         {
-          NAV_PIED.map((item) => (
+          entrees.map((item) => (
             <li>
               <a
                 href={item.href}
@@ -64,14 +77,14 @@ const permanents = await getPermanents();
 
     <div>
       <h2 class="text-sm font-semibold uppercase tracking-wide text-albizia-300">
-        Horaires du site
+        {t(locale, 'commun.horairesTitre')}
       </h2>
       <dl class="mt-3 space-y-1.5 text-sm">
         {
           HORAIRES.jours.map((h) => (
             <div class="flex flex-col">
-              <dt class="text-albizia-300">{h.jours}</dt>
-              <dd class="font-medium text-white">{h.horaire}</dd>
+              <dt class="text-albizia-300">{t(locale, h.jours)}</dt>
+              <dd class="font-medium text-white">{t(locale, h.horaire)}</dd>
             </div>
           ))
         }
@@ -79,13 +92,13 @@ const permanents = await getPermanents();
       {
         permanents.length > 0 && (
           <p class="mt-3 text-xs leading-relaxed text-albizia-200">
-            <span class="font-medium text-white">Accessibles 24h/24 :</span>{' '}
+            <span class="font-medium text-white">{t(locale, 'commun.accessibles24h')}</span>{' '}
             {permanents.map((p) => p.nom).join(', ')}.
           </p>
         )
       }
       <p class="mt-3 text-xs leading-relaxed text-albizia-300">
-        Horaires indicatifs des parties communes.
+        {t(locale, 'pied.horairesMentionCourte')}
       </p>
     </div>
   </div>
@@ -94,13 +107,21 @@ const permanents = await getPermanents();
     <div
       class="conteneur flex flex-col items-start justify-between gap-3 py-5 text-xs text-albizia-300 sm:flex-row sm:items-center"
     >
-      <p>© {annee} {SITE.nom}. Tous droits réservés.</p>
-      <a
-        href={lien('/mentions-legales')}
-        class="rounded transition-colors hover:text-white hover:underline underline-offset-4"
-      >
-        Mentions légales
-      </a>
+      <p>{textes.pied.copyright(annee, SITE.nom)}</p>
+      <div class="flex items-center gap-4">
+        <a
+          href={chemin('mentionsLegales', locale)}
+          class="rounded transition-colors hover:text-white hover:underline underline-offset-4"
+        >
+          {t(locale, 'nav.mentionsLegales')}
+        </a>
+        <SelecteurLangue
+          locale={locale}
+          cleRoute={cleRoute}
+          segmentRoute={segmentRoute}
+          variante="pied"
+        />
+      </div>
     </div>
   </div>
 </footer>

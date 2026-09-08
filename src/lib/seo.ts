@@ -1,4 +1,5 @@
 import { ADRESSE, AGENCE, HORAIRES, SITE, CONTACT } from './site';
+import type { Locale } from '../i18n';
 
 const adressePostale = {
   '@type': 'PostalAddress',
@@ -15,12 +16,20 @@ const adressePostale = {
  * sont déclarés en `amenityFeature` car ce sont des requêtes à forte
  * intention (« borne de recharge 24h/24 Montech »).
  */
-export function schemaPole(siteUrl: string, equipements: string[] = []) {
+export function schemaPole(opts: {
+  siteUrl: string;
+  /** Description du pôle, dans la langue de la page. */
+  description: string;
+  locale: Locale;
+  equipements?: string[];
+}) {
+  const { siteUrl, description, locale, equipements = [] } = opts;
   return {
     '@context': 'https://schema.org',
     '@type': 'ShoppingCenter',
     name: SITE.nom,
-    description: SITE.description,
+    description,
+    inLanguage: locale,
     url: siteUrl,
     address: adressePostale,
     geo: {
@@ -49,12 +58,15 @@ export function schemaCommerce(opts: {
   telephone?: string;
   siteWeb?: string;
   image?: string;
+  /** Langue réelle de la fiche, qui peut différer de celle de la page en repli. */
+  locale: Locale;
 }) {
   return {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: opts.nom,
     description: opts.description,
+    inLanguage: opts.locale,
     url: opts.url,
     address: adressePostale,
     ...(opts.telephone ? { telephone: opts.telephone } : {}),
@@ -87,12 +99,16 @@ export function schemaLocal(opts: {
   image?: string;
   /** Annonce du local chez l'agence : la source que nous reprenons. */
   annonce?: string;
+  /** Nom de l'annonce, composé par l'appelant depuis son dictionnaire. */
+  nomAnnonce: string;
+  locale: Locale;
 }) {
   return {
     '@context': 'https://schema.org',
     '@type': 'RealEstateListing',
-    name: `${opts.reference} — local commercial à louer, ${SITE.nom}`,
+    name: opts.nomAnnonce,
     description: opts.description,
+    inLanguage: opts.locale,
     url: opts.url,
     ...(opts.image ? { image: opts.image } : {}),
     /* Rattache notre fiche à l'annonce de l'agence, qui fait foi. */

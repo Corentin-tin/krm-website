@@ -13,6 +13,7 @@ import logoFacebook from '../assets/reseaux/facebook.png';
 import logoGoogleMaps from '../assets/reseaux/google-maps.png';
 import logoInstagram from '../assets/reseaux/instagram.png';
 import logoLinkedin from '../assets/reseaux/linkedin.png';
+import { dico, t, type Locale } from '../i18n';
 
 type Reseau = 'instagram' | 'facebook' | 'linkedin' | 'lien';
 /** Les réseaux qui ont un logo — 'lien' est un renvoi générique, sans icône. */
@@ -20,13 +21,15 @@ type ReseauAvecLogo = Exclude<Reseau, 'lien'>;
 
 interface Props {
   nom: string;
+  locale: Locale;
   siteWeb?: string;
   googleMaps?: string;
   reseaux?: { reseau: Reseau; url: string }[];
   class?: string;
 }
 
-const { nom, siteWeb, googleMaps, reseaux = [], class: classe = '' } = Astro.props;
+const { nom, locale, siteWeb, googleMaps, reseaux = [], class: classe = '' } = Astro.props;
+const textes = dico(locale).a11y;
 
 const LOGOS: Record<ReseauAvecLogo, { src: ImageMetadata; label: string }> = {
   instagram: { src: logoInstagram, label: 'Instagram' },
@@ -49,7 +52,7 @@ const aQuelqueChose = Boolean(siteWeb || googleMaps || liens.length > 0);
           rel="noopener"
           class="block rounded-lg bg-albizia-700 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
         >
-          Visiter le site web
+          {t(locale, 'commun.visiterSite')}
         </a>
       )}
 
@@ -60,7 +63,7 @@ const aQuelqueChose = Boolean(siteWeb || googleMaps || liens.length > 0);
           class="flex items-center justify-center gap-2 rounded-lg border border-albizia-300 px-4 py-2.5 text-center text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
         >
           <Image src={logoGoogleMaps} alt="" width={32} height={45} class="h-5 w-auto" />
-          Voir sur Google Maps
+          {t(locale, 'commun.voirSurMaps')}
         </a>
       )}
 
@@ -73,12 +76,12 @@ const aQuelqueChose = Boolean(siteWeb || googleMaps || liens.length > 0);
                 <a
                   href={url}
                   rel="noopener"
-                  title={`${nom} sur ${logo.label}`}
+                  title={textes.surReseau(nom, logo.label)}
                   class="flex h-11 w-11 items-center justify-center rounded-lg border border-albizia-300 transition-colors hover:bg-albizia-50"
                 >
                   <Image
                     src={logo.src}
-                    alt={`${nom} sur ${logo.label}`}
+                    alt=""
                     width={48}
                     height={48}
                     densities={[1, 2]}

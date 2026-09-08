@@ -1,0 +1,268 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FondVideo from '../components/FondVideo.astro';
+import CarteCommerce from '../components/CarteCommerce.astro';
+import Icone from '../components/Icone.astro';
+import { schemaPole } from '../lib/seo';
+import { ADRESSE_COMPLETE, HORAIRES, SITE } from '../lib/site';
+import {
+  formaterDate,
+  getActualites,
+  getCommerces,
+  getPermanents,
+  getServices,
+  idPublic,
+} from '../lib/contenu';
+import { dico, t, type Locale } from '../i18n';
+import { chemin } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const textes = dico(locale);
+
+const commerces = await getCommerces(locale);
+const services = await getServices(locale);
+const actualites = await getActualites(locale, 3);
+
+const siteUrl = Astro.site!.href;
+const schemas = [
+  schemaPole({
+    siteUrl,
+    description: textes.meta.siteDescription,
+    locale,
+    equipements: services.map((s) => s.data.nom),
+  }),
+];
+
+const misEnAvant = commerces.slice(0, 6);
+const permanents = await getPermanents(locale);
+---
+
+<BaseLayout
+  titre={SITE.nom}
+  description={textes.meta.siteDescription}
+  locale={locale}
+  cleRoute="accueil"
+  schemas={schemas}
+>
+  <!-- Hero : vue aérienne du pôle en fond, texte en blanc par-dessus -->
+  <FondVideo taille="hero">
+    <p class="text-sm font-semibold uppercase tracking-wide text-terracotta-200">
+      {textes.accueil.heroSurtitre}
+    </p>
+    <h1 class="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
+      {SITE.nom}
+    </h1>
+    <p class="mt-5 max-w-2xl text-lg leading-relaxed text-white/90 sm:text-xl">
+      {textes.accueil.heroIntro}
+    </p>
+
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a
+        href={chemin('commerces', locale)}
+        class="rounded-lg bg-white px-5 py-3 text-sm font-semibold text-albizia-900 transition-colors hover:bg-albizia-50"
+      >
+        {textes.accueil.heroCtaCommerces}
+      </a>
+      <a
+        href={chemin('infosPratiques', locale)}
+        class="rounded-lg border border-white/50 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+      >
+        {textes.accueil.heroCtaVenir}
+      </a>
+    </div>
+
+    <dl class="mt-10 grid gap-x-8 gap-y-4 border-t border-white/25 pt-8 sm:grid-cols-3">
+      <div>
+        <dt class="text-xs font-semibold uppercase tracking-wide text-white/70">
+          {t(locale, 'commun.adresse')}
+        </dt>
+        <dd class="mt-1 text-sm font-medium text-white">
+          {ADRESSE_COMPLETE}
+        </dd>
+      </div>
+      <div>
+        <dt class="text-xs font-semibold uppercase tracking-wide text-white/70">
+          {textes.accueil.stationnement}
+        </dt>
+        <dd class="mt-1 text-sm font-medium text-white">
+          {t(locale, 'commun.parkingGratuit')}
+        </dd>
+      </div>
+      <div>
+        <dt class="text-xs font-semibold uppercase tracking-wide text-white/70">
+          {textes.accueil.accessibilite}
+        </dt>
+        <dd class="mt-1 text-sm font-medium text-white">
+          {textes.accueil.accessibiliteValeur}
+        </dd>
+      </div>
+    </dl>
+  </FondVideo>
+
+  <!-- Services 24h/24 : argument de recherche locale fort -->
+  {
+    permanents.length > 0 && (
+      <section class="bg-albizia-800 text-white">
+        <div class="conteneur py-12 sm:py-14">
+          <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">
+            {textes.accueil.permanentsTitre}
+          </h2>
+          <p class="mt-3 max-w-2xl text-albizia-100">
+            {textes.accueil.permanentsIntro(permanents.length)}
+          </p>
+          <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {permanents.map((equipement) => (
+              <li class="rounded-[--radius-card] bg-albizia-700/60 p-5">
+                <Icone nom={equipement.icone} class="h-7 w-7 text-terracotta-300" />
+                <h3 class="mt-3 text-base font-semibold">{equipement.nom}</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-albizia-100">
+                  {equipement.resume}
+                </p>
+              </li>
+            ))}
+          </ul>
+          <a
+            href={chemin('services', locale)}
+            class="mt-8 inline-block rounded-lg bg-white px-5 py-3 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
+          >
+            {textes.accueil.permanentsCta}
+          </a>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Commerces -->
+  {
+    misEnAvant.length > 0 && (
+      <section class="conteneur py-14 sm:py-20">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight text-albizia-900 sm:text-3xl">
+              {textes.accueil.commercesTitre}
+            </h2>
+            <p class="mt-3 max-w-2xl text-albizia-700">
+              {textes.accueil.commercesIntro}
+            </p>
+          </div>
+          <a
+            href={chemin('commerces', locale)}
+            class="rounded-lg border border-albizia-300 px-4 py-2.5 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
+          >
+            {textes.accueil.commercesCta}
+          </a>
+        </div>
+
+        <ul class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {misEnAvant.map((commerce, i) => (
+            <li class="flex">
+              <CarteCommerce commerce={commerce} locale={locale} prioritaire={i < 3} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <!-- Actualités -->
+  {
+    actualites.length > 0 && (
+      <section class="border-t border-albizia-100 bg-white">
+        <div class="conteneur py-14 sm:py-20">
+          <div class="flex flex-wrap items-end justify-between gap-4">
+            <h2 class="text-2xl font-bold tracking-tight text-albizia-900 sm:text-3xl">
+              {textes.accueil.actualitesTitre}
+            </h2>
+            <a
+              href={chemin('actualites', locale)}
+              class="rounded-lg border border-albizia-300 px-4 py-2.5 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
+            >
+              {textes.accueil.actualitesCta}
+            </a>
+          </div>
+
+          <ul class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {actualites.map((article) => (
+              <li class="group relative rounded-[--radius-card] border border-albizia-100 p-5 transition-shadow hover:shadow-md">
+                <time
+                  datetime={article.data.date.toISOString()}
+                  class="text-xs font-semibold uppercase tracking-wide text-terracotta-600"
+                >
+                  {formaterDate(article.data.date, locale)}
+                </time>
+                <h3 class="mt-2 text-lg font-semibold leading-snug text-albizia-900">
+                  <a
+                    href={chemin('actualites', locale, idPublic(article.id))}
+                    class="after:absolute after:inset-0"
+                  >
+                    {article.data.titre}
+                  </a>
+                </h3>
+                <p class="mt-2 text-sm leading-relaxed text-albizia-700">
+                  {article.data.resume}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Venir -->
+  <section class="conteneur py-14 sm:py-20">
+    <div class="grid gap-10 rounded-[--radius-card] bg-sable-100 p-8 sm:p-10 lg:grid-cols-2">
+      <div>
+        <h2 class="text-2xl font-bold tracking-tight text-albizia-900 sm:text-3xl">
+          {textes.accueil.venirTitre}
+        </h2>
+        <address class="mt-4 not-italic leading-relaxed text-albizia-800">
+          {ADRESSE_COMPLETE}
+        </address>
+        <p class="mt-3 text-sm leading-relaxed text-albizia-700">
+          {textes.accueil.venirIntro}
+        </p>
+        <a
+          href={chemin('infosPratiques', locale)}
+          class="mt-6 inline-block rounded-lg bg-albizia-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
+        >
+          {textes.accueil.venirCta}
+        </a>
+      </div>
+
+      <div>
+        <h3 class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-albizia-600">
+          <Icone nom="horloge" class="h-5 w-5" />
+          {t(locale, 'commun.horairesTitre')}
+        </h3>
+        <dl class="mt-4 divide-y divide-albizia-200 border-y border-albizia-200">
+          {
+            HORAIRES.jours.map((h) => (
+              <div class="flex items-baseline justify-between gap-4 py-3">
+                <dt class="text-sm text-albizia-700">{t(locale, h.jours)}</dt>
+                <dd class="text-sm font-semibold text-albizia-900">{t(locale, h.horaire)}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        {
+          permanents.length > 0 && (
+            <p class="mt-3 text-xs leading-relaxed text-albizia-700">
+              <span class="font-semibold text-albizia-900">
+                {t(locale, 'commun.accessibles24h')}
+              </span>{' '}
+              {permanents.map((p) => p.nom).join(', ')}.
+            </p>
+          )
+        }
+        <p class="mt-3 text-xs leading-relaxed text-albizia-600">
+          {t(locale, 'commun.horairesMention')}
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

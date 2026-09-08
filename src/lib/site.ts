@@ -1,3 +1,5 @@
+import type { CleTexte } from '../i18n';
+
 /**
  * Constantes du site — source unique de vérité.
  *
@@ -21,16 +23,17 @@ export function lien(chemin: string): string {
   return `${base}/${chemin.replace(/^\//, '')}`;
 }
 
+/**
+ * Identité du site.
+ *
+ * Réduit aux noms propres : l'accroche et la description sont du texte
+ * traduisible et vivent dans les dictionnaires (`meta.siteAccroche`,
+ * `meta.siteDescription`) ; `lang` et `locale` sont dérivés de la langue de
+ * la page (cf. src/i18n/index.ts).
+ */
 export const SITE = {
   nom: "Pôle commercial l'Albizia",
   nomCourt: "L'Albizia",
-  accroche: 'Vos commerces de proximité à Montech',
-  description:
-    "Le pôle commercial l'Albizia réunit à Montech des commerces " +
-    'et artisans de proximité : beauté, restauration, auto, services. Parking ' +
-    'gratuit, accès PMR, distributeur de pizzas et point relais accessibles 24h/24.',
-  locale: 'fr_FR',
-  lang: 'fr',
 } as const;
 
 export const ADRESSE = {
@@ -57,13 +60,16 @@ export const ADRESSE_COMPLETE = `${ADRESSE.rue}, ${ADRESSE.codePostal} ${ADRESSE
  */
 export const HORAIRES = {
   confirme: false,
-  mention:
-    'Horaires des parties communes, donnés à titre indicatif. ' +
-    'Les horaires de chaque commerce sont propres à l’enseigne.',
+  /**
+   * Les libellés affichés (« Lundi – Samedi », « 8h30 – 23h00 ») sont du
+   * texte traduisible : ils vivent dans les dictionnaires, et ne sont
+   * désignés ici que par leurs clés. `schema` reste en dur, schema.org
+   * exigeant l'anglais et le format 24 h.
+   */
   jours: [
-    { jours: 'Lundi – Samedi', horaire: '8h30 – 23h00' },
-    { jours: 'Dimanche', horaire: '11h00 – 23h00' },
-  ],
+    { jours: 'horaires.lundiSamedi', horaire: 'horaires.plageSemaine' },
+    { jours: 'horaires.dimanche', horaire: 'horaires.plageDimanche' },
+  ] satisfies { jours: CleTexte; horaire: CleTexte }[],
   /** Format schema.org openingHoursSpecification. */
   schema: [
     {
@@ -133,16 +139,15 @@ export const AGENCE = {
 
 export const AGENCE_ADRESSE = `${AGENCE.rue}, ${AGENCE.codePostal} ${AGENCE.ville}`;
 
-/** Libellés des statuts d'un local, et ordre d'affichage des groupes. */
-export const STATUTS_LOCAL = {
-  disponible: { label: 'Disponible', description: 'Libre à la location' },
-  reserve: { label: 'Réservé', description: 'Sous option, nous consulter' },
-  loue: { label: 'Loué', description: 'Occupé' },
-} as const;
+/**
+ * Statuts d'un local, dans l'ordre d'affichage des groupes.
+ *
+ * Ce sont des identifiants, pas des libellés : ceux-ci vivent dans les
+ * dictionnaires (`statuts.<id>.label`).
+ */
+export const ORDRE_STATUTS = ['disponible', 'reserve', 'loue'] as const;
 
-export type StatutLocal = keyof typeof STATUTS_LOCAL;
-
-export const ORDRE_STATUTS = Object.keys(STATUTS_LOCAL) as StatutLocal[];
+export type StatutLocal = (typeof ORDRE_STATUTS)[number];
 
 /**
  * Éditeur du site — mentions légales uniquement.
@@ -162,33 +167,19 @@ export const EDITEUR = {
   email: 'roger.merle@yahoo.com',
 } as const;
 
-export const NAV = [
-  { href: lien('/commerces'), label: 'Les commerces' },
-  { href: lien('/services'), label: 'Services' },
-  { href: lien('/actualites'), label: 'Actualités' },
-  { href: lien('/infos-pratiques'), label: 'Infos pratiques' },
-  { href: lien('/contact'), label: 'Contact' },
-] as const;
-
 /**
- * Navigation du pied de page : la navigation principale + le raccourci vers les
- * locaux à louer, qui vivent dans une section de la page contact.
+ * Catégories de commerces, dans l'ordre d'affichage.
+ *
+ * Comme les statuts : des identifiants, dont les libellés vivent dans les
+ * dictionnaires (`categories.<id>`).
  */
-export const NAV_PIED = [
-  ...NAV,
-  { href: lien('/contact#locaux'), label: 'Locaux à louer' },
+export const ORDRE_CATEGORIES = [
+  'restauration',
+  'artisanat',
+  'commerce',
+  'beaute',
+  'services',
+  'auto',
 ] as const;
 
-/** Libellés et ordre d'affichage des catégories de commerces. */
-export const CATEGORIES = {
-  restauration: { label: 'Restauration', pluriel: 'Restauration' },
-  artisanat: { label: 'Artisanat & produits locaux', pluriel: 'Artisanat & produits locaux' },
-  commerce: { label: 'Commerces', pluriel: 'Commerces' },
-  beaute: { label: 'Beauté & bien-être', pluriel: 'Beauté & bien-être' },
-  services: { label: 'Services', pluriel: 'Services' },
-  auto: { label: 'Auto & mobilité', pluriel: 'Auto & mobilité' },
-} as const;
-
-export type CategorieId = keyof typeof CATEGORIES;
-
-export const ORDRE_CATEGORIES = Object.keys(CATEGORIES) as CategorieId[];
+export type CategorieId = (typeof ORDRE_CATEGORIES)[number];

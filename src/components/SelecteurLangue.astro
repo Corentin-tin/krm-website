@@ -1,0 +1,55 @@
+---
+import { LOCALES, NOMS_LANGUES, t, type Locale } from '../i18n';
+import { chemin, type CleRoute } from '../i18n/routes';
+
+/**
+ * Bascule FR / EN vers la page équivalente.
+ *
+ * Le couple `cleRoute` / `segmentRoute` garantit qu'on arrive sur la page
+ * correspondante et non sur l'accueil — y compris sur une fiche affichée en
+ * repli, puisque les identifiants publics sont communs aux deux langues.
+ */
+interface Props {
+  locale: Locale;
+  cleRoute: CleRoute;
+  segmentRoute?: string;
+  /** `entete` : boutons compacts. `pied` : liens sur fond sombre. */
+  variante?: 'entete' | 'pied';
+  class?: string;
+}
+
+const { locale, cleRoute, segmentRoute, variante = 'entete', class: classe = '' } = Astro.props;
+---
+
+<nav aria-label={t(locale, 'a11y.choixLangue')} class:list={[classe]}>
+  <ul class="flex items-center gap-1">
+    {
+      LOCALES.map((l) => {
+        const actif = l === locale;
+        return (
+          <li>
+            <a
+              href={chemin(cleRoute, l, segmentRoute)}
+              hreflang={l}
+              lang={l}
+              aria-current={actif ? 'true' : undefined}
+              class:list={[
+                'rounded-md px-2 py-1.5 text-xs font-semibold uppercase tracking-wide transition-colors',
+                variante === 'entete'
+                  ? actif
+                    ? 'bg-albizia-100 text-albizia-800'
+                    : 'text-albizia-600 hover:bg-albizia-50 hover:text-albizia-900'
+                  : actif
+                    ? 'bg-albizia-700 text-white'
+                    : 'text-albizia-300 hover:text-white',
+              ]}
+            >
+              <span class="sr-only">{NOMS_LANGUES[l]}</span>
+              <span aria-hidden="true">{l}</span>
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>

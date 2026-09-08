@@ -1,0 +1,15 @@
+---
+import PageActualite from '../../../pages-partagees/PageActualite.astro';
+import { getActualites, idPublic } from '../../../lib/contenu';
+
+export async function getStaticPaths() {
+  const actualites = await getActualites('en');
+  return actualites.map((article) => ({
+    params: { id: idPublic(article.id) },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+---
+<PageActualite locale="en" article={article} />

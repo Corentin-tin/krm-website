@@ -1,0 +1,119 @@
+---
+import { render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import Icone from '../components/Icone.astro';
+import LiensEnseigne from '../components/LiensEnseigne.astro';
+import { schemaFilAriane } from '../lib/seo';
+import { SITE } from '../lib/site';
+import { getServices, idPublic, langueEntree } from '../lib/contenu';
+import { dico, t, type Locale } from '../i18n';
+import { urlAbsolue } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const textes = dico(locale);
+const services = await getServices(locale);
+
+// Le corps Markdown de chaque service est rendu à l'avance.
+const rendus = await Promise.all(
+  services.map(async (service) => ({
+    service,
+    Content: (await render(service)).Content,
+  })),
+);
+
+const siteUrl = Astro.site!.href;
+const schemas = [
+  schemaFilAriane([
+    { nom: t(locale, 'commun.accueil'), url: urlAbsolue('accueil', locale, siteUrl) },
+    { nom: t(locale, 'nav.services'), url: urlAbsolue('services', locale, siteUrl) },
+  ]),
+];
+---
+
+<BaseLayout
+  titre={textes.services.metaTitre}
+  description={textes.services.metaDescription(SITE.nom)}
+  locale={locale}
+  cleRoute="services"
+  schemas={schemas}
+>
+  <EnTetePage
+    video="services"
+    titre={textes.services.titre}
+    intro={textes.services.intro}
+  />
+
+  <div class="conteneur py-14 sm:py-16">
+    <ul class="space-y-6">
+      {
+        rendus.map(({ service, Content }) => (
+          <li
+            id={idPublic(service.id)}
+            class="scroll-mt-24 rounded-[--radius-card] border border-albizia-100 bg-white p-6 sm:p-8"
+          >
+            <div class="flex flex-wrap items-start gap-4">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-albizia-100 text-albizia-700">
+                {service.data.image ? (
+                  <Image
+                    src={service.data.image}
+                    alt={textes.a11y.altLogoSimple(service.data.nom)}
+                    widths={[40, 80]}
+                    sizes="40px"
+                    loading="lazy"
+                    class="h-10 w-10 object-contain"
+                  />
+                ) : (
+                  <Icone nom={service.data.icone} class="h-6 w-6" />
+                )}
+              </span>
+              <div class="min-w-0 flex-1">
+                <div class="flex flex-wrap items-center gap-3">
+                  <h2
+                    class="text-xl font-bold tracking-tight text-albizia-900"
+                    lang={langueEntree(service.id) !== locale ? langueEntree(service.id) : undefined}
+                  >
+                    {service.data.nom}
+                  </h2>
+                  {service.data.permanent && (
+                    <span class="rounded-full bg-terracotta-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-terracotta-700">
+                      {textes.services.badge24h}
+                    </span>
+                  )}
+                </div>
+                {/*
+                  `lang` sur le corps rendu : tant qu'une fiche n'est pas
+                  traduite, le site anglais sert son texte français. Le
+                  signaler est ce que prescrit la spec HTML, et évite qu'un
+                  lecteur d'écran anglophone le prononce mal.
+                */}
+                <div
+                  class="prose-albizia mt-3 max-w-2xl space-y-3 leading-relaxed text-albizia-800 [&_strong]:font-semibold [&_strong]:text-albizia-900"
+                  lang={langueEntree(service.id) !== locale ? langueEntree(service.id) : undefined}
+                >
+                  <Content />
+                </div>
+                <LiensEnseigne
+                  nom={service.data.nom}
+                  locale={locale}
+                  siteWeb={service.data.siteWeb}
+                  googleMaps={service.data.googleMaps}
+                  class="mt-5 max-w-xs"
+                />
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="mt-10 text-sm leading-relaxed text-albizia-600">
+      {textes.services.mention}
+    </p>
+  </div>
+</BaseLayout>

@@ -14,6 +14,23 @@ import tailwindcss from '@tailwindcss/vite';
 const site = process.env.SITE_URL ?? 'https://corentin-tin.github.io';
 const base = process.env.BASE_URL ?? '/krm-website';
 
+// Pas de bloc `i18n` ici, volontairement.
+//
+// La configuration i18n d'Astro suppose que le segment de langue est le seul
+// préfixe qui change d'une langue à l'autre : son mécanisme de repli mappe
+// `/en/<chemin>` sur `/<chemin>`, et `getRelativeLocaleUrl('en', 'commerces')`
+// produit `/en/commerces`. Or nos slugs sont traduits (`/en/shops`), donc ce
+// mapping n'existe pas et la config ne saurait relier les deux versions.
+// Le routage est donc manuel : la table des routes vit dans
+// src/i18n/routes.ts et `chemin()` compose les URLs des deux langues.
+//
+// Même raison pour `sitemap({ i18n })` : l'intégration déduit la locale du
+// premier segment du chemin et attend des slugs identiques entre langues.
+// Elle ne saurait ni apparier `/commerces` (français, sans préfixe) avec
+// `/en/shops`, ni deviner la traduction des segments. Les liens hreflang
+// sont donc portés par le <head> (voir BaseLayout.astro), ce qui suffit aux
+// moteurs de recherche.
+
 // https://astro.build/config
 export default defineConfig({
   site,

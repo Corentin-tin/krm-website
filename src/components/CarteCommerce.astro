@@ -1,16 +1,23 @@
 ---
 import Vignette from './Vignette.astro';
-import { CATEGORIES, lien, type CategorieId } from '../lib/site';
-import type { Commerce } from '../lib/contenu';
+import type { CategorieId } from '../lib/site';
+import { idPublic, langueEntree, type Commerce } from '../lib/contenu';
+import { dico, type Locale } from '../i18n';
+import { chemin } from '../i18n/routes';
 
 interface Props {
   commerce: Commerce;
+  locale: Locale;
   prioritaire?: boolean;
 }
 
-const { commerce, prioritaire = false } = Astro.props;
+const { commerce, locale, prioritaire = false } = Astro.props;
 const { nom, categorie, accroche, image, logo } = commerce.data;
-const label = CATEGORIES[categorie as CategorieId]?.label ?? categorie;
+const label = dico(locale).categories[categorie as CategorieId] ?? categorie;
+
+/* La fiche peut être servie en repli : on signale la langue de son contenu. */
+const langueFiche = langueEntree(commerce.id);
+const langAttr = langueFiche !== locale ? langueFiche : undefined;
 ---
 
 <article
@@ -19,6 +26,7 @@ const label = CATEGORIES[categorie as CategorieId]?.label ?? categorie;
   <div class="aspect-[4/3] overflow-hidden bg-white">
     <Vignette
       nom={nom}
+      locale={locale}
       categorie={categorie}
       image={image}
       logo={logo}
@@ -31,11 +39,14 @@ const label = CATEGORIES[categorie as CategorieId]?.label ?? categorie;
     <p class="text-xs font-semibold uppercase tracking-wide text-terracotta-600">
       {label}
     </p>
-    <h3 class="text-lg font-semibold leading-snug text-albizia-900">
-      <a href={lien(`/commerces/${commerce.id}`)} class="after:absolute after:inset-0">
+    <h3 class="text-lg font-semibold leading-snug text-albizia-900" lang={langAttr}>
+      <a
+        href={chemin('commerces', locale, idPublic(commerce.id))}
+        class="after:absolute after:inset-0"
+      >
         {nom}
       </a>
     </h3>
-    <p class="text-sm leading-relaxed text-albizia-700">{accroche}</p>
+    <p class="text-sm leading-relaxed text-albizia-700" lang={langAttr}>{accroche}</p>
   </div>
 </article>

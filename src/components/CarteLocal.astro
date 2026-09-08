@@ -1,7 +1,9 @@
 ---
 import { Image } from 'astro:assets';
-import { STATUTS_LOCAL, lien, type StatutLocal } from '../lib/site';
-import { formaterSurface, type Local } from '../lib/contenu';
+import { lien, type StatutLocal } from '../lib/site';
+import { formaterSurface, idPublic, langueEntree, type Local } from '../lib/contenu';
+import { dico, t, type Locale } from '../i18n';
+import { chemin } from '../i18n/routes';
 
 /**
  * Carte d'un local dans la liste. Calquée sur CarteCommerce pour que la
@@ -11,14 +13,20 @@ import { formaterSurface, type Local } from '../lib/contenu';
  */
 interface Props {
   local: Local;
+  locale: Locale;
   prioritaire?: boolean;
 }
 
-const { local, prioritaire = false } = Astro.props;
+const { local, locale, prioritaire = false } = Astro.props;
 const { reference, surface, statut, disponibilite, accroche, image, video } =
   local.data;
 
-const badge = STATUTS_LOCAL[statut as StatutLocal];
+const textes = dico(locale);
+const badge = textes.statuts[statut as StatutLocal];
+
+/* Comme pour les commerces : la fiche peut être servie en repli. */
+const langueFiche = langueEntree(local.id);
+const langAttr = langueFiche !== locale ? langueFiche : undefined;
 const libelleSurface = formaterSurface(surface);
 
 /**
@@ -44,7 +52,7 @@ const teintes: Record<string, string> = {
       image ? (
         <Image
           src={image}
-          alt={`Vue aérienne du pôle commercial l'Albizia, ${reference} signalé en rouge`}
+          alt={textes.a11y.altVueAerienneCarte(reference)}
           widths={[400, 800]}
           sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
           loading={prioritaire ? 'eager' : 'lazy'}
@@ -55,7 +63,7 @@ const teintes: Record<string, string> = {
            lectures simultanées dans une grille. */
         <img
           src={lien(`/videos/${video}.jpg`)}
-          alt={`${reference} à louer au pôle commercial l'Albizia`}
+          alt={textes.a11y.altLocalAlouer(reference)}
           loading={prioritaire ? 'eager' : 'lazy'}
           class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
         />
@@ -64,7 +72,7 @@ const teintes: Record<string, string> = {
           class="vignette-placeholder flex h-full w-full flex-col items-center justify-center gap-1"
           style={`--teinte: ${teintes[statut] ?? 'var(--color-albizia-400)'}`}
           role="img"
-          aria-label={`${reference}${libelleSurface ? `, ${libelleSurface}` : ''}`}
+          aria-label={textes.a11y.ariaLocalPlaceholder(reference, libelleSurface)}
         >
           <span class="text-3xl font-bold tracking-tight text-white drop-shadow-sm">
             {libelleSurface ?? reference}
@@ -89,15 +97,18 @@ const teintes: Record<string, string> = {
   </div>
 
   <div class="flex flex-1 flex-col gap-2 p-4">
-    <h3 class="text-lg font-semibold leading-snug text-albizia-900">
-      <a href={lien(`/locaux/${local.id}`)} class="after:absolute after:inset-0">
+    <h3 class="text-lg font-semibold leading-snug text-albizia-900" lang={langAttr}>
+      <a
+        href={chemin('locaux', locale, idPublic(local.id))}
+        class="after:absolute after:inset-0"
+      >
         {reference}
         {libelleSurface && <span class="text-albizia-600"> · {libelleSurface}</span>}
       </a>
     </h3>
-    <p class="text-sm leading-relaxed text-albizia-700">{accroche}</p>
+    <p class="text-sm leading-relaxed text-albizia-700" lang={langAttr}>{accroche}</p>
     <p class="mt-auto pt-2 text-xs font-medium uppercase tracking-wide text-albizia-600">
-      Disponibilité : {disponibilite}
+      {t(locale, 'local.disponibilite')} : {disponibilite ?? t(locale, 'local.disponibiliteDefaut')}
     </p>
   </div>
 </article>

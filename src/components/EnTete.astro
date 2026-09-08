@@ -1,11 +1,31 @@
 ---
 import { Image } from 'astro:assets';
-import { NAV, SITE, lien } from '../lib/site';
+import { SITE } from '../lib/site';
+import SelecteurLangue from './SelecteurLangue.astro';
+import { t, type Locale } from '../i18n';
+import { chemin, type CleRoute } from '../i18n/routes';
+import { nav } from '../i18n/navigation';
 import logo from '../assets/logo-albizia.png';
 
-const chemin = Astro.url.pathname.replace(/\/$/, '') || '/';
+interface Props {
+  locale: Locale;
+  cleRoute: CleRoute;
+  segmentRoute?: string;
+}
+
+const { locale, cleRoute, segmentRoute } = Astro.props;
+
+const entrees = nav(locale);
+const accueil = chemin('accueil', locale);
+const cheminCourant = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+/*
+ * L'accueil ne doit pas s'allumer sur toutes les pages : sa comparaison est
+ * stricte. En anglais son chemin est `/en`, jamais `/` — d'où la comparaison
+ * au chemin d'accueil calculé plutôt qu'au littéral '/'.
+ */
 const estActif = (href: string) =>
-  chemin === href || (href !== '/' && chemin.startsWith(href));
+  cheminCourant === href || (href !== accueil && cheminCourant.startsWith(href));
 ---
 
 <header class="sticky top-0 z-50 border-b border-albizia-100 bg-sable-50/95 backdrop-blur">
@@ -15,7 +35,7 @@ const estActif = (href: string) =>
       à côté, un alt le ferait annoncer deux fois par un lecteur d'écran.
     -->
     <a
-      href={lien('/')}
+      href={accueil}
       class="flex items-center gap-2.5 rounded-md text-albizia-800 transition-colors hover:text-terracotta-600"
     >
       <Image
@@ -32,16 +52,17 @@ const estActif = (href: string) =>
           {SITE.nomCourt}
         </span>
         <span class="text-[0.7rem] font-medium text-albizia-500">
-          Pôle commercial · Montech
+          {t(locale, 'entete.sousTitre')}
         </span>
       </span>
     </a>
 
     <!-- Navigation bureau -->
-    <nav aria-label="Navigation principale" class="hidden lg:block">
+    <div class="hidden items-center gap-2 lg:flex">
+      <nav aria-label={t(locale, 'a11y.navPrincipale')}>
       <ul class="flex items-center gap-1">
         {
-          NAV.map((item) => (
+          entrees.map((item) => (
             <li>
               <a
                 href={item.href}
@@ -59,7 +80,14 @@ const estActif = (href: string) =>
           ))
         }
       </ul>
-    </nav>
+      </nav>
+      <SelecteurLangue
+        locale={locale}
+        cleRoute={cleRoute}
+        segmentRoute={segmentRoute}
+        class="border-l border-albizia-200 pl-2"
+      />
+    </div>
 
     <!-- Navigation mobile : <details> pour fonctionner sans JavaScript -->
     <details class="group relative lg:hidden">
@@ -82,15 +110,13 @@ const estActif = (href: string) =>
             stroke-linecap="round"
           />
         </svg>
-        <span>Menu</span>
+        <span>{t(locale, 'entete.menu')}</span>
       </summary>
-      <nav
-        aria-label="Navigation principale"
-        class="absolute right-0 top-full mt-2 w-60 rounded-xl border border-albizia-100 bg-white p-2 shadow-lg"
-      >
+      <div class="absolute right-0 top-full mt-2 w-60 rounded-xl border border-albizia-100 bg-white p-2 shadow-lg">
+      <nav aria-label={t(locale, 'a11y.navPrincipale')}>
         <ul class="flex flex-col">
           {
-            NAV.map((item) => (
+            entrees.map((item) => (
               <li>
                 <a
                   href={item.href}
@@ -109,6 +135,13 @@ const estActif = (href: string) =>
           }
         </ul>
       </nav>
+      <SelecteurLangue
+        locale={locale}
+        cleRoute={cleRoute}
+        segmentRoute={segmentRoute}
+        class="mt-2 border-t border-albizia-100 px-2 pt-2"
+      />
+      </div>
     </details>
   </div>
 </header>

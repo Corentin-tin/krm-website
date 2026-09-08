@@ -1,0 +1,46 @@
+---
+import { t, type Locale } from '../i18n';
+
+/**
+ * Fil d'Ariane visible.
+ *
+ * Le JSON-LD correspondant est construit par `schemaFilAriane` à partir des
+ * mêmes données côté page : les libellés et les URLs ne sont écrits qu'une
+ * fois, ce qui évite la dérive entre le balisage et l'affichage.
+ */
+interface Props {
+  locale: Locale;
+  /**
+   * Le dernier élément est la page courante : il n'est pas cliquable.
+   * Les `href` sont des chemins déjà localisés, produits par `chemin()`.
+   */
+  items: { label: string; href?: string }[];
+  class?: string;
+}
+
+const { locale, items, class: classe = '' } = Astro.props;
+---
+
+<nav aria-label={t(locale, 'a11y.filAriane')} class:list={['text-sm text-albizia-600', classe]}>
+  <ol class="flex flex-wrap items-center gap-1.5">
+    {
+      items.map((item, i) => (
+        <>
+          {i > 0 && <li aria-hidden="true">/</li>}
+          <li
+            class:list={i === items.length - 1 ? 'font-medium text-albizia-900' : undefined}
+            aria-current={i === items.length - 1 ? 'page' : undefined}
+          >
+            {item.href ? (
+              <a href={item.href} class="rounded hover:underline underline-offset-4">
+                {item.label}
+              </a>
+            ) : (
+              item.label
+            )}
+          </li>
+        </>
+      ))
+    }
+  </ol>
+</nav>

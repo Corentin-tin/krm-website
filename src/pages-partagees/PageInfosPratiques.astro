@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import Icone from '../components/Icone.astro';
+import { Image } from 'astro:assets';
+import logoMaps from '../assets/reseaux/google-maps.png';
+import logoParking from '../assets/services/parking.png';
+import { schemaFilAriane, schemaPole } from '../lib/seo';
+import { ADRESSE, ADRESSE_COMPLETE, HORAIRES, SITE } from '../lib/site';
+import { getServices } from '../lib/contenu';
+import { dico, t, type Locale } from '../i18n';
+import { urlAbsolue } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const textes = dico(locale);
+const services = await getServices(locale);
+
+const siteUrl = Astro.site!.href;
+const schemas = [
+  schemaPole({
+    siteUrl,
+    description: textes.meta.siteDescription,
+    locale,
+    equipements: services.map((s) => s.data.nom),
+  }),
+  schemaFilAriane([
+    { nom: t(locale, 'commun.accueil'), url: urlAbsolue('accueil', locale, siteUrl) },
+    { nom: textes.infos.metaTitre, url: urlAbsolue('infosPratiques', locale, siteUrl) },
+  ]),
+];
+
+/* Google Maps hérite de la langue du navigateur : la requête reste en français. */
+const requete = encodeURIComponent(`${SITE.nom}, ${ADRESSE_COMPLETE}`);
+const lienItineraire = `https://www.google.com/maps/dir/?api=1&destination=${requete}`;
+const lienCarte = `https://www.google.com/maps/search/?api=1&query=${requete}`;
+---
+
+<BaseLayout
+  titre={textes.infos.metaTitre}
+  description={textes.infos.metaDescription(SITE.nom, ADRESSE_COMPLETE)}
+  locale={locale}
+  cleRoute="infosPratiques"
+  schemas={schemas}
+>
+  <EnTetePage
+    video="infos-pratiques"
+    titre={textes.infos.titre}
+    intro={textes.infos.intro}
+  />
+
+  <div class="conteneur py-14 sm:py-16">
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-14">
+      <section>
+        <h2 class="flex items-center gap-2 text-xl font-bold tracking-tight text-albizia-900">
+          <Icone nom="localisation" class="h-5 w-5 text-albizia-600" />
+          {t(locale, 'commun.adresse')}
+        </h2>
+        <address class="mt-4 not-italic text-lg leading-relaxed text-albizia-800">
+          <strong class="font-semibold text-albizia-900">{SITE.nom}</strong><br />
+          {ADRESSE.rue}<br />
+          {ADRESSE.codePostal} {ADRESSE.ville}
+        </address>
+        <p class="mt-4 leading-relaxed text-albizia-700">
+          <Fragment set:html={textes.infos.situationTexte} />
+        </p>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a
+            href={lienItineraire}
+            rel="noopener"
+            class="inline-flex items-center gap-2 rounded-lg bg-albizia-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
+          >
+            <Image src={logoMaps} alt="" width={32} height={45} class="h-5 w-auto" />
+            {textes.infos.ctaItineraire}
+          </a>
+          <a
+            href={lienCarte}
+            rel="noopener"
+            class="inline-flex items-center gap-2 rounded-lg border border-albizia-300 bg-white px-5 py-3 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
+          >
+            <Image src={logoMaps} alt="" width={32} height={45} class="h-5 w-auto" />
+            {textes.infos.ctaCarte}
+          </a>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="flex items-center gap-2 text-xl font-bold tracking-tight text-albizia-900">
+          <Icone nom="horloge" class="h-5 w-5 text-albizia-600" />
+          {t(locale, 'commun.horairesTitre')}
+        </h2>
+        <dl class="mt-4 divide-y divide-albizia-200 border-y border-albizia-200">
+          {
+            HORAIRES.jours.map((h) => (
+              <div class="flex items-baseline justify-between gap-4 py-3">
+                <dt class="text-albizia-700">{t(locale, h.jours)}</dt>
+                <dd class="font-semibold text-albizia-900">{t(locale, h.horaire)}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="mt-4 text-sm leading-relaxed text-albizia-600">
+          {t(locale, 'commun.horairesMention')}
+        </p>
+        <p class="mt-4 rounded-lg bg-terracotta-50 p-4 text-sm leading-relaxed text-terracotta-800">
+          <Fragment set:html={textes.infos.encart24h} />
+        </p>
+      </section>
+    </div>
+
+    <section class="mt-16">
+      <h2 class="flex items-center gap-2 text-xl font-bold tracking-tight text-albizia-900">
+        <Image
+          src={logoParking}
+          alt=""
+          width={40}
+          height={40}
+          class="h-6 w-6 shrink-0"
+          loading="lazy"
+        />
+        {textes.infos.stationnementTitre}
+      </h2>
+      <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="rounded-[--radius-card] border border-albizia-100 bg-white p-5">
+          <h3 class="font-semibold text-albizia-900">{textes.infos.parkingTitre}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-albizia-700">
+            {textes.infos.parkingTexte}
+          </p>
+        </div>
+        <div class="rounded-[--radius-card] border border-albizia-100 bg-white p-5">
+          <h3 class="font-semibold text-albizia-900">{textes.infos.pmrTitre}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-albizia-700">
+            {textes.infos.pmrTexte}
+          </p>
+        </div>
+        <div class="rounded-[--radius-card] border border-albizia-100 bg-white p-5">
+          <h3 class="font-semibold text-albizia-900">{textes.infos.electriqueTitre}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-albizia-700">
+            {textes.infos.electriqueTexte}
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

@@ -1,133 +1,15 @@
 ---
-import { render } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Vignette from '../../components/Vignette.astro';
-import Icone from '../../components/Icone.astro';
-import LiensEnseigne from '../../components/LiensEnseigne.astro';
-import { schemaCommerce, schemaFilAriane } from '../../lib/seo';
-import { ADRESSE_COMPLETE, CATEGORIES, lien, type CategorieId } from '../../lib/site';
-import { getCommerces } from '../../lib/contenu';
+import PageCommerce from '../../pages-partagees/PageCommerce.astro';
+import { getCommerces, idPublic } from '../../lib/contenu';
 
 export async function getStaticPaths() {
-  const commerces = await getCommerces();
+  const commerces = await getCommerces('fr');
   return commerces.map((commerce) => ({
-    params: { id: commerce.id },
+    params: { id: idPublic(commerce.id) },
     props: { commerce },
   }));
 }
 
 const { commerce } = Astro.props;
-// `telephone` n'est plus affiché : il ne sert qu'au balisage schema.org.
-const { nom, categorie, accroche, telephone, siteWeb, googleMaps, reseaux, image, logo } =
-  commerce.data;
-
-const { Content } = await render(commerce);
-
-const label = CATEGORIES[categorie as CategorieId]?.label ?? categorie;
-const siteUrl = Astro.site!.href;
-const urlPage = new URL(`/commerces/${commerce.id}`, siteUrl).href;
-
-const schemas = [
-  schemaCommerce({
-    nom,
-    description: accroche,
-    url: urlPage,
-    siteUrl,
-    telephone,
-    siteWeb,
-  }),
-  schemaFilAriane([
-    { nom: 'Accueil', url: siteUrl },
-    { nom: 'Les commerces', url: new URL('/commerces', siteUrl).href },
-    { nom, url: urlPage },
-  ]),
-];
 ---
-
-<BaseLayout
-  titre={nom}
-  description={`${accroche} ${nom} vous accueille au pôle commercial l'Albizia, ${ADRESSE_COMPLETE}. Parking gratuit.`}
-  schemas={schemas}
->
-  <div class="conteneur py-8 sm:py-12">
-    <nav aria-label="Fil d'Ariane" class="text-sm text-albizia-600">
-      <ol class="flex flex-wrap items-center gap-1.5">
-        <li><a href={lien('/')} class="rounded hover:underline underline-offset-4">Accueil</a></li>
-        <li aria-hidden="true">/</li>
-        <li>
-          <a href={lien('/commerces')} class="rounded hover:underline underline-offset-4">
-            Les commerces
-          </a>
-        </li>
-        <li aria-hidden="true">/</li>
-        <li class="font-medium text-albizia-900" aria-current="page">{nom}</li>
-      </ol>
-    </nav>
-
-    <div class="mt-8 grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:gap-14">
-      <!-- Colonne principale -->
-      <div>
-        <p class="text-sm font-semibold uppercase tracking-wide text-terracotta-600">
-          {label}
-        </p>
-        <h1 class="mt-2 text-3xl font-bold tracking-tight text-albizia-900 sm:text-4xl">
-          {nom}
-        </h1>
-        <p class="mt-4 text-lg leading-relaxed text-albizia-700">{accroche}</p>
-
-        <div class="mt-8 aspect-[16/9] overflow-hidden rounded-[--radius-card] bg-white">
-          <Vignette nom={nom} categorie={categorie} image={image} logo={logo} prioritaire />
-        </div>
-
-        <div
-          class="prose-albizia mt-8 max-w-none space-y-4 leading-relaxed text-albizia-800 [&_a]:font-medium [&_a]:text-albizia-700 [&_a]:underline [&_a]:underline-offset-4 [&_blockquote]:border-l-4 [&_blockquote]:border-albizia-200 [&_blockquote]:pl-4 [&_blockquote]:text-sm [&_blockquote]:text-albizia-600 [&_strong]:font-semibold [&_strong]:text-albizia-900"
-        >
-          <Content />
-        </div>
-      </div>
-
-      <!-- Colonne latérale : informations pratiques -->
-      <aside class="lg:sticky lg:top-24 lg:self-start">
-        <div class="rounded-[--radius-card] border border-albizia-200 bg-white p-6">
-          <h2 class="text-base font-semibold text-albizia-900">
-            Informations pratiques
-          </h2>
-
-          <dl class="mt-4 space-y-4 text-sm">
-            <div>
-              <dt class="flex items-center gap-1.5 font-medium text-albizia-600">
-                <Icone nom="localisation" class="h-4 w-4" />
-                Adresse
-              </dt>
-              <dd class="mt-1 text-albizia-900">
-                <address class="not-italic">
-                  Pôle commercial l'Albizia<br />
-                  {ADRESSE_COMPLETE}
-                </address>
-              </dd>
-            </div>
-          </dl>
-
-          <LiensEnseigne
-            nom={nom}
-            siteWeb={siteWeb}
-            googleMaps={googleMaps}
-            reseaux={reseaux}
-            class="mt-6 border-t border-albizia-100 pt-5"
-          />
-
-          <p class="mt-6 border-t border-albizia-100 pt-4 text-xs leading-relaxed text-albizia-600">
-            Parking gratuit et accès de plain-pied sur l'ensemble du pôle.
-          </p>
-        </div>
-
-        <a
-          href={lien('/commerces')}
-          class="mt-4 inline-block rounded text-sm font-medium text-albizia-700 underline underline-offset-4 hover:text-terracotta-600"
-        >
-          ← Tous les commerces
-        </a>
-      </aside>
-    </div>
-  </div>
-</BaseLayout>
+<PageCommerce locale="fr" commerce={commerce} />
