@@ -7,7 +7,7 @@ services) et générer du passage dans les commerces.
 
 - **Framework** : [Astro](https://astro.build) 7, sortie statique
 - **Styles** : Tailwind CSS v4
-- **Hébergement** : Railway
+- **Hébergement** : GitHub Pages
 
 ---
 
@@ -17,8 +17,7 @@ services) et générer du passage dans les commerces.
 npm install
 npm run dev      # serveur de développement, http://localhost:4321
 npm run build    # génère le site dans dist/
-npm run preview  # prévisualise le build
-npm start        # sert dist/ comme en production
+npm run preview  # prévisualise le build, base incluse
 npm run check    # vérification des types
 ```
 
@@ -142,23 +141,62 @@ Poids : viser moins de 500 Ko par photo avant optimisation.
 
 ---
 
-## Déploiement sur Railway
+## Déploiement sur GitHub Pages
 
-1. Créer un projet Railway et le connecter à ce dépôt GitHub.
-2. Railway détecte `railway.json` : build via `npm run build`, démarrage via
-   `npm start`.
-3. Définir la variable d'environnement **`SITE_URL`** avec l'URL publique
-   définitive (ex. `https://pole-albizia.fr`). Elle alimente les URL
-   canoniques, le sitemap et les données structurées.
-4. Le port est fourni automatiquement par Railway via `PORT`.
+Le site est statique : il n'y a pas de serveur, GitHub sert directement le
+contenu de `dist/`.
 
-Chaque `git push` sur la branche principale déclenche un nouveau déploiement.
+### Mise en place (une seule fois)
 
-### Domaine
+1. Dans le dépôt GitHub : **Settings → Pages → Source = « GitHub Actions »**.
+   Sans cela le workflow échoue à la dernière étape.
+2. C'est tout. Le workflow `.github/workflows/deploy.yml` fait le reste.
 
-Un nom de domaine reste à réserver. En attendant, Railway fournit une URL
-`*.up.railway.app` — renseigner cette URL dans `SITE_URL` pour que les
-canoniques soient cohérentes.
+Chaque `git push` sur `main` reconstruit et republie le site. Le déploiement
+se suit dans l'onglet **Actions**, et peut être relancé à la main depuis ce
+même onglet (« Run workflow »).
+
+Le workflow vérifie les types (`npm run check`) avant de construire : une
+erreur de type bloque la publication plutôt que de mettre en ligne un site
+cassé.
+
+### URL et `base`
+
+Le site est publié sur l'URL par défaut du dépôt :
+
+```
+https://corentin-tin.github.io/krm-website
+```
+
+Il vit donc dans un **sous-dossier**, d'où le `base: '/krm-website'` dans
+`astro.config.mjs`. Conséquence à retenir en écrivant du contenu :
+
+> **Ne jamais écrire un lien interne en dur** (`href="/commerces"`) : il
+> pointerait à la racine du domaine et renverrait un 404. Utiliser le helper
+> `lien()` de `src/lib/site.ts` — `href={lien('/commerces')}` — qui ajoute la
+> base automatiquement.
+
+Les liens vers les images d'`src/assets/` et les pages générées par Astro
+sont préfixés tout seuls : seuls les chemins écrits à la main sont concernés.
+
+### Passer au domaine définitif
+
+Le jour où `pole-albizia.fr` est réservé, trois gestes suffisent :
+
+1. Dans `astro.config.mjs` : `site = 'https://pole-albizia.fr'` et
+   `base = '/'`.
+2. Créer `public/CNAME` contenant `pole-albizia.fr`.
+3. Chez le registrar, faire pointer le domaine vers GitHub Pages : quatre
+   enregistrements `A` sur `185.199.108.153`, `185.199.109.153`,
+   `185.199.110.153`, `185.199.111.153` — et un `CNAME` `www` vers
+   `corentin-tin.github.io`.
+
+Les liens internes suivent d'eux-mêmes grâce à `lien()` : aucun fichier de
+contenu n'est à retoucher.
+
+Le fichier `public/.nojekyll` est nécessaire et ne doit pas être supprimé :
+sans lui, GitHub ignore le dossier `_astro/` (préfixé par un underscore) et
+le site s'affiche sans styles.
 
 ---
 
