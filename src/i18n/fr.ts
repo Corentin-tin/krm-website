@@ -268,6 +268,73 @@ export const fr = {
     listeNom: (nom: string) => `Locaux commerciaux à louer au ${nom}`,
   },
 
+  /* --------------------------------------------------------------------- faq */
+  /**
+   * Questions fréquentes, écrites telles qu'elles sont réellement posées —
+   * « Y a-t-il des locaux à louer… », pas « Disponibilité locative ».
+   *
+   * Deux contraintes gouvernent ces textes :
+   *
+   *   — chaque réponse doit être autonome. Elle est extraite de la page et
+   *     citée seule par un moteur génératif : « il est à 5 minutes » ne veut
+   *     alors plus rien dire, il faut renommer le pôle et la ville ;
+   *   — chaque réponse tient en 40 à 60 mots. Au-delà, elle est résumée par
+   *     le moteur, et c'est lui qui choisit ce qu'il en retient.
+   *
+   * Les chiffres (nombre de locaux, surfaces) sont passés en paramètres et
+   * calculés depuis le contenu : une FAQ qui annonce des surfaces périmées
+   * est pire qu'une absence de FAQ.
+   */
+  faq: {
+    titre: 'Questions fréquentes',
+    /** Locaux disponibles — la question que ce site doit servir en premier. */
+    locauxQuestion: 'Y a-t-il des locaux commerciaux à louer à Montech ?',
+    locauxReponse: (n: number, surfaces: string, nom: string, adresse: string) =>
+      n > 0
+        ? `Oui. ${n > 1 ? `${n} locaux commerciaux sont disponibles` : '1 local commercial est disponible'} ` +
+          `à la location au ${nom}, ${adresse}, en Tarn-et-Garonne : ${surfaces}. ` +
+          'Ils conviennent au commerce, aux services, aux professions libérales ' +
+          "et au bureau. La location est confiée à l'agence Laforêt Montech."
+        : `Tous les locaux du ${nom}, ${adresse}, sont actuellement occupés. ` +
+          "L'agence Laforêt Montech tient à jour les disponibilités du pôle.",
+
+    loyerQuestion: 'Quel est le loyer d\'un local au pôle commercial l\'Albizia ?',
+    loyerReponse: (agence: string) =>
+      `Les loyers ne sont pas publiés sur ce site : ils sont communiqués sur ` +
+      `demande par ${agence}, qui commercialise les locaux du pôle. ` +
+      "L'agence transmet les conditions de location, organise les visites et " +
+      'répond aux questions sur le bail.',
+
+    ouQuestion: 'Où se trouve le pôle commercial l\'Albizia ?',
+    ouReponse: (nom: string, adresse: string) =>
+      `Le ${nom} se situe ${adresse}, à l'entrée de Montech, dans le ` +
+      "Tarn-et-Garonne (Occitanie), à une vingtaine de minutes de Montauban. " +
+      'Le parking est gratuit et sans limite de durée, et tous les commerces ' +
+      'sont accessibles de plain-pied.',
+
+    activitesQuestion: 'Quelles activités peut-on ouvrir dans un local du pôle ?',
+    activitesReponse:
+      'Les locaux se prêtent au commerce de détail, aux services, à la beauté ' +
+      'et au bien-être, aux professions libérales et au bureau. Le plateau ' +
+      "de l'étage ne convient pas aux activités alimentaires. Les enseignes " +
+      'déjà installées couvrent la restauration, la coiffure, le spa, ' +
+      "l'automobile, la comptabilité et le courtage.",
+
+    stationnementQuestion: 'Le parking du pôle est-il gratuit ?',
+    stationnementReponse:
+      "Oui. Le parking du pôle commercial l'Albizia à Montech est gratuit, " +
+      'sans limite de durée et sans disque. Il comprend des places réservées ' +
+      'aux personnes à mobilité réduite et une borne de recharge électrique ' +
+      'rapide Powerdot à trois points de charge.',
+
+    horairesQuestion: 'À quelle heure le pôle commercial l\'Albizia est-il ouvert ?',
+    horairesReponse:
+      'Les parties communes du pôle sont accessibles du lundi au samedi de ' +
+      '8h30 à 23h00, et le dimanche de 11h00 à 23h00. Chaque enseigne fixe ' +
+      'ses propres horaires. Le distributeur de pizzas, le casier Mondial ' +
+      'Relay et la borne de recharge sont accessibles 24h/24.',
+  },
+
   /* ------------------------------------------------------------ fiche local */
   local: {
     /** Reprend la formulation d'une recherche réelle plutôt que la référence interne. */
@@ -285,6 +352,31 @@ export const fr = {
       `${nom}, ${adresse}. Disponibilité : ${disponibilite}.`,
     nomAnnonce: (reference: string, nom: string) =>
       `${reference} — local commercial à louer, ${nom}`,
+    /**
+     * Résumé autonome, placé en tête de la fiche.
+     *
+     * Il redit ce que la page montre déjà (surface, statut, ville), et c'est
+     * voulu : c'est le seul paragraphe de la fiche qui reste vrai extrait de
+     * son contexte. Un moteur génératif qui cite « 71 m² de plain-pied avec
+     * vitrine » sans savoir de quelle ville il parle ne sert à personne ; ce
+     * bloc lui donne la phrase complète à reprendre.
+     */
+    resume: (
+      reference: string,
+      surface: string | null,
+      statut: string,
+      disponibilite: string,
+      nom: string,
+      adresse: string,
+      destinations: string[],
+    ) =>
+      `${reference}${surface ? ` de ${surface}` : ''} à louer au ${nom}, ` +
+      `${adresse}, en Tarn-et-Garonne (Occitanie). ` +
+      `${statut}, disponibilité : ${disponibilite}.` +
+      (destinations.length
+        ? ` Activités envisageables : ${destinations.join(', ').toLowerCase()}.`
+        : '') +
+      " Le loyer est communiqué sur demande par l'agence qui commercialise le local.",
     atoutsTitre: 'Les atouts du local',
     galerieTitre: 'Le local en images',
     caracteristiques: 'Caractéristiques',

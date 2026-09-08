@@ -3,10 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import EnTetePage from '../components/EnTetePage.astro';
 import CarteLocal from '../components/CarteLocal.astro';
 import ContactAgence from '../components/ContactAgence.astro';
+import Faq from '../components/Faq.astro';
 import Icone from '../components/Icone.astro';
 import { schemaFilAriane } from '../lib/seo';
 import { ADRESSE_COMPLETE, AGENCE, CONTACT, CONTACT_FICHES, SITE } from '../lib/site';
-import { getCommerces, getLocaux, getLocauxDisponibles, idPublic } from '../lib/contenu';
+import { getCommerces, getFaq, getLocaux, getLocauxDisponibles, idPublic } from '../lib/contenu';
 import { dico, t, type Locale } from '../i18n';
 import { chemin, urlAbsolue } from '../i18n/routes';
 
@@ -20,6 +21,7 @@ const textes = dico(locale);
 const locaux = await getLocaux(locale);
 const disponibles = await getLocauxDisponibles(locale);
 const commerces = await getCommerces(locale);
+const faq = await getFaq(locale);
 
 const siteUrl = Astro.site!.href;
 const urlPage = urlAbsolue('contact', locale, siteUrl);
@@ -205,4 +207,13 @@ const schemas = [
       )
     }
   </div>
+
+  <!--
+    La FAQ ferme la page : c'est le bloc que les moteurs génératifs citent le
+    plus volontiers, et il vient après les locaux, dont il reprend et précise
+    les informations. Son balisage `FAQPage` est posé par le composant
+    lui-même, à partir des mêmes questions que celles affichées — les deux ne
+    peuvent donc pas diverger.
+  -->
+  <Faq titre={textes.faq.titre} questions={faq} />
 </BaseLayout>

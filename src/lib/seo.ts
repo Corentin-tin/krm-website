@@ -211,3 +211,27 @@ export function schemaFilAriane(
     })),
   };
 }
+
+/**
+ * Foire aux questions.
+ *
+ * C'est le format que les moteurs génératifs reprennent le plus volontiers :
+ * une question posée telle qu'un humain la pose, et une réponse assez courte
+ * pour être citée entière. Les réponses vivent dans les dictionnaires — ce
+ * sont des textes traduits, pas des données.
+ *
+ * Une seule règle à tenir : ne déclarer ici que des questions réellement
+ * affichées sur la page. Un `FAQPage` qui décrit un contenu invisible est
+ * une violation des consignes de Google et se paie d'une pénalité.
+ */
+export function schemaFaq(questions: { question: string; reponse: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: questions.map((q) => ({
+      '@type': 'Question',
+      name: q.question,
+      acceptedAnswer: { '@type': 'Answer', text: q.reponse },
+    })),
+  };
+}

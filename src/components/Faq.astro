@@ -1,0 +1,80 @@
+---
+/**
+ * Foire aux questions.
+ *
+ * Le rendu est en `<details>` natifs plutôt qu'en accordéon JavaScript : le
+ * contenu des réponses est alors présent dans le HTML servi, replié ou non.
+ * C'est la condition pour qu'un moteur — génératif ou non — le lise, et
+ * c'est aussi ce que Google exige pour accepter le balisage `FAQPage` : une
+ * réponse déclarée dans le JSON-LD mais absente de la page est une
+ * infraction à ses consignes.
+ *
+ * La première question est ouverte par défaut : sur une page consacrée aux
+ * locaux, la réponse la plus utile ne doit pas demander un clic.
+ */
+import { schemaFaq } from '../lib/seo';
+
+export interface Props {
+  titre: string;
+  questions: { question: string; reponse: string }[];
+  /** Identifiant d'ancre, pour y renvoyer depuis un autre bloc de la page. */
+  id?: string;
+  /**
+   * Laisser la page poser elle-même le `FAQPage`.
+   *
+   * Par défaut le composant l'émet, ce qui garantit que le balisage décrit
+   * exactement les questions affichées. Une page qui passe déjà le même jeu
+   * de questions à `BaseLayout` (l'accueil, qui n'en montre qu'une partie)
+   * doit désactiver l'émission ici, sous peine de servir deux `FAQPage`
+   * concurrents dans le même document.
+   */
+  baliser?: boolean;
+}
+
+const { titre, questions, id = 'faq', baliser = true } = Astro.props;
+---
+
+<section id={id} class="border-t border-albizia-100 bg-sable-50">
+  <div class="conteneur py-14 sm:py-16">
+    <h2 class="text-2xl font-bold tracking-tight text-albizia-900 sm:text-3xl">
+      {titre}
+    </h2>
+
+    <div class="mt-8 max-w-3xl divide-y divide-albizia-100 border-y border-albizia-100">
+      {
+        questions.map((q, i) => (
+          <details class="group py-4" open={i === 0}>
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-base font-semibold text-albizia-900 marker:content-none">
+              <h3 class="text-base font-semibold">{q.question}</h3>
+              <svg
+                class="h-5 w-5 shrink-0 text-albizia-500 transition-transform group-open:rotate-180"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </summary>
+            <p class="mt-3 max-w-2xl pr-9 leading-relaxed text-albizia-700">
+              {q.reponse}
+            </p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+{
+  baliser && (
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(schemaFaq(questions))}
+    />
+  )
+}
