@@ -1,6 +1,7 @@
 ---
 reference: 'Local commercial T1'
 surface: 71
+annonce: 'https://www.laforet.com/agence-immobiliere/montech/louer/montech/local-commercial-21075718'
 statut: disponible
 disponibilite: Immédiate
 batiment: B

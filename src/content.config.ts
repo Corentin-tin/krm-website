@@ -125,6 +125,13 @@ const locaux = defineCollection({
        * Le champ existe pour le jour où l'on choisirait de l'afficher.
        */
       loyer: z.string().optional(),
+      /**
+       * Annonce du local sur le site de l'agence (cf. `AGENCE`). Quand elle
+       * est renseignée, le bouton de contact y renvoie directement plutôt
+       * que vers l'accueil de l'agence : conditions, photos et loyer y sont
+       * tenus à jour par elle, on n'en maintient pas de copie ici.
+       */
+      annonce: z.url().optional(),
       image: image().optional(),
       /** Racine d'une vidéo de `public/videos/` (sans suffixe ni extension). */
       video: z.string().optional(),

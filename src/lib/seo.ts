@@ -85,6 +85,8 @@ export function schemaLocal(opts: {
   siteUrl: string;
   surface?: number;
   image?: string;
+  /** Annonce du local chez l'agence : la source que nous reprenons. */
+  annonce?: string;
 }) {
   return {
     '@context': 'https://schema.org',
@@ -93,6 +95,8 @@ export function schemaLocal(opts: {
     description: opts.description,
     url: opts.url,
     ...(opts.image ? { image: opts.image } : {}),
+    /* Rattache notre fiche à l'annonce de l'agence, qui fait foi. */
+    ...(opts.annonce ? { sameAs: opts.annonce } : {}),
     datePosted: new Date().toISOString().slice(0, 10),
     provider: {
       '@type': 'RealEstateAgent',
