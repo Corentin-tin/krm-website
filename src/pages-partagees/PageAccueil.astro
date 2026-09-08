@@ -2,13 +2,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FondVideo from '../components/FondVideo.astro';
 import CarteCommerce from '../components/CarteCommerce.astro';
+import Faq from '../components/Faq.astro';
 import Icone from '../components/Icone.astro';
-import { schemaPole } from '../lib/seo';
-import { ADRESSE_COMPLETE, HORAIRES, SITE } from '../lib/site';
+import { schemaFaq, schemaPole } from '../lib/seo';
+import { ADRESSE_COMPLETE, EDITEUR, HORAIRES, SITE } from '../lib/site';
 import {
   formaterDate,
   getActualites,
   getCommerces,
+  getFaq,
   getPermanents,
   getServices,
   idPublic,
@@ -26,6 +28,15 @@ const textes = dico(locale);
 const commerces = await getCommerces(locale);
 const services = await getServices(locale);
 const actualites = await getActualites(locale, 3);
+const faq = await getFaq(locale);
+
+/*
+ * Trois questions sur l'accueil, six sur la page contact. L'accueil doit
+ * rester une vitrine : les questions retenues sont celles qu'un visiteur se
+ * pose avant de venir (où, quand, le parking), les questions de location
+ * étant traitées là où sont les locaux.
+ */
+const faqAccueil = [faq[2], faq[5], faq[4]];
 
 const siteUrl = Astro.site!.href;
 const schemas = [
@@ -34,7 +45,20 @@ const schemas = [
     description: textes.meta.siteDescription,
     locale,
     equipements: services.map((s) => s.data.nom),
+    /* Reprend les mentions légales : mêmes faits, déjà publics et sourcés au RNE. */
+    proprietaire: {
+      nom: EDITEUR.raisonSociale,
+      forme: EDITEUR.forme,
+      siren: EDITEUR.siren,
+    },
   }),
+  /*
+   * La FAQ de l'accueil est balisée ici plutôt que par le composant : la
+   * page n'en affiche que les trois premières questions, et déclarer les six
+   * reviendrait à baliser un contenu absent — ce que Google sanctionne. Le
+   * composant reçoit la même tranche, les deux ne peuvent pas diverger.
+   */
+  schemaFaq(faqAccueil),
 ];
 
 const misEnAvant = commerces.slice(0, 6);
@@ -265,4 +289,11 @@ const permanents = await getPermanents(locale);
       </div>
     </div>
   </section>
+
+  <!--
+    `baliser={false}` : le `FAQPage` de cette page est posé par `schemas`,
+    au-dessus, sur ce même jeu de trois questions. Laisser le composant
+    l'émettre à son tour servirait deux balisages concurrents.
+  -->
+  <Faq titre={textes.faq.titre} questions={faqAccueil} baliser={false} />
 </BaseLayout>

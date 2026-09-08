@@ -1,5 +1,6 @@
 ---
 reference: 'Local commercial'
+misEnLigne: 2026-09-08
 surface: 74
 annonce: 'https://www.laforet.com/agence-immobiliere/montech/louer/montech/local-commercial-21806883'
 statut: disponible

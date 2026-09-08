@@ -1,5 +1,13 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { ORDRE_CATEGORIES, ORDRE_STATUTS, type CategorieId, type StatutLocal } from './site';
+import {
+  ADRESSE_COMPLETE,
+  AGENCE,
+  ORDRE_CATEGORIES,
+  ORDRE_STATUTS,
+  SITE,
+  type CategorieId,
+  type StatutLocal,
+} from './site';
 import { LOCALES, LOCALE_BCP47, LOCALE_DEFAUT, dico, type Locale } from '../i18n';
 
 export type Commerce = CollectionEntry<'commerces'>;
@@ -190,3 +198,41 @@ export const formaterDate = (date: Date, locale: Locale = LOCALE_DEFAUT): string
     month: 'long',
     year: 'numeric',
   });
+
+/**
+ * Les questions fréquentes, composées depuis le contenu réel du site.
+ *
+ * Elles vivent ici plutôt que dans le dictionnaire parce qu'elles ne sont pas
+ * que du texte : le nombre de locaux libres et leurs surfaces sont lus dans
+ * la collection. Une FAQ recopiée à la main annoncerait « 2 locaux de 71 et
+ * 74 m² » longtemps après leur location — et c'est précisément la réponse
+ * qu'un moteur génératif citerait.
+ *
+ * L'ordre n'est pas neutre : la disponibilité des locaux vient en premier,
+ * c'est la question à laquelle ce site doit répondre avant les autres, et
+ * c'est celle que le composant affiche dépliée.
+ */
+export async function getFaq(
+  locale: Locale = LOCALE_DEFAUT,
+): Promise<{ question: string; reponse: string }[]> {
+  const textes = dico(locale);
+  const { faq } = textes;
+  const disponibles = await getLocauxDisponibles(locale);
+
+  const surfaces = disponibles
+    .map((l) => formaterSurface(l.data.surface))
+    .filter((s): s is string => s !== null)
+    .join(', ');
+
+  return [
+    {
+      question: faq.locauxQuestion,
+      reponse: faq.locauxReponse(disponibles.length, surfaces, SITE.nom, ADRESSE_COMPLETE),
+    },
+    { question: faq.loyerQuestion, reponse: faq.loyerReponse(AGENCE.nom) },
+    { question: faq.ouQuestion, reponse: faq.ouReponse(SITE.nom, ADRESSE_COMPLETE) },
+    { question: faq.activitesQuestion, reponse: faq.activitesReponse },
+    { question: faq.stationnementQuestion, reponse: faq.stationnementReponse },
+    { question: faq.horairesQuestion, reponse: faq.horairesReponse },
+  ];
+}

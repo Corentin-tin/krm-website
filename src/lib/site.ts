@@ -43,11 +43,62 @@ export const ADRESSE = {
   departement: 'Tarn-et-Garonne',
   region: 'Occitanie',
   pays: 'FR',
-  /** Coordonnées approximatives de la zone de la Mouscane — à affiner sur relevé. */
-  geo: { latitude: 43.9575, longitude: 1.2295 },
+  /**
+   * Coordonnées du pôle, moyenne des fiches Google des dix enseignes
+   * implantées sur place (elles tiennent toutes dans un rayon de 40 m).
+   *
+   * Les valeurs précédentes — 43.9575, 1.2295 — étaient relevées « à
+   * affiner » et tombaient 1,2 km au sud-ouest, hors du pôle. C'est un
+   * défaut coûteux : la proximité est l'un des trois critères du classement
+   * local de Google, et une position fausse fait perdre les recherches
+   * « près de moi » faites depuis Montech.
+   */
+  geo: { latitude: 43.96207, longitude: 1.24323 },
 } as const;
 
 export const ADRESSE_COMPLETE = `${ADRESSE.rue}, ${ADRESSE.codePostal} ${ADRESSE.ville}`;
+
+/**
+ * Identifiant du pôle dans le graphe de connaissances de Google.
+ *
+ * Google connaît le pôle sous ce MID (« machine ID ») : c'est la clé de sa
+ * fiche d'établissement, stable dans le temps et indépendante du nom affiché.
+ * Le publier en `identifier` dit explicitement « la fiche que vous connaissez
+ * et ce site parlent du même lieu », ce qu'aucune correspondance de nom ou
+ * d'adresse ne garantit — « Albizia » est un nom d'arbre, et rien n'empêche
+ * un homonyme ailleurs en France.
+ *
+ * Relevé le 8 septembre 2026 dans l'URL de partage de la fiche
+ * (`google.com/search?kgmid=…`).
+ */
+export const GOOGLE_KG_MID = '/g/1tdj6wn9';
+
+/**
+ * Présence du pôle ailleurs sur le web, publiée en `sameAs`.
+ *
+ * C'est la propriété qui permet à un moteur de reconnaître « Pôle commercial
+ * l'Albizia » comme une entité identifiée plutôt que comme une suite de mots :
+ * elle relie notre fiche à des sources tierces qui décrivent le même lieu.
+ * Sans elle, le nom du pôle n'est qu'une chaîne de caractères parmi d'autres,
+ * et rien ne le distingue d'un homonyme.
+ *
+ * [À FAIRE] La fiche Google existe (4,9/5, 17 avis au 8 septembre 2026) mais
+ * n'est pas revendiquée : Google y affiche encore « Vous êtes le propriétaire
+ * de cet établissement ? », et son champ « site web » est vide. La revendiquer
+ * et y déclarer l'adresse de ce site est l'action la plus rentable qui reste :
+ * elle ferme le lien dans l'autre sens (Google → site), débloque les réponses
+ * aux avis et les publications, et met la fiche à l'abri des modifications
+ * suggérées par des tiers.
+ *
+ * N'y mettre que des adresses qui décrivent le pôle *en tant que tel*. Une
+ * fiche d'enseigne appartient à l'enseigne : elle vit dans son propre
+ * frontmatter, et l'y recopier brouillerait les deux entités.
+ */
+export const PROFILS: readonly string[] = [
+  /* Fiche Google du pôle, adressée par son MID : l'URL reste valable même si
+     le libellé de la fiche change. */
+  `https://www.google.com/search?kgmid=${GOOGLE_KG_MID}`,
+];
 
 /**
  * Horaires d'accès du site (parties communes).

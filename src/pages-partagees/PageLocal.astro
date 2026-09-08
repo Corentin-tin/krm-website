@@ -28,6 +28,7 @@ const {
   destinations,
   loyer,
   annonce,
+  misEnLigne,
   image,
   video,
   galerie,
@@ -55,6 +56,7 @@ const schemas = [
     siteUrl,
     surface,
     annonce,
+    misEnLigne,
     locale: langueFiche,
   }),
   schemaFilAriane([
@@ -137,6 +139,32 @@ const filAriane = [
 
   <div class="conteneur py-8 sm:py-12">
     <FilAriane locale={locale} items={filAriane} />
+
+    <!--
+      Résumé de la fiche, en tête et en une phrase.
+
+      Il redit ce que le bandeau vient d'annoncer, ce qui est délibéré : le
+      bandeau est du texte posé sur une vidéo, découpé en fragments, et
+      aucun de ces fragments ne se suffit à lui-même. Ce paragraphe est le
+      seul de la page qui reste exact une fois extrait — c'est celui qu'un
+      moteur génératif peut citer tel quel pour répondre à « un local à
+      louer vers Montech ».
+    -->
+    <p
+      class="mt-6 max-w-3xl border-l-2 border-terracotta-600 pl-4 text-base leading-relaxed text-albizia-800"
+    >
+      {
+        textes.local.resume(
+          reference,
+          libelleSurface,
+          badge.label,
+          libelleDisponibilite,
+          SITE.nom,
+          ADRESSE_COMPLETE,
+          destinations,
+        )
+      }
+    </p>
 
     <div class="mt-8 grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:gap-14">
       <!-- Colonne principale -->

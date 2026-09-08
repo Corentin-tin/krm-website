@@ -108,6 +108,14 @@ const locaux = defineCollection({
     z.object({
       /** Référence publique, neutre. Jamais le numéro de lot interne. */
       reference: z.string(),
+      /**
+       * Date de mise en ligne de l'annonce, publiée en `datePosted` dans le
+       * JSON-LD. Elle vient d'ici, et non de la date de build : un site
+       * statique reconstruit chaque semaine annoncerait sinon des annonces
+       * perpétuellement neuves, ce qui est faux et se lit comme une
+       * manipulation du signal de fraîcheur.
+       */
+      misEnLigne: z.coerce.date(),
       /** Surface en m². Sert au tri et à l'affichage. */
       surface: z.number().positive().optional(),
       statut: z.enum(ORDRE_STATUTS).default('disponible'),

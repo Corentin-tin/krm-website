@@ -261,6 +261,53 @@ export const en: Dictionnaire = {
     listeNom: (nom: string) => `Retail units to let at ${nom}`,
   },
 
+  /* --------------------------------------------------------------------- faq */
+  faq: {
+    titre: 'Frequently asked questions',
+    locauxQuestion: 'Are there retail units to rent in Montech, France?',
+    locauxReponse: (n: number, surfaces: string, nom: string, adresse: string) =>
+      n > 0
+        ? `Yes. ${n > 1 ? `${n} retail units are available` : '1 retail unit is available'} ` +
+          `to rent at ${nom}, ${adresse}, in the Tarn-et-Garonne, France: ${surfaces}. ` +
+          'They suit retail, services, independent professionals and office use. ' +
+          'Lettings are handled by the Laforêt Montech agency.'
+        : `All units at ${nom}, ${adresse}, are currently occupied. ` +
+          'The Laforêt Montech agency keeps the availability up to date.',
+
+    loyerQuestion: 'How much is the rent for a unit at Pôle commercial l\'Albizia?',
+    loyerReponse: (agence: string) =>
+      'Rents are not published on this site: they are provided on request by ' +
+      `${agence}, which markets the units. The agency supplies the letting ` +
+      'terms, arranges viewings and answers questions about the lease.',
+
+    ouQuestion: 'Where is Pôle commercial l\'Albizia?',
+    ouReponse: (nom: string, adresse: string) =>
+      `${nom} is at ${adresse}, on the edge of Montech in the Tarn-et-Garonne ` +
+      '(Occitanie, southern France), about twenty minutes from Montauban. ' +
+      'Parking is free and untimed, and every shop is step-free.',
+
+    activitesQuestion: 'What kind of business can open in a unit at the centre?',
+    activitesReponse:
+      'The units suit retail, services, beauty and wellbeing, independent ' +
+      'professionals and office use. The first-floor unit is not suitable for ' +
+      'food businesses. Existing tenants cover catering, hairdressing, a spa, ' +
+      'driving tuition, accountancy and insurance broking.',
+
+    stationnementQuestion: 'Is parking free at Pôle commercial l\'Albizia?',
+    stationnementReponse:
+      "Yes. Parking at Pôle commercial l'Albizia in Montech is free, untimed " +
+      'and needs no disc. It includes bays reserved for people with reduced ' +
+      'mobility and a Powerdot rapid electric charging point with three ' +
+      'charging bays.',
+
+    horairesQuestion: 'What are the opening hours of Pôle commercial l\'Albizia?',
+    horairesReponse:
+      'The common areas are open Monday to Saturday from 8.30am to 11pm, and ' +
+      'on Sunday from 11am to 11pm. Each business sets its own hours. The ' +
+      'pizza vending machine, the Mondial Relay parcel locker and the electric ' +
+      'charging point are accessible 24 hours a day.',
+  },
+
   /* ------------------------------------------------------------ fiche local */
   local: {
     titreAvecSurface: (surface: string) => `${surface} retail unit to let`,
@@ -277,6 +324,22 @@ export const en: Dictionnaire = {
       `${nom}, ${adresse}. Availability: ${disponibilite}.`,
     nomAnnonce: (reference: string, nom: string) =>
       `${reference} — retail unit to let, ${nom}`,
+    resume: (
+      reference: string,
+      surface: string | null,
+      statut: string,
+      disponibilite: string,
+      nom: string,
+      adresse: string,
+      destinations: string[],
+    ) =>
+      `${reference}${surface ? `, ${surface},` : ''} to rent at ${nom}, ` +
+      `${adresse}, in the Tarn-et-Garonne (Occitanie, southern France). ` +
+      `${statut}, availability: ${disponibilite}.` +
+      (destinations.length
+        ? ` Suitable for: ${destinations.join(', ').toLowerCase()}.`
+        : '') +
+      ' Rent is provided on request by the letting agency.',
     atoutsTitre: 'Unit highlights',
     galerieTitre: 'Photo gallery',
     caracteristiques: 'Key details',
