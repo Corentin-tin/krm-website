@@ -55,7 +55,7 @@ const teintes: Record<string, string> = {
            lectures simultanées dans une grille. */
         <img
           src={lien(`/videos/${video}.jpg`)}
-          alt={`Local ${reference} à louer au pôle commercial l'Albizia`}
+          alt={`${reference} à louer au pôle commercial l'Albizia`}
           loading={prioritaire ? 'eager' : 'lazy'}
           class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
         />
@@ -64,7 +64,7 @@ const teintes: Record<string, string> = {
           class="vignette-placeholder flex h-full w-full flex-col items-center justify-center gap-1"
           style={`--teinte: ${teintes[statut] ?? 'var(--color-albizia-400)'}`}
           role="img"
-          aria-label={`Local ${reference}${libelleSurface ? `, ${libelleSurface}` : ''}`}
+          aria-label={`${reference}${libelleSurface ? `, ${libelleSurface}` : ''}`}
         >
           <span class="text-3xl font-bold tracking-tight text-white drop-shadow-sm">
             {libelleSurface ?? reference}
