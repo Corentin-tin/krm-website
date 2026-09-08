@@ -1,11 +1,15 @@
 import type { APIRoute } from 'astro';
+import { lien } from '../lib/site';
 
 /**
- * robots.txt généré au build : l'URL du sitemap suit la valeur de `site`
- * (donc SITE_URL sur Railway), sans avoir à modifier un fichier statique.
+ * robots.txt généré au build : l'URL du sitemap suit `site` et `base` définis
+ * dans astro.config.mjs, sans avoir à modifier un fichier statique.
+ *
+ * `site` ne porte que l'origine (sans la base), d'où le passage par `lien()` :
+ * sur GitHub Pages le sitemap vit sous `/krm-website/`, pas à la racine.
  */
 export const GET: APIRoute = ({ site }) => {
-  const sitemap = new URL('sitemap-index.xml', site).href;
+  const sitemap = new URL(lien('/sitemap-index.xml'), site).href;
 
   const corps = `User-agent: *
 Allow: /
