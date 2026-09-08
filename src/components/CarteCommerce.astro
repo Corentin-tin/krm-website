@@ -1,7 +1,7 @@
 ---
 import Vignette from './Vignette.astro';
 import type { CategorieId } from '../lib/site';
-import { idPublic, type Commerce } from '../lib/contenu';
+import { idPublic, langueEntree, type Commerce } from '../lib/contenu';
 import { dico, type Locale } from '../i18n';
 import { chemin } from '../i18n/routes';
 
@@ -14,6 +14,10 @@ interface Props {
 const { commerce, locale, prioritaire = false } = Astro.props;
 const { nom, categorie, accroche, image, logo } = commerce.data;
 const label = dico(locale).categories[categorie as CategorieId] ?? categorie;
+
+/* La fiche peut être servie en repli : on signale la langue de son contenu. */
+const langueFiche = langueEntree(commerce.id);
+const langAttr = langueFiche !== locale ? langueFiche : undefined;
 ---
 
 <article
@@ -35,7 +39,7 @@ const label = dico(locale).categories[categorie as CategorieId] ?? categorie;
     <p class="text-xs font-semibold uppercase tracking-wide text-terracotta-600">
       {label}
     </p>
-    <h3 class="text-lg font-semibold leading-snug text-albizia-900">
+    <h3 class="text-lg font-semibold leading-snug text-albizia-900" lang={langAttr}>
       <a
         href={chemin('commerces', locale, idPublic(commerce.id))}
         class="after:absolute after:inset-0"
@@ -43,6 +47,6 @@ const label = dico(locale).categories[categorie as CategorieId] ?? categorie;
         {nom}
       </a>
     </h3>
-    <p class="text-sm leading-relaxed text-albizia-700">{accroche}</p>
+    <p class="text-sm leading-relaxed text-albizia-700" lang={langAttr}>{accroche}</p>
   </div>
 </article>

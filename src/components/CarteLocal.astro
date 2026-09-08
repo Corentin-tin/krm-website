@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { lien, type StatutLocal } from '../lib/site';
-import { formaterSurface, idPublic, type Local } from '../lib/contenu';
+import { formaterSurface, idPublic, langueEntree, type Local } from '../lib/contenu';
 import { dico, t, type Locale } from '../i18n';
 import { chemin } from '../i18n/routes';
 
@@ -23,6 +23,10 @@ const { reference, surface, statut, disponibilite, accroche, image, video } =
 
 const textes = dico(locale);
 const badge = textes.statuts[statut as StatutLocal];
+
+/* Comme pour les commerces : la fiche peut être servie en repli. */
+const langueFiche = langueEntree(local.id);
+const langAttr = langueFiche !== locale ? langueFiche : undefined;
 const libelleSurface = formaterSurface(surface);
 
 /**
@@ -93,7 +97,7 @@ const teintes: Record<string, string> = {
   </div>
 
   <div class="flex flex-1 flex-col gap-2 p-4">
-    <h3 class="text-lg font-semibold leading-snug text-albizia-900">
+    <h3 class="text-lg font-semibold leading-snug text-albizia-900" lang={langAttr}>
       <a
         href={chemin('locaux', locale, idPublic(local.id))}
         class="after:absolute after:inset-0"
@@ -102,7 +106,7 @@ const teintes: Record<string, string> = {
         {libelleSurface && <span class="text-albizia-600"> · {libelleSurface}</span>}
       </a>
     </h3>
-    <p class="text-sm leading-relaxed text-albizia-700">{accroche}</p>
+    <p class="text-sm leading-relaxed text-albizia-700" lang={langAttr}>{accroche}</p>
     <p class="mt-auto pt-2 text-xs font-medium uppercase tracking-wide text-albizia-600">
       {t(locale, 'local.disponibilite')} : {disponibilite ?? t(locale, 'local.disponibiliteDefaut')}
     </p>

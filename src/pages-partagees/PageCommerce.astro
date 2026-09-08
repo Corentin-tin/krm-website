@@ -73,10 +73,18 @@ const schemas = [
         <p class="text-sm font-semibold uppercase tracking-wide text-terracotta-600">
           {label}
         </p>
-        <h1 class="mt-2 text-3xl font-bold tracking-tight text-albizia-900 sm:text-4xl">
+        <h1
+          class="mt-2 text-3xl font-bold tracking-tight text-albizia-900 sm:text-4xl"
+          lang={langueFiche !== locale ? langueFiche : undefined}
+        >
           {nom}
         </h1>
-        <p class="mt-4 text-lg leading-relaxed text-albizia-700">{accroche}</p>
+        <p
+          class="mt-4 text-lg leading-relaxed text-albizia-700"
+          lang={langueFiche !== locale ? langueFiche : undefined}
+        >
+          {accroche}
+        </p>
 
         <div class="mt-8 aspect-[16/9] overflow-hidden rounded-[--radius-card] bg-white">
           <Vignette
