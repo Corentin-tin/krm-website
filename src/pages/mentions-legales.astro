@@ -24,8 +24,21 @@ import { EDITEUR, lien, SITE } from '../lib/site';
         <p class="mt-2">
           Siège social : {EDITEUR.adresse}
         </p>
-        <!-- À compléter avant mise en ligne : directeur de la publication,
-             SIREN, RCS, et coordonnées de contact de l'éditeur. -->
+        <p class="mt-2">
+          SIREN : {EDITEUR.siren} — RCS Montauban {EDITEUR.siren}
+        </p>
+        <p class="mt-2">
+          Directeur de la publication : {EDITEUR.directeurPublication}, gérant.
+        </p>
+        <p class="mt-2">
+          Contact :{' '}
+          <a
+            href={`mailto:${EDITEUR.email}`}
+            class="rounded font-medium underline underline-offset-4 hover:text-terracotta-600"
+          >
+            {EDITEUR.email}
+          </a>
+        </p>
       </section>
 
       <section>

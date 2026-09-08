@@ -76,7 +76,7 @@ const nbPermanents = NOMBRES[permanents.length] ?? String(permanents.length);
           Stationnement
         </dt>
         <dd class="mt-1 text-sm font-medium text-white">
-          Parking gratuit, sans limitation
+          Parking gratuit
         </dd>
       </div>
       <div>
@@ -239,6 +239,16 @@ const nbPermanents = NOMBRES[permanents.length] ?? String(permanents.length);
             ))
           }
         </dl>
+        {
+          permanents.length > 0 && (
+            <p class="mt-3 text-xs leading-relaxed text-albizia-700">
+              <span class="font-semibold text-albizia-900">
+                Accessibles 24h/24 :
+              </span>{' '}
+              {permanents.map((p) => p.nom).join(', ')}.
+            </p>
+          )
+        }
         <p class="mt-3 text-xs leading-relaxed text-albizia-600">
           {HORAIRES.mention}
         </p>

@@ -5,7 +5,7 @@ import CarteLocal from '../components/CarteLocal.astro';
 import ContactAgence from '../components/ContactAgence.astro';
 import Icone from '../components/Icone.astro';
 import { schemaFilAriane } from '../lib/seo';
-import { ADRESSE_COMPLETE, AGENCE, CONTACT, SITE, lien } from '../lib/site';
+import { ADRESSE_COMPLETE, AGENCE, CONTACT, CONTACT_FICHES, SITE, lien } from '../lib/site';
 import { getCommerces, getLocaux, getLocauxDisponibles } from '../lib/contenu';
 
 const locaux = await getLocaux();
@@ -103,16 +103,6 @@ const schemas = [
             )
           }
         </dl>
-
-        {
-          !CONTACT.telephone && !CONTACT.email && (
-            <p class="mt-5 rounded-lg border border-albizia-200 bg-sable-100 p-4 text-sm leading-relaxed text-albizia-700">
-              Les coordonnées de contact du pôle seront publiées prochainement.
-              En attendant, adressez-vous directement au commerce concerné —
-              les liens figurent sur chaque fiche de l'annuaire.
-            </p>
-          )
-        }
       </section>
 
       <section>
@@ -173,6 +163,14 @@ const schemas = [
               information ou signaler une actualité, faites-le nous savoir :
               votre fiche sera mise à jour.
             </p>
+            <a
+              href={`mailto:${CONTACT_FICHES}?subject=${encodeURIComponent(
+                `Ma fiche sur le site du ${SITE.nom}`,
+              )}`}
+              class="mt-3 inline-block rounded text-sm font-semibold text-albizia-700 underline underline-offset-4 hover:text-terracotta-600"
+            >
+              Écrire au pôle →
+            </a>
           </li>
         </ul>
       </section>

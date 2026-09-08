@@ -1,5 +1,7 @@
 ---
 import Icone from './Icone.astro';
+import { Image } from 'astro:assets';
+import logoAgence from '../assets/agence/laforet.png';
 import { AGENCE, AGENCE_ADRESSE } from '../lib/site';
 
 /**
@@ -13,10 +15,20 @@ import { AGENCE, AGENCE_ADRESSE } from '../lib/site';
 interface Props {
   /** Référence du local, quand le bloc est affiché sur une fiche. */
   reference?: string;
+  /** Annonce du local chez l'agence, quand elle existe. */
+  annonce?: string;
   class?: string;
 }
 
-const { reference, class: classe = '' } = Astro.props;
+const { reference, annonce, class: classe = '' } = Astro.props;
+
+/*
+  Quand l'annonce du local est connue, le bouton y mène directement : le
+  visiteur arrive sur le bien qu'il consulte, avec ses conditions et sa
+  demande de visite, plutôt que sur la vitrine de l'agence où il devrait le
+  retrouver lui-même.
+*/
+const destination = annonce ?? AGENCE.siteWeb;
 ---
 
 <section
@@ -31,17 +43,33 @@ const { reference, class: classe = '' } = Astro.props;
   <p class="mt-2 max-w-2xl text-sm leading-relaxed text-albizia-700">
     La location des locaux du pôle est confiée à <strong
       class="font-semibold text-albizia-900">{AGENCE.nom}</strong
-    >. Contactez l'agence pour obtenir les conditions, le détail des surfaces
-    et convenir d'une visite.
+    >. {
+      annonce
+        ? "L'annonce de ce local sur son site donne les conditions, le détail des surfaces et le formulaire de demande de visite."
+        : "Contactez l'agence pour obtenir les conditions, le détail des surfaces et convenir d'une visite."
+    }
   </p>
 
   <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-4">
+    {/*
+      Bleu Laforêt (#203c87) plutôt qu'`albizia-700` : le bouton porte le logo
+      de l'agence et quitte le site, il s'affiche donc aux couleurs du
+      partenaire. Hors palette de marque à dessein, d'où la valeur en dur.
+    */}
     <a
-      href={AGENCE.siteWeb}
+      href={destination}
       rel="noopener"
-      class="inline-flex items-center gap-2 rounded-lg bg-albizia-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
+      class="inline-flex items-center gap-2 rounded-lg bg-[#203c87] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1a3170]"
     >
-      Contacter {AGENCE.nom}
+      <Image
+        src={logoAgence}
+        alt=""
+        width={64}
+        height={64}
+        class="h-5 w-auto rounded"
+        loading="lazy"
+      />
+      {annonce ? `Voir l'annonce ${AGENCE.nom}` : `Contacter ${AGENCE.nom}`}
     </a>
 
     <p class="flex items-start gap-1.5 text-sm text-albizia-700">

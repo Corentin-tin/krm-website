@@ -33,6 +33,7 @@ const {
   atouts,
   destinations,
   loyer,
+  annonce,
   image,
   video,
   galerie,
@@ -52,6 +53,7 @@ const schemas = [
     url: urlPage,
     siteUrl,
     surface,
+    annonce,
   }),
   schemaFilAriane([
     { nom: 'Accueil', url: siteUrl },
@@ -214,7 +216,7 @@ const titre = libelleSurface
                       <div class="aspect-[4/3] overflow-hidden rounded-[--radius-card] bg-white">
                         <Image
                           src={vue.image}
-                          alt={vue.legende ?? `Local ${reference}`}
+                          alt={vue.legende ?? reference}
                           widths={[400, 800]}
                           sizes="(min-width: 640px) 45vw, 92vw"
                           loading="lazy"
@@ -317,6 +319,6 @@ const titre = libelleSurface
       </aside>
     </div>
 
-    <ContactAgence reference={reference} class="mt-14" />
+    <ContactAgence reference={reference} annonce={annonce} class="mt-14" />
   </div>
 </BaseLayout>

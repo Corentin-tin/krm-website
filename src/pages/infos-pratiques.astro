@@ -4,6 +4,7 @@ import EnTetePage from '../components/EnTetePage.astro';
 import Icone from '../components/Icone.astro';
 import { Image } from 'astro:assets';
 import logoMaps from '../assets/reseaux/google-maps.png';
+import logoParking from '../assets/services/parking.png';
 import { schemaFilAriane, schemaPole } from '../lib/seo';
 import { ADRESSE, ADRESSE_COMPLETE, HORAIRES, SITE } from '../lib/site';
 import { getServices } from '../lib/contenu';
@@ -101,7 +102,14 @@ const lienCarte = `https://www.google.com/maps/search/?api=1&query=${requete}`;
 
     <section class="mt-16">
       <h2 class="flex items-center gap-2 text-xl font-bold tracking-tight text-albizia-900">
-        <Icone nom="parking" class="h-5 w-5 text-albizia-600" />
+        <Image
+          src={logoParking}
+          alt=""
+          width={40}
+          height={40}
+          class="h-6 w-6 shrink-0"
+          loading="lazy"
+        />
         Stationnement et accessibilité
       </h2>
       <div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

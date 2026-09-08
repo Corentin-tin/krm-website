@@ -19,7 +19,7 @@ fois le linge de la famille, la grosse pièce de literie ou la couette que la
 machine domestique ne prend pas. La **lessive et l'assouplissant professionnels
 sont inclus** dans chaque cycle, et le paiement se fait sur un écran tactile.
 
-La laverie abrite également les **casiers à colis La Poste** : on lance une
-machine et on retire son colis au même endroit.
+La laverie abrite également une **consigne à colis Pickup** (Chronopost,
+Colissimo, DPD) : on lance une machine et on retire son colis au même endroit.
 
 Aucune réservation : le parking gratuit est devant, à quelques mètres de la porte.

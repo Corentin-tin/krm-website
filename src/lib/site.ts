@@ -91,6 +91,11 @@ export const HORAIRES = {
 /**
  * Contact public.
  *
+ * Volontairement vide : le pôle n'a pas de coordonnées générales publiées.
+ * Les demandes des commerçants passent par `CONTACT_FICHES`, celles de
+ * location par l'agence (cf. `AGENCE`), et les mentions légales par le
+ * courriel du directeur de la publication (cf. `EDITEUR`).
+ *
  * Le numéro 06 20 59 62 45 apparaît dans les annuaires mais n'est pas
  * publié tant que son titulaire et son usage ne sont pas confirmés.
  * Passer `telephone` à la valeur voulue une fois validé.
@@ -99,6 +104,15 @@ export const CONTACT = {
   telephone: null as string | null,
   email: null as string | null,
 } as const;
+
+/**
+ * Courriel de mise à jour de l'annuaire.
+ *
+ * Réservé aux commerçants qui demandent la création ou la correction de
+ * leur fiche : il n'est exposé que sur ce bloc de la page contact, et non
+ * comme coordonnée générale du pôle.
+ */
+export const CONTACT_FICHES = 'merle.corentin@yahoo.com';
 
 /**
  * Agence en charge de la commercialisation des locaux vacants.
@@ -130,11 +144,22 @@ export type StatutLocal = keyof typeof STATUTS_LOCAL;
 
 export const ORDRE_STATUTS = Object.keys(STATUTS_LOCAL) as StatutLocal[];
 
-/** Éditeur du site — mentions légales uniquement. */
+/**
+ * Éditeur du site — mentions légales uniquement.
+ *
+ * Dénomination, SIREN et gérance repris du registre national des entreprises
+ * (SIREN 480968015). « K R M » est la dénomination exacte : « SCI » relève de
+ * la forme juridique et n'en fait pas partie.
+ */
 export const EDITEUR = {
-  raisonSociale: 'SCI KRM',
+  raisonSociale: 'K R M',
   forme: 'Société civile immobilière',
   adresse: ADRESSE_COMPLETE,
+  siren: '480 968 015',
+  /** Représentant légal, et à ce titre directeur de la publication. */
+  directeurPublication: 'Roger Merlé',
+  /** Contact de l'éditeur, requis par la LCEN (art. 6-III). */
+  email: 'roger.merle@yahoo.com',
 } as const;
 
 export const NAV = [
@@ -143,6 +168,15 @@ export const NAV = [
   { href: lien('/actualites'), label: 'Actualités' },
   { href: lien('/infos-pratiques'), label: 'Infos pratiques' },
   { href: lien('/contact'), label: 'Contact' },
+] as const;
+
+/**
+ * Navigation du pied de page : la navigation principale + le raccourci vers les
+ * locaux à louer, qui vivent dans une section de la page contact.
+ */
+export const NAV_PIED = [
+  ...NAV,
+  { href: lien('/contact#locaux'), label: 'Locaux à louer' },
 ] as const;
 
 /** Libellés et ordre d'affichage des catégories de commerces. */
