@@ -5,7 +5,7 @@ icone: pmr
 enAvant: true
 permanent: false
 ordre: 4
-image: ../../assets/services/pmr.png
+image: ../../../assets/services/pmr.png
 ---
 
 L'ensemble du pôle est accessible aux **personnes à mobilité réduite** :

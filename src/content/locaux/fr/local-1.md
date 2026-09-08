@@ -19,7 +19,7 @@ destinations:
   - Services
   - Beauté & bien-être
   - Bureau
-image: ../../assets/locaux/local-1.png
+image: ../../../assets/locaux/local-1.png
 # Plan générique du pôle, faute d'un plan propre à ce local.
 video: pole
 publication: actif

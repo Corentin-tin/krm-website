@@ -8,7 +8,7 @@ ordre: 2
 telephone: "05 63 22 11 56"
 email: darsonia82@gmail.com
 siteWeb: https://www.planity.com/dar-sonia-82700-montech
-image: ../../assets/commerces/dar-sonia.png
+image: ../../../assets/commerces/dar-sonia.png
 logo: true
 ---
 **Dar Sonia Spa** est l'espace bien-être du pôle commercial l'Albizia, ouvert

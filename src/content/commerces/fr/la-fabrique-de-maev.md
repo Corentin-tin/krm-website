@@ -14,7 +14,7 @@ reseaux:
     url: https://www.instagram.com/lafabriquedemaev/
   - reseau: facebook
     url: https://www.facebook.com/lafabriquedemaev
-image: ../../assets/commerces/la-fabrique-de-maev.png
+image: ../../../assets/commerces/la-fabrique-de-maev.png
 logo: true
 ---
 **La Fabrique de Maëv** est la **pâtissière-traiteur** du pôle commercial

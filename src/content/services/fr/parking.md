@@ -5,7 +5,7 @@ icone: parking
 enAvant: true
 permanent: false
 ordre: 5
-image: ../../assets/services/parking.png
+image: ../../../assets/services/parking.png
 ---
 
 Le pôle dispose d'un **parking gratuit** en accès direct, complété par le

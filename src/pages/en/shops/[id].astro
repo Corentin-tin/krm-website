@@ -1,0 +1,15 @@
+---
+import PageCommerce from '../../../pages-partagees/PageCommerce.astro';
+import { getCommerces, idPublic } from '../../../lib/contenu';
+
+export async function getStaticPaths() {
+  const commerces = await getCommerces('en');
+  return commerces.map((commerce) => ({
+    params: { id: idPublic(commerce.id) },
+    props: { commerce },
+  }));
+}
+
+const { commerce } = Astro.props;
+---
+<PageCommerce locale="en" commerce={commerce} />

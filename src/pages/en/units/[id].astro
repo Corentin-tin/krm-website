@@ -1,0 +1,15 @@
+---
+import PageLocal from '../../../pages-partagees/PageLocal.astro';
+import { getLocaux, idPublic } from '../../../lib/contenu';
+
+export async function getStaticPaths() {
+  const locaux = await getLocaux('en');
+  return locaux.map((local) => ({
+    params: { id: idPublic(local.id) },
+    props: { local },
+  }));
+}
+
+const { local } = Astro.props;
+---
+<PageLocal locale="en" local={local} />

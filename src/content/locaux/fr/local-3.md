@@ -20,7 +20,7 @@ destinations:
   - Services
   - Profession libérale
   - Formation
-image: ../../assets/locaux/local-3.png
+image: ../../../assets/locaux/local-3.png
 # Plan aérien du bâtiment d'angle, cadré sur l'étage du local.
 video: local-3
 publication: actif

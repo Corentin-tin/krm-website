@@ -11,7 +11,7 @@ googleMaps: https://www.google.com/maps/place/R-Concept+Cigarettes+%C3%89lectron
 reseaux:
   - reseau: facebook
     url: https://www.facebook.com/rconceptmontech/
-image: ../../assets/commerces/rconcept.png
+image: ../../../assets/commerces/rconcept.png
 logo: true
 ---
 **R Concept Montech** est la boutique de **cigarettes électroniques et de CBD**

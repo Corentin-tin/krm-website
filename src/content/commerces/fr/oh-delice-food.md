@@ -6,7 +6,7 @@ googleMaps: https://www.google.com/maps/place/%C3%94+D%C3%A9lices+food/@43.96193
 statut: actif
 fiabilite: source
 ordre: 1
-image: ../../assets/commerces/oh-delice-food.png
+image: ../../../assets/commerces/oh-delice-food.png
 logo: true
 ---
 **Ô Délice Food** assure la restauration rapide du pôle commercial l'Albizia.
