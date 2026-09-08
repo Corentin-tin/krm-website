@@ -1,4 +1,4 @@
-import { ADRESSE, AGENCE, HORAIRES, SITE, CONTACT } from './site';
+import { ADRESSE, AGENCE, GOOGLE_KG_MID, HORAIRES, PROFILS, SITE, CONTACT } from './site';
 import type { Locale } from '../i18n';
 
 const adressePostale = {
@@ -22,8 +22,10 @@ export function schemaPole(opts: {
   description: string;
   locale: Locale;
   equipements?: string[];
+  /** Société exploitante, telle que publiée aux mentions légales. */
+  proprietaire?: { nom: string; forme: string; siren: string };
 }) {
-  const { siteUrl, description, locale, equipements = [] } = opts;
+  const { siteUrl, description, locale, equipements = [], proprietaire } = opts;
   return {
     '@context': 'https://schema.org',
     '@type': 'ShoppingCenter',
@@ -39,6 +41,40 @@ export function schemaPole(opts: {
     },
     openingHoursSpecification: HORAIRES.schema,
     ...(CONTACT.telephone ? { telephone: CONTACT.telephone } : {}),
+    /*
+     * `sameAs` n'est émis que s'il est renseigné : un tableau vide est un
+     * bruit que les validateurs signalent, et n'apporte rien.
+     */
+    ...(PROFILS.length ? { sameAs: [...PROFILS] } : {}),
+    /*
+     * Le MID du graphe de connaissances, déclaré comme identifiant propre.
+     * `sameAs` propose un rapprochement, `identifier` l'affirme : c'est la
+     * forme que Google lit pour rattacher sans ambiguïté cette page à la
+     * fiche d'établissement qu'il connaît déjà.
+     */
+    identifier: {
+      '@type': 'PropertyValue',
+      propertyID: 'Google Knowledge Graph MID',
+      value: GOOGLE_KG_MID,
+    },
+    /*
+     * Le pôle est un lieu (`ShoppingCenter`), mais quelqu'un l'exploite.
+     * Déclarer la SCI en propriétaire donne au moteur une entité juridique
+     * à rattacher au lieu — c'est ce qui distingue une adresse d'une
+     * organisation identifiée. Les mentions légales portent déjà ces
+     * informations : elles sont publiques et vérifiables au RNE.
+     */
+    ...(proprietaire
+      ? {
+          owner: {
+            '@type': 'Organization',
+            name: proprietaire.nom,
+            legalName: `${proprietaire.forme} ${proprietaire.nom}`,
+            identifier: proprietaire.siren,
+            address: adressePostale,
+          },
+        }
+      : {}),
     amenityFeature: equipements.map((nom) => ({
       '@type': 'LocationFeatureSpecification',
       name: nom,
