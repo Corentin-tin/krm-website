@@ -1,7 +1,16 @@
 ---
 import { ADRESSE, CONTACT, HORAIRES, NAV_PIED, SITE, lien } from '../lib/site';
+import { getPermanents } from '../lib/contenu';
 
 const annee = new Date().getFullYear();
+
+/*
+ * Les horaires affichés sont ceux des parties communes. Sans cette précision,
+ * un visiteur venu retirer un colis à 7h lit « Dimanche 11h00 – 23h00 » et
+ * repart : la liste est dérivée du contenu (`permanent: true`) pour rester
+ * juste si un équipement 24h/24 est ajouté ou retiré.
+ */
+const permanents = await getPermanents();
 ---
 
 <footer class="mt-20 border-t border-albizia-100 bg-albizia-800 text-albizia-100">
@@ -67,6 +76,14 @@ const annee = new Date().getFullYear();
           ))
         }
       </dl>
+      {
+        permanents.length > 0 && (
+          <p class="mt-3 text-xs leading-relaxed text-albizia-200">
+            <span class="font-medium text-white">Accessibles 24h/24 :</span>{' '}
+            {permanents.map((p) => p.nom).join(', ')}.
+          </p>
+        )
+      }
       <p class="mt-3 text-xs leading-relaxed text-albizia-300">
         Horaires indicatifs des parties communes.
       </p>
