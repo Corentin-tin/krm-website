@@ -43,8 +43,17 @@ export const ADRESSE = {
   departement: 'Tarn-et-Garonne',
   region: 'Occitanie',
   pays: 'FR',
-  /** Coordonnées approximatives de la zone de la Mouscane — à affiner sur relevé. */
-  geo: { latitude: 43.9575, longitude: 1.2295 },
+  /**
+   * Coordonnées du pôle, moyenne des fiches Google des dix enseignes
+   * implantées sur place (elles tiennent toutes dans un rayon de 40 m).
+   *
+   * Les valeurs précédentes — 43.9575, 1.2295 — étaient relevées « à
+   * affiner » et tombaient 1,2 km au sud-ouest, hors du pôle. C'est un
+   * défaut coûteux : la proximité est l'un des trois critères du classement
+   * local de Google, et une position fausse fait perdre les recherches
+   * « près de moi » faites depuis Montech.
+   */
+  geo: { latitude: 43.96207, longitude: 1.24323 },
 } as const;
 
 export const ADRESSE_COMPLETE = `${ADRESSE.rue}, ${ADRESSE.codePostal} ${ADRESSE.ville}`;
