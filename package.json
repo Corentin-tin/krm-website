@@ -10,7 +10,6 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "start": "node ./scripts/serve.mjs",
     "check": "astro check",
     "astro": "astro"
   },
