@@ -1,0 +1,32 @@
+---
+import FondVideo from './FondVideo.astro';
+
+interface Props {
+  titre: string;
+  intro?: string;
+  /**
+   * Plan aérien à passer en fond. Toutes les pages partagent le placeholder
+   * `pole` pour l'instant ; à remplacer page par page quand les rushes
+   * définitifs seront découpés.
+   */
+  video?: string;
+}
+
+const { titre, intro, video = 'pole' } = Astro.props;
+---
+
+<FondVideo nom={video} taille="bandeau">
+  <h1
+    class="max-w-3xl text-3xl font-bold tracking-tight text-white drop-shadow-sm sm:text-4xl"
+  >
+    {titre}
+  </h1>
+  {
+    intro && (
+      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-white/90">
+        {intro}
+      </p>
+    )
+  }
+  <slot />
+</FondVideo>

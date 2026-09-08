@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+import EnTete from '../components/EnTete.astro';
+import PiedDePage from '../components/PiedDePage.astro';
+import { SITE, lien } from '../lib/site';
+
+interface Props {
+  titre: string;
+  description: string;
+  /** Objets JSON-LD à injecter dans le <head>. */
+  schemas?: unknown[];
+  /** Chemin d'une image d'aperçu (Open Graph), relatif au site. */
+  imageOg?: string;
+  /** Exclure la page de l'indexation (ex. mentions légales). */
+  noindex?: boolean;
+}
+
+const { titre, description, schemas = [], imageOg, noindex = false } = Astro.props;
+
+const canonique = new URL(Astro.url.pathname, Astro.site).href;
+const urlImageOg = imageOg ? new URL(imageOg, Astro.site).href : undefined;
+const titreComplet = titre === SITE.nom ? titre : `${titre} | ${SITE.nom}`;
+---
+
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href={lien('/favicon.ico')} sizes="16x16 32x32 48x48" />
+    <link rel="apple-touch-icon" href={lien('/apple-touch-icon.png')} />
+    <link rel="manifest" href={lien('/site.webmanifest')} />
+    <meta name="theme-color" content="#2b4c66" />
+    <link rel="canonical" href={canonique} />
+
+    <title>{titreComplet}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.nom} />
+    <meta property="og:title" content={titreComplet} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonique} />
+    <meta property="og:locale" content={SITE.locale} />
+    {urlImageOg && <meta property="og:image" content={urlImageOg} />}
+
+    <meta name="twitter:card" content={urlImageOg ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={titreComplet} />
+    <meta name="twitter:description" content={description} />
+
+    {
+      schemas.map((schema) => (
+        <script
+          type="application/ld+json"
+          is:inline
+          set:html={JSON.stringify(schema)}
+        />
+      ))
+    }
+  </head>
+
+  <body class="flex min-h-screen flex-col">
+    <a class="lien-evitement" href="#contenu">Aller au contenu principal</a>
+    <EnTete />
+    <main id="contenu" class="flex-1">
+      <slot />
+    </main>
+    <PiedDePage />
+  </body>
+</html>

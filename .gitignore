@@ -10,12 +10,12 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
+/dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+/lib/
+/lib64/
 parts/
 sdist/
 var/
@@ -216,3 +216,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+dist/
+.astro/
+
+# Node / Astro
+node_modules/
+.astro/
+*.log
+npm-debug.log*
+.DS_Store

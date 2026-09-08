@@ -1,0 +1,95 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { CategorieId } from '../lib/site';
+
+/**
+ * Vignette d'une enseigne : la vraie photo si elle existe, sinon un
+ * placeholder coloré par catégorie portant les initiales. Remplacer une
+ * vignette = ajouter `image:` au frontmatter, rien d'autre à toucher.
+ *
+ * Deux cadrages : une photo de devanture remplit le cadre (`object-cover`),
+ * un logo épouse toute la hauteur du cadre (`h-full w-auto`) et déborde en
+ * largeur si besoin, le fond blanc comblant les côtés. Les logos ont des
+ * ratios trop hétérogènes (2.1 à 0.94) pour remplir un 4/3 sans déformation ;
+ * caler la hauteur donne au moins une assise visuelle commune.
+ */
+interface Props {
+  nom: string;
+  categorie: CategorieId | string;
+  image?: ImageMetadata;
+  /** L'image est un logo, pas une photo : calé sur la hauteur du cadre. */
+  logo?: boolean;
+  class?: string;
+  /** Charge l'image en priorité (au-dessus de la ligne de flottaison). */
+  prioritaire?: boolean;
+}
+
+const {
+  nom,
+  categorie,
+  image,
+  logo = false,
+  class: classe = '',
+  prioritaire = false,
+} = Astro.props;
+
+const teintes: Record<string, string> = {
+  beaute: 'var(--color-terracotta-400)',
+  restauration: 'var(--color-terracotta-500)',
+  auto: 'var(--color-albizia-600)',
+  services: 'var(--color-albizia-500)',
+  commerce: 'var(--color-albizia-400)',
+  artisanat: 'var(--color-terracotta-300)',
+};
+
+const teinte = teintes[categorie] ?? 'var(--color-albizia-400)';
+
+const initiales = nom
+  .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+  .split(/\s+/)
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((mot) => mot[0]!.toUpperCase())
+  .join('');
+---
+
+{
+  image ? (
+    logo ? (
+      <div class="flex h-full w-full items-center justify-center overflow-hidden bg-white">
+        <Image
+          src={image}
+          alt={`Logo de ${nom}`}
+          widths={[400, 800]}
+          sizes="(min-width: 1024px) 540px, (min-width: 640px) 68vw, 138vw"
+          loading={prioritaire ? 'eager' : 'lazy'}
+          class:list={['h-full w-auto max-w-none object-contain', classe]}
+        />
+      </div>
+    ) : (
+      <Image
+        src={image}
+        alt={`Devanture de ${nom}`}
+        widths={[400, 800]}
+        sizes="(min-width: 1024px) 360px, (min-width: 640px) 45vw, 92vw"
+        loading={prioritaire ? 'eager' : 'lazy'}
+        class:list={['h-full w-full object-cover', classe]}
+      />
+    )
+  ) : (
+    <div
+      class:list={[
+        'vignette-placeholder flex h-full w-full items-center justify-center',
+        classe,
+      ]}
+      style={`--teinte: ${teinte}`}
+      role="img"
+      aria-label={`${nom} — photo à venir`}
+    >
+      <span class="text-3xl font-bold tracking-wide text-white/90 drop-shadow-sm">
+        {initiales}
+      </span>
+    </div>
+  )
+}

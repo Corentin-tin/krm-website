@@ -1,0 +1,248 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FondVideo from '../components/FondVideo.astro';
+import CarteCommerce from '../components/CarteCommerce.astro';
+import Icone from '../components/Icone.astro';
+import { schemaPole } from '../lib/seo';
+import { ADRESSE_COMPLETE, HORAIRES, SITE, lien } from '../lib/site';
+import {
+  formaterDate,
+  getActualites,
+  getCommerces,
+  getPermanents,
+  getServices,
+} from '../lib/contenu';
+
+const commerces = await getCommerces();
+const services = await getServices();
+const actualites = await getActualites(3);
+
+const siteUrl = Astro.site!.href;
+const schemas = [schemaPole(siteUrl, services.map((s) => s.data.nom))];
+
+const misEnAvant = commerces.slice(0, 6);
+const permanents = await getPermanents();
+
+/** Évite un compte en dur qui se périme dès qu'un équipement change. */
+const NOMBRES = ['Aucun', 'Un', 'Deux', 'Trois', 'Quatre', 'Cinq', 'Six', 'Sept'];
+const nbPermanents = NOMBRES[permanents.length] ?? String(permanents.length);
+---
+
+<BaseLayout
+  titre={SITE.nom}
+  description={SITE.description}
+  schemas={schemas}
+>
+  <!-- Hero : vue aérienne du pôle en fond, texte en blanc par-dessus -->
+  <FondVideo taille="hero">
+    <p class="text-sm font-semibold uppercase tracking-wide text-terracotta-200">
+      Montech · Tarn-et-Garonne
+    </p>
+    <h1 class="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
+      {SITE.nom}
+    </h1>
+    <p class="mt-5 max-w-2xl text-lg leading-relaxed text-white/90 sm:text-xl">
+      Des commerces et artisans de proximité réunis au même
+      endroit, à l'entrée de Montech. Parking gratuit, accès de plain-pied,
+      et des services accessibles à toute heure.
+    </p>
+
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a
+        href={lien('/commerces')}
+        class="rounded-lg bg-white px-5 py-3 text-sm font-semibold text-albizia-900 transition-colors hover:bg-albizia-50"
+      >
+        Découvrir les commerces
+      </a>
+      <a
+        href={lien('/infos-pratiques')}
+        class="rounded-lg border border-white/50 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+      >
+        Venir sur place
+      </a>
+    </div>
+
+    <dl class="mt-10 grid gap-x-8 gap-y-4 border-t border-white/25 pt-8 sm:grid-cols-3">
+      <div>
+        <dt class="text-xs font-semibold uppercase tracking-wide text-white/70">
+          Adresse
+        </dt>
+        <dd class="mt-1 text-sm font-medium text-white">
+          {ADRESSE_COMPLETE}
+        </dd>
+      </div>
+      <div>
+        <dt class="text-xs font-semibold uppercase tracking-wide text-white/70">
+          Stationnement
+        </dt>
+        <dd class="mt-1 text-sm font-medium text-white">
+          Parking gratuit, sans limitation
+        </dd>
+      </div>
+      <div>
+        <dt class="text-xs font-semibold uppercase tracking-wide text-white/70">
+          Accessibilité
+        </dt>
+        <dd class="mt-1 text-sm font-medium text-white">
+          Plain-pied, accès PMR
+        </dd>
+      </div>
+    </dl>
+  </FondVideo>
+
+  <!-- Services 24h/24 : argument de recherche locale fort -->
+  {
+    permanents.length > 0 && (
+      <section class="bg-albizia-800 text-white">
+        <div class="conteneur py-12 sm:py-14">
+          <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">
+            Ouvert même quand tout est fermé
+          </h2>
+          <p class="mt-3 max-w-2xl text-albizia-100">
+            {nbPermanents} services en libre accès fonctionnent 24 heures sur 24
+            et 7 jours sur 7, y compris le dimanche et les jours fériés.
+          </p>
+          <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {permanents.map((equipement) => (
+              <li class="rounded-[--radius-card] bg-albizia-700/60 p-5">
+                <Icone nom={equipement.icone} class="h-7 w-7 text-terracotta-300" />
+                <h3 class="mt-3 text-base font-semibold">{equipement.nom}</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-albizia-100">
+                  {equipement.resume}
+                </p>
+              </li>
+            ))}
+          </ul>
+          <a
+            href={lien('/services')}
+            class="mt-8 inline-block rounded-lg bg-white px-5 py-3 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
+          >
+            Tous les services du site
+          </a>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Commerces -->
+  {
+    misEnAvant.length > 0 && (
+      <section class="conteneur py-14 sm:py-20">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight text-albizia-900 sm:text-3xl">
+              Les commerces du pôle
+            </h2>
+            <p class="mt-3 max-w-2xl text-albizia-700">
+              Beauté, restauration, auto, services, artisanat : des enseignes
+              de proximité, tenues par des indépendants.
+            </p>
+          </div>
+          <a
+            href={lien('/commerces')}
+            class="rounded-lg border border-albizia-300 px-4 py-2.5 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
+          >
+            Voir l'annuaire
+          </a>
+        </div>
+
+        <ul class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {misEnAvant.map((commerce, i) => (
+            <li class="flex">
+              <CarteCommerce commerce={commerce} prioritaire={i < 3} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <!-- Actualités -->
+  {
+    actualites.length > 0 && (
+      <section class="border-t border-albizia-100 bg-white">
+        <div class="conteneur py-14 sm:py-20">
+          <div class="flex flex-wrap items-end justify-between gap-4">
+            <h2 class="text-2xl font-bold tracking-tight text-albizia-900 sm:text-3xl">
+              Actualités du pôle
+            </h2>
+            <a
+              href={lien('/actualites')}
+              class="rounded-lg border border-albizia-300 px-4 py-2.5 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50"
+            >
+              Toutes les actualités
+            </a>
+          </div>
+
+          <ul class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {actualites.map((article) => (
+              <li class="group relative rounded-[--radius-card] border border-albizia-100 p-5 transition-shadow hover:shadow-md">
+                <time
+                  datetime={article.data.date.toISOString()}
+                  class="text-xs font-semibold uppercase tracking-wide text-terracotta-600"
+                >
+                  {formaterDate(article.data.date)}
+                </time>
+                <h3 class="mt-2 text-lg font-semibold leading-snug text-albizia-900">
+                  <a
+                    href={lien(`/actualites/${article.id}`)}
+                    class="after:absolute after:inset-0"
+                  >
+                    {article.data.titre}
+                  </a>
+                </h3>
+                <p class="mt-2 text-sm leading-relaxed text-albizia-700">
+                  {article.data.resume}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Venir -->
+  <section class="conteneur py-14 sm:py-20">
+    <div class="grid gap-10 rounded-[--radius-card] bg-sable-100 p-8 sm:p-10 lg:grid-cols-2">
+      <div>
+        <h2 class="text-2xl font-bold tracking-tight text-albizia-900 sm:text-3xl">
+          Venir à l'Albizia
+        </h2>
+        <address class="mt-4 not-italic leading-relaxed text-albizia-800">
+          {ADRESSE_COMPLETE}
+        </address>
+        <p class="mt-3 text-sm leading-relaxed text-albizia-700">
+          En bordure de la RD 928 (avenue de Montauban), dans la zone
+          commerciale de la Mouscane. Parking gratuit sur place.
+        </p>
+        <a
+          href={lien('/infos-pratiques')}
+          class="mt-6 inline-block rounded-lg bg-albizia-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
+        >
+          Itinéraire et infos pratiques
+        </a>
+      </div>
+
+      <div>
+        <h3 class="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-albizia-600">
+          <Icone nom="horloge" class="h-5 w-5" />
+          Horaires du site
+        </h3>
+        <dl class="mt-4 divide-y divide-albizia-200 border-y border-albizia-200">
+          {
+            HORAIRES.jours.map((h) => (
+              <div class="flex items-baseline justify-between gap-4 py-3">
+                <dt class="text-sm text-albizia-700">{h.jours}</dt>
+                <dd class="text-sm font-semibold text-albizia-900">{h.horaire}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <p class="mt-3 text-xs leading-relaxed text-albizia-600">
+          {HORAIRES.mention}
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

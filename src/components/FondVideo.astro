@@ -1,0 +1,165 @@
+---
+import { lien } from '../lib/site';
+
+/**
+ * Vidéo aérienne en fond d'un bandeau, avec le contenu posé par-dessus.
+ *
+ * Pour l'instant tous les bandeaux partagent le même plan (`pole`) : ce sont
+ * des placeholders, les rushes définitifs seront découpés et attribués page
+ * par page plus tard. Le jour où chaque page aura le sien, il suffira de
+ * passer `nom="commerces"` (etc.) et de déposer `commerces-1080.mp4`,
+ * `commerces-720.mp4` et `commerces.jpg` dans `public/videos/`.
+ *
+ * La vidéo est purement décorative : muette, en boucle, sans commande. Le
+ * texte doit rester lisible quoi qu'il arrive, d'où le voile sombre posé
+ * entre la vidéo et le contenu.
+ */
+interface Props {
+  /** Racine des fichiers dans `public/videos/` (sans suffixe ni extension). */
+  nom?: string;
+  /** Hauteur du bandeau : `hero` pour l'accueil, `bandeau` ailleurs. */
+  taille?: 'hero' | 'bandeau';
+  /** Opacité du voile sombre, entre 0 et 1. À monter si le texte passe mal. */
+  voile?: number;
+  class?: string;
+}
+
+const {
+  nom = 'pole',
+  taille = 'bandeau',
+  voile = 0.55,
+  class: classe = '',
+} = Astro.props;
+
+/**
+ * `svh` plutôt que `vh` : sur mobile, `vh` se cale sur la fenêtre barre
+ * d'adresse rétractée, ce qui ferait dépasser le hero et sauter la page au
+ * premier défilement. On retranche la hauteur de l'en-tête collant pour que
+ * le hero occupe exactement ce qu'il reste de l'écran.
+ */
+const hauteurs = {
+  hero: 'min-h-[calc(100svh-var(--hauteur-entete))]',
+  bandeau: 'min-h-[24rem] sm:min-h-[30rem] lg:min-h-[34rem]',
+};
+---
+
+<section
+  class:list={[
+    'relative isolate overflow-hidden bg-albizia-900',
+    hauteurs[taille],
+    'flex items-center',
+    classe,
+  ]}
+>
+  <!--
+    `poster` s'affiche pendant le téléchargement et reste la seule image si la
+    lecture automatique est refusée (mode économie d'énergie, data saver), donc
+    le bandeau n'est jamais vide. `preload="none"` évite de payer la vidéo
+    avant que la page ne soit lisible ; le script ci-dessous la déclenche.
+  -->
+  <video
+    class="fond-video absolute inset-0 -z-10 h-full w-full object-cover opacity-0 transition-opacity duration-700"
+    poster={lien(`/videos/${nom}.jpg`)}
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="none"
+    aria-hidden="true"
+    tabindex="-1"
+    data-video-large={lien(`/videos/${nom}-1080.mp4`)}
+    data-video-petit={lien(`/videos/${nom}-720.mp4`)}
+  >
+  </video>
+
+  <!-- Image de repli : seule chose visible sans JavaScript ou si la vidéo échoue. -->
+  <img
+    src={lien(`/videos/${nom}.jpg`)}
+    alt=""
+    aria-hidden="true"
+    class="absolute inset-0 -z-20 h-full w-full object-cover"
+  />
+
+  <!--
+    Voile sombre : sans lui, un ciel clair ou un mur blanc du bâtiment rend
+    le titre illisible. Le dégradé est plus dense en bas, là où se trouve le
+    texte, et laisse respirer le ciel en haut.
+  -->
+  <div
+    class="absolute inset-0 -z-10"
+    aria-hidden="true"
+    style={`background: linear-gradient(to bottom, rgb(34 60 80 / ${voile * 0.7}), rgb(34 60 80 / ${voile}) 55%, rgb(22 40 58 / ${Math.min(voile + 0.2, 0.92)}));`}
+  >
+  </div>
+
+  <div class="conteneur relative w-full py-14 sm:py-20">
+    <slot />
+  </div>
+</section>
+
+<style>
+  /* La vidéo n'apparaît qu'une fois qu'elle a des images à montrer, sinon on
+     verrait un aplat noir passer par-dessus le poster. */
+  .fond-video.est-prete {
+    opacity: 1;
+  }
+
+  /* Respect du réglage système : pas d'image animée si l'utilisateur a demandé
+     à réduire les animations, le poster suffit. */
+  @media (prefers-reduced-motion: reduce) {
+    .fond-video {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  /**
+   * Charge la vidéo de fond après coup, et seulement quand cela a du sens :
+   * pas en connexion limitée, pas en économie de données, pas si l'utilisateur
+   * a demandé moins d'animations. Le poster reste affiché dans ces cas-là.
+   */
+  type Connexion = { saveData?: boolean; effectiveType?: string };
+
+  function chargerFonds() {
+    const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduit) return;
+
+    const connexion = (navigator as Navigator & { connection?: Connexion })
+      .connection;
+    if (connexion?.saveData) return;
+    if (connexion?.effectiveType && /^(slow-)?2g$/.test(connexion.effectiveType)) {
+      return;
+    }
+
+    // Sous 768 px de large, la version 720p suffit et pèse deux fois moins.
+    const petitEcran = window.matchMedia('(max-width: 767px)').matches;
+
+    const videos =
+      document.querySelectorAll<HTMLVideoElement>('video.fond-video');
+
+    videos.forEach((video) => {
+      const src = petitEcran
+        ? video.dataset.videoPetit
+        : video.dataset.videoLarge;
+      if (!src) return;
+
+      video.addEventListener(
+        'playing',
+        () => video.classList.add('est-prete'),
+        { once: true },
+      );
+
+      video.src = src;
+      video.load();
+      // Un refus d'autoplay n'est pas une erreur : le poster prend le relais.
+      void video.play().catch(() => {});
+    });
+  }
+
+  if (document.readyState === 'complete') {
+    chargerFonds();
+  } else {
+    window.addEventListener('load', chargerFonds, { once: true });
+  }
+</script>

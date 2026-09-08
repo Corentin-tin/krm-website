@@ -1,0 +1,97 @@
+---
+import { render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EnTetePage from '../components/EnTetePage.astro';
+import Icone from '../components/Icone.astro';
+import LiensEnseigne from '../components/LiensEnseigne.astro';
+import { schemaFilAriane } from '../lib/seo';
+import { SITE } from '../lib/site';
+import { getServices } from '../lib/contenu';
+
+const services = await getServices();
+
+// Le corps Markdown de chaque service est rendu à l'avance.
+const rendus = await Promise.all(
+  services.map(async (service) => ({
+    service,
+    Content: (await render(service)).Content,
+  })),
+);
+
+const siteUrl = Astro.site!.href;
+const schemas = [
+  schemaFilAriane([
+    { nom: 'Accueil', url: siteUrl },
+    { nom: 'Services', url: new URL('/services', siteUrl).href },
+  ]),
+];
+---
+
+<BaseLayout
+  titre="Services et équipements"
+  description={`Parking gratuit, accès PMR, casiers Mondial Relay et La Poste et borne de recharge électrique au ${SITE.nom} à Montech.`}
+  schemas={schemas}
+>
+  <EnTetePage
+    video="services"
+    titre="Services et équipements"
+    intro="Au-delà des commerces, le pôle met à disposition des équipements en libre accès — dont plusieurs fonctionnent 24 heures sur 24."
+  />
+
+  <div class="conteneur py-14 sm:py-16">
+    <ul class="space-y-6">
+      {
+        rendus.map(({ service, Content }) => (
+          <li
+            id={service.id}
+            class="scroll-mt-24 rounded-[--radius-card] border border-albizia-100 bg-white p-6 sm:p-8"
+          >
+            <div class="flex flex-wrap items-start gap-4">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-albizia-100 text-albizia-700">
+                {service.data.image ? (
+                  <Image
+                    src={service.data.image}
+                    alt={`Logo ${service.data.nom}`}
+                    widths={[40, 80]}
+                    sizes="40px"
+                    loading="lazy"
+                    class="h-10 w-10 object-contain"
+                  />
+                ) : (
+                  <Icone nom={service.data.icone} class="h-6 w-6" />
+                )}
+              </span>
+              <div class="min-w-0 flex-1">
+                <div class="flex flex-wrap items-center gap-3">
+                  <h2 class="text-xl font-bold tracking-tight text-albizia-900">
+                    {service.data.nom}
+                  </h2>
+                  {service.data.permanent && (
+                    <span class="rounded-full bg-terracotta-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-terracotta-700">
+                      24h/24 · 7j/7
+                    </span>
+                  )}
+                </div>
+                <div class="prose-albizia mt-3 max-w-2xl space-y-3 leading-relaxed text-albizia-800 [&_strong]:font-semibold [&_strong]:text-albizia-900">
+                  <Content />
+                </div>
+                <LiensEnseigne
+                  nom={service.data.nom}
+                  siteWeb={service.data.siteWeb}
+                  googleMaps={service.data.googleMaps}
+                  class="mt-5 max-w-xs"
+                />
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="mt-10 text-sm leading-relaxed text-albizia-600">
+      Les équipements en libre accès sont exploités par des prestataires
+      indépendants. Leur disponibilité peut varier en cas de maintenance.
+    </p>
+  </div>
+</BaseLayout>
