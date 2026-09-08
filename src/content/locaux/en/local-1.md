@@ -1,5 +1,6 @@
 ---
 reference: 'Retail unit T1'
+misEnLigne: 2026-09-08
 surface: 71
 annonce: 'https://www.laforet.com/agence-immobiliere/montech/louer/montech/local-commercial-21075718'
 statut: disponible

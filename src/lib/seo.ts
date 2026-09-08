@@ -99,6 +99,8 @@ export function schemaLocal(opts: {
   image?: string;
   /** Annonce du local chez l'agence : la source que nous reprenons. */
   annonce?: string;
+  /** Date de mise en ligne de l'annonce, lue dans le frontmatter. */
+  misEnLigne: Date;
   /** Nom de l'annonce, composé par l'appelant depuis son dictionnaire. */
   nomAnnonce: string;
   locale: Locale;
@@ -113,7 +115,12 @@ export function schemaLocal(opts: {
     ...(opts.image ? { image: opts.image } : {}),
     /* Rattache notre fiche à l'annonce de l'agence, qui fait foi. */
     ...(opts.annonce ? { sameAs: opts.annonce } : {}),
-    datePosted: new Date().toISOString().slice(0, 10),
+    /*
+     * Date lue dans le frontmatter, jamais `new Date()` : la date de build
+     * ferait passer chaque reconstruction du site pour une remise en ligne,
+     * et annoncerait des annonces perpétuellement neuves.
+     */
+    datePosted: opts.misEnLigne.toISOString().slice(0, 10),
     provider: {
       '@type': 'RealEstateAgent',
       name: AGENCE.nom,
