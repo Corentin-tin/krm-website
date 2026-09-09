@@ -258,9 +258,23 @@ Pages. Trois pièces le font tenir, et il faut les garder cohérentes :
    | `CNAME` | `www`  | `corentin-tin.github.io`       |
 
 Les quatre `A` répondent sur l'apex (`m-albizia.com`), le `CNAME` fait
-rediriger `www.m-albizia.com` vers lui. Dans Settings → Pages du dépôt,
-« Enforce HTTPS » doit rester coché : GitHub émet le certificat tout seul,
-généralement dans l'heure qui suit la propagation DNS.
+rediriger `www.m-albizia.com` vers lui.
+
+**Attention au piège :** le déploiement passant par GitHub Actions (et non
+par une branche), GitHub **ne lit pas** `public/CNAME`. Le fichier reste
+nécessaire — il documente l'intention et sert de repli si le mode de
+déploiement change — mais le domaine doit être déclaré par l'API :
+
+```sh
+gh api -X PUT repos/Corentin-tin/krm-website/pages -f cname='m-albizia.com'
+gh workflow run deploy.yml --ref main       # republier sous le domaine
+gh api -X PUT repos/Corentin-tin/krm-website/pages -F https_enforced=true
+```
+
+Sans cette déclaration, le domaine reste vide côté Pages et le site répond
+404. GitHub décoche « Enforce HTTPS » tout seul pendant l'émission du
+certificat : le recocher une fois le site servi en HTTPS (dernière commande
+ci-dessus, ou Settings → Pages).
 
 Si l'adresse change encore, les liens internes suivent d'eux-mêmes grâce à
 `lien()` et `chemin()` : aucun fichier de contenu n'est à retoucher.
