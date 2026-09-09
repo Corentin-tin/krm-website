@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FondVideo from '../components/FondVideo.astro';
+import VideoPresentation from '../components/VideoPresentation.astro';
 import CarteCommerce from '../components/CarteCommerce.astro';
 import Faq from '../components/Faq.astro';
 import Icone from '../components/Icone.astro';
@@ -191,6 +192,30 @@ const permanents = await getPermanents(locale);
       </section>
     )
   }
+
+  <!--
+    Vidéo de présentation, posée après l'annuaire : le visiteur a d'abord vu
+    qui est installé sur place, la vidéo vient confirmer en images ce que les
+    fiches viennent d'annoncer. Rien n'est téléchargé tant qu'il ne clique pas
+    (cf. VideoPresentation).
+  -->
+  <section class="conteneur py-14 sm:py-20">
+    <div class="mx-auto max-w-3xl text-center">
+      <h2 class="text-2xl font-bold tracking-tight text-albizia-900 sm:text-3xl">
+        {textes.accueil.videoTitre}
+      </h2>
+      <p class="mt-3 text-albizia-700">
+        {textes.accueil.videoIntro}
+      </p>
+    </div>
+
+    <VideoPresentation
+      class="mt-8"
+      libelleLecture={textes.accueil.videoLecture}
+      duree={textes.accueil.videoDuree}
+    />
+  </section>
+
 
   <!-- Actualités -->
   {

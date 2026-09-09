@@ -100,6 +100,12 @@ export const en: Dictionnaire = {
     stationnement: 'Parking',
     accessibilite: 'Accessibility',
     accessibiliteValeur: 'Step-free, wheelchair access',
+    videoTitre: 'See the centre',
+    videoIntro:
+      'An aerial tour of the site in under two minutes: the shops, the car ' +
+      'park, the access routes and the round-the-clock services.',
+    videoLecture: 'Play the presentation video',
+    videoDuree: '1 min 42',
     permanentsTitre: 'Open when everything else is closed',
     /** Nombres en toutes lettres et accord anglais — divergent du français. */
     permanentsIntro: (n: number) => {
