@@ -215,14 +215,16 @@ cassé.
 
 ### URL et `base`
 
-Le site est publié sur l'URL par défaut du dépôt :
+Le site est publié sur son domaine :
 
 ```
-https://corentin-tin.github.io/krm-website
+https://m-albizia.com
 ```
 
-Il vit donc dans un **sous-dossier**, d'où le `base: '/krm-website'` dans
-`astro.config.mjs`. Conséquence à retenir en écrivant du contenu :
+Il vit à la **racine** du domaine, d'où le `base: '/'` dans
+`astro.config.mjs`. La base reste malgré tout à respecter en écrivant du
+contenu : elle peut changer de nouveau (retour à une URL GitHub par défaut,
+site déplacé dans un sous-dossier), et les liens écrits en dur casseraient.
 
 > **Ne jamais écrire un lien interne en dur** (`href="/commerces"`) : il
 > pointerait à la racine du domaine et renverrait un 404, et il ignorerait la
@@ -236,20 +238,32 @@ Il vit donc dans un **sous-dossier**, d'où le `base: '/krm-website'` dans
 Les liens vers les images d'`src/assets/` et les pages générées par Astro
 sont préfixés tout seuls : seuls les chemins écrits à la main sont concernés.
 
-### Passer au domaine définitif
+### Le domaine
 
-Le jour où `pole-albizia.fr` est réservé, trois gestes suffisent :
+`m-albizia.com` est enregistré chez Porkbun et sert le site depuis GitHub
+Pages. Trois pièces le font tenir, et il faut les garder cohérentes :
 
-1. Dans `astro.config.mjs` : `site = 'https://pole-albizia.fr'` et
-   `base = '/'`.
-2. Créer `public/CNAME` contenant `pole-albizia.fr`.
-3. Chez le registrar, faire pointer le domaine vers GitHub Pages : quatre
-   enregistrements `A` sur `185.199.108.153`, `185.199.109.153`,
-   `185.199.110.153`, `185.199.111.153` — et un `CNAME` `www` vers
-   `corentin-tin.github.io`.
+1. `astro.config.mjs` : `site = 'https://m-albizia.com'`, `base = '/'`.
+2. `public/CNAME`, qui contient `m-albizia.com`. **Ne pas le supprimer** :
+   c'est lui qui déclare le domaine à GitHub Pages, et son absence renvoie
+   le site sur l'URL `github.io` à la publication suivante.
+3. Les enregistrements DNS chez Porkbun :
 
-Les liens internes suivent d'eux-mêmes grâce à `lien()` : aucun fichier de
-contenu n'est à retoucher.
+   | Type    | Hôte  | Valeur                          |
+   | ------- | ----- | ------------------------------- |
+   | `A`     | (vide) | `185.199.108.153`              |
+   | `A`     | (vide) | `185.199.109.153`              |
+   | `A`     | (vide) | `185.199.110.153`              |
+   | `A`     | (vide) | `185.199.111.153`              |
+   | `CNAME` | `www`  | `corentin-tin.github.io`       |
+
+Les quatre `A` répondent sur l'apex (`m-albizia.com`), le `CNAME` fait
+rediriger `www.m-albizia.com` vers lui. Dans Settings → Pages du dépôt,
+« Enforce HTTPS » doit rester coché : GitHub émet le certificat tout seul,
+généralement dans l'heure qui suit la propagation DNS.
+
+Si l'adresse change encore, les liens internes suivent d'eux-mêmes grâce à
+`lien()` et `chemin()` : aucun fichier de contenu n'est à retoucher.
 
 Le fichier `public/.nojekyll` est nécessaire et ne doit pas être supprimé :
 sans lui, GitHub ignore le dossier `_astro/` (préfixé par un underscore) et
