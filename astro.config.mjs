@@ -3,16 +3,15 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
-// Le site est publié sur GitHub Pages, à l'URL par défaut du dépôt. Il vit
-// donc dans un sous-dossier : `base` doit refléter le nom du dépôt, sinon
-// tous les liens internes pointent à la racine du domaine et cassent.
+// Le site est publié sur GitHub Pages, sur le domaine m-albizia.com. Il vit
+// à la racine de ce domaine, d'où `base = '/'`.
 //
-// Le jour où le domaine définitif (pole-albizia.fr) est réservé : remplacer
-// `site` par ce domaine, passer `base` à '/' et déposer un fichier
-// `public/CNAME`. Les liens internes suivent automatiquement (voir `lien()`
-// dans src/lib/site.ts).
-const site = process.env.SITE_URL ?? 'https://corentin-tin.github.io';
-const base = process.env.BASE_URL ?? '/krm-website';
+// Le domaine est déclaré à GitHub par `public/CNAME` ; le passage par
+// `www.m-albizia.com` redirige vers l'apex. Les liens internes suivent
+// `site`/`base` automatiquement (voir `lien()` dans src/lib/site.ts), aucun
+// fichier de contenu n'est à retoucher si l'adresse change de nouveau.
+const site = process.env.SITE_URL ?? 'https://m-albizia.com';
+const base = process.env.BASE_URL ?? '/';
 
 // Pas de bloc `i18n` ici, volontairement.
 //
