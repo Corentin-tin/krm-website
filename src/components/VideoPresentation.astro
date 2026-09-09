@@ -1,0 +1,153 @@
+---
+import { lien } from '../lib/site';
+
+/**
+ * Lecteur de la vidéo de présentation du pôle.
+ *
+ * À ne pas confondre avec `FondVideo`, qui pose un plan muet en décor
+ * derrière du texte : ici la vidéo *est* le contenu. Elle a du son, un
+ * commentaire, une durée — donc des commandes, et surtout jamais de
+ * lecture automatique : une vidéo qui démarre toute seule avec du son est
+ * la première chose qu'un visiteur fuit, et les navigateurs la bloquent de
+ * toute façon.
+ *
+ * Rien n'est téléchargé avant le clic : la page n'affiche que le poster
+ * (170 Ko) et ne charge les 15 Mo de vidéo que si le visiteur les demande.
+ * C'est ce qui permet de la mettre sur l'accueil sans en payer le poids.
+ */
+interface Props {
+  /** Racine des fichiers dans `public/videos/` (sans suffixe ni extension). */
+  nom?: string;
+  /** Texte du bouton de lecture, lu par les lecteurs d'écran. */
+  libelleLecture: string;
+  /** Durée affichée sous le bouton, façon « 1 min 42 ». À refaire suivre le
+   * jour où le montage change : elle est écrite à la main dans les
+   * dictionnaires, rien ne la relit du fichier. */
+  duree: string;
+  class?: string;
+}
+
+const {
+  nom = 'presentation',
+  libelleLecture,
+  duree,
+  class: classe = '',
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    'video-presentation relative isolate overflow-hidden rounded-[--radius-card] bg-albizia-950 shadow-lg',
+    classe,
+  ]}
+  data-video-large={lien(`/videos/${nom}-1080.mp4`)}
+  data-video-petit={lien(`/videos/${nom}-720.mp4`)}
+>
+  <!--
+    `aspect-video` fige la place occupée dès le premier rendu : sans lui, le
+    remplacement du poster par la vidéo décalerait tout ce qui suit (CLS).
+  -->
+  <div class="aspect-video w-full">
+    <video
+      class="video-presentation__lecteur h-full w-full"
+      poster={lien(`/videos/${nom}.jpg`)}
+      controls
+      playsinline
+      preload="none"
+      >
+    </video>
+  </div>
+
+  <!--
+    Affiche de couverture posée par-dessus le lecteur tant qu'on n'a pas
+    cliqué. C'est elle qui porte le bouton : le `poster` natif du <video> ne
+    permet pas d'y dessiner quoi que ce soit.
+  -->
+  <button
+    type="button"
+    class="video-presentation__couverture absolute inset-0 z-10 grid h-full w-full place-items-center"
+  >
+    <img
+      src={lien(`/videos/${nom}.jpg`)}
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 -z-10 h-full w-full object-cover"
+    />
+    <!-- Voile : sans lui, la pastille blanche se perd dans le ciel clair. -->
+    <span
+      class="absolute inset-0 -z-10 bg-albizia-950/35 transition-colors"
+      aria-hidden="true"></span>
+
+    <span class="flex flex-col items-center gap-3">
+      <span
+        class="video-presentation__pastille grid h-16 w-16 place-items-center rounded-full bg-white/95 shadow-lg transition-transform sm:h-20 sm:w-20"
+        aria-hidden="true"
+      >
+        <!-- Triangle décalé de 2 px : centré optiquement, pas géométriquement. -->
+        <svg
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="ml-1 h-7 w-7 text-albizia-900 sm:h-8 sm:w-8"
+        >
+          <path d="M8 5.14v13.72a1 1 0 0 0 1.53.85l10.5-6.86a1 1 0 0 0 0-1.7L9.53 4.29A1 1 0 0 0 8 5.14Z"
+          ></path>
+        </svg>
+      </span>
+      <span class="text-sm font-semibold text-white drop-shadow sm:text-base">
+        {libelleLecture}
+      </span>
+      <span class="text-xs font-medium text-white/80">{duree}</span>
+    </span>
+  </button>
+</div>
+
+<style>
+  /* La couverture disparaît dès que la lecture est lancée. */
+  .video-presentation.est-lancee .video-presentation__couverture {
+    display: none;
+  }
+
+  .video-presentation__couverture:hover .video-presentation__pastille {
+    transform: scale(1.08);
+  }
+</style>
+
+<script>
+  /**
+   * Charge la vidéo au clic, et seulement au clic.
+   *
+   * Le `src` n'est posé qu'à ce moment-là : tant que personne ne demande la
+   * vidéo, l'accueil ne télécharge que le poster. La définition est choisie
+   * à la volée — inutile de servir du 1080p à un téléphone.
+   */
+  function activer(bloc: HTMLElement) {
+    const lecteur = bloc.querySelector<HTMLVideoElement>(
+      '.video-presentation__lecteur',
+    );
+    const couverture = bloc.querySelector<HTMLButtonElement>(
+      '.video-presentation__couverture',
+    );
+    if (!lecteur || !couverture) return;
+
+    couverture.addEventListener('click', () => {
+      if (!lecteur.src) {
+        const petitEcran = window.matchMedia('(max-width: 767px)').matches;
+        const src = petitEcran
+          ? bloc.dataset.videoPetit
+          : bloc.dataset.videoLarge;
+        if (!src) return;
+        lecteur.src = src;
+      }
+
+      bloc.classList.add('est-lancee');
+      // Le focus suit la couverture qui disparaît, sinon il retombe sur le
+      // <body> et la navigation clavier repart du haut de la page.
+      lecteur.focus();
+      void lecteur.play().catch(() => {});
+    });
+  }
+
+  document
+    .querySelectorAll<HTMLElement>('.video-presentation')
+    .forEach(activer);
+</script>

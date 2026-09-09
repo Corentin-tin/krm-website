@@ -104,6 +104,12 @@ export const fr = {
     stationnement: 'Stationnement',
     accessibilite: 'Accessibilité',
     accessibiliteValeur: 'Plain-pied, accès PMR',
+    videoTitre: 'Le pôle en images',
+    videoIntro:
+      'Une visite aérienne du site en moins de deux minutes : les enseignes, ' +
+      'le parking, les accès et les services en libre accès.',
+    videoLecture: 'Lire la vidéo de présentation',
+    videoDuree: '1 min 42',
     permanentsTitre: 'Ouvert même quand tout est fermé',
     /** Écrit les nombres en toutes lettres et gère l'accord — cf. en.ts. */
     permanentsIntro: (n: number) => {
