@@ -142,7 +142,7 @@ export const fr = {
     metaDescription: (nom: string) =>
       `Annuaire des commerces et artisans du ${nom} à Montech : beauté, ` +
       'restauration, auto, services et produits locaux. Parking gratuit sur place.',
-    titre: 'Les commerces du pôle',
+    titre: 'Commerces',
     intro:
       "Des enseignes indépendantes réunies au même endroit, à l'entrée de " +
       'Montech. Beauté, restauration, auto, services, artisanat.',
