@@ -51,7 +51,7 @@ export const fr = {
 
   /* ------------------------------------------------------------ navigation */
   nav: {
-    commerces: 'Les commerces',
+    commerces: 'Commerces',
     services: 'Services',
     actualites: 'Actualités',
     infosPratiques: 'Infos pratiques',
