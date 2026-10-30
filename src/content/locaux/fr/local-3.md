@@ -7,10 +7,8 @@ statut: disponible
 disponibilite: Immédiate
 batiment: A
 accroche: >-
-  74 m² neufs à l'étage du bâtiment d'angle, desservis par ascenseur et par
-  escalier, largement éclairés par de grandes baies vitrées.
+  74 m² à l'étage, lumineux, excellente visibilité, accès PMR par ascenseur.
 atouts:
-  - Local neuf
   - Ascenseur et escalier
   - Accessible aux personnes à mobilité réduite
   - Grandes baies vitrées
@@ -28,7 +26,7 @@ publication: actif
 ordre: 2
 ---
 
-Ce plateau **neuf** de 74 m² occupe l'étage du bâtiment d'angle du pôle
+Ce plateau de 74 m² occupe l'étage du bâtiment d'angle du pôle
 commercial l'Albizia. C'est la plus grande surface actuellement disponible.
 
 **L'accès se fait par ascenseur ou par escalier** : le local reste donc
@@ -38,7 +36,7 @@ dispose de ses propres sanitaires.
 Ses grandes baies vitrées lui donnent une belle luminosité et une visibilité
 depuis la voie d'accès. La surface d'un seul tenant se prête à un
 aménagement en bureaux, en cabinet ou en espace d'accueil du public, et
-convient à **de nombreuses professions, hors activités alimentaires**.
+convient à **de nombreuses professions**.
 
 Au rez-de-chaussée du même bâtiment se trouvent la laverie en libre-service
 et d'autres enseignes du pôle, avec le parking gratuit à proximité

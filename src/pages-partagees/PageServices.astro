@@ -91,13 +91,16 @@ const schemas = [
                   traduite, le site anglais sert son texte français. Le
                   signaler est ce que prescrit la spec HTML, et évite qu'un
                   lecteur d'écran anglophone le prononce mal.
+                  Un service sans corps (le titre suffit) n'a pas de bloc vide.
                 */}
-                <div
-                  class="prose-albizia mt-3 max-w-2xl space-y-3 leading-relaxed text-albizia-800 [&_strong]:font-semibold [&_strong]:text-albizia-900"
-                  lang={langueEntree(service.id) !== locale ? langueEntree(service.id) : undefined}
-                >
-                  <Content />
-                </div>
+                {service.body?.trim() && (
+                  <div
+                    class="prose-albizia mt-3 max-w-2xl space-y-3 leading-relaxed text-albizia-800 [&_strong]:font-semibold [&_strong]:text-albizia-900"
+                    lang={langueEntree(service.id) !== locale ? langueEntree(service.id) : undefined}
+                  >
+                    <Content />
+                  </div>
+                )}
                 <LiensEnseigne
                   nom={service.data.nom}
                   locale={locale}

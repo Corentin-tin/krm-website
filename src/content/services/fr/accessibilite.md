@@ -8,9 +8,5 @@ ordre: 4
 image: ../../../assets/services/pmr.png
 ---
 
-L'ensemble du pôle est accessible aux **personnes à mobilité réduite** :
-places de stationnement dédiées au plus près des entrées, cheminements de
-plain-pied et sanitaires adaptés.
-
-Les commerces sont répartis en rez-de-chaussée, sans escalier à franchir
-depuis le parking.
+Accès PMR pour **tous les locaux** : de plain-pied, ou par ascenseur pour
+l'étage.

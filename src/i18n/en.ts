@@ -34,6 +34,8 @@ export const en: Dictionnaire = {
     dimanche: 'Sunday',
     plageSemaine: '8:30 am – 11:00 pm',
     plageDimanche: '11:00 am – 11:00 pm',
+    laverie: 'Launderette',
+    plageLaverie: '7:00 am – 9:00 pm',
   },
 
   /* ------------------------------------------------------------ métadonnées */
@@ -211,17 +213,7 @@ export const en: Dictionnaire = {
       'outside these hours.',
     stationnementTitre: 'Parking and accessibility',
     parkingTitre: 'Free parking',
-    parkingTexte:
-      'Free on-site parking, with no disc or time limit, plus additional spaces ' +
-      'on the surrounding streets.',
     pmrTitre: 'Wheelchair access',
-    pmrTexte:
-      'Dedicated bays near the entrances, step-free routes throughout and ' +
-      'accessible toilets.',
-    electriqueTitre: 'Electric vehicles',
-    electriqueTexte:
-      'A Powerdot charging station with three simultaneous rapid charging ' +
-      'points, freely available with no subscription.',
   },
 
   /* --------------------------------------------------------------- contact */
@@ -259,11 +251,11 @@ export const en: Dictionnaire = {
     commercantCta: 'Email the centre →',
     mailSujet: (nom: string) => `My listing on the ${nom} website`,
     locauxTitre: 'Units to let',
-    locauxIntro: (nbCommerces: number) =>
-      `Join the ${nbCommerces} businesses already established at Pôle commercial ` +
+    locauxIntro:
+      'Join the businesses already established at Pôle commercial ' +
       "l'Albizia, at the entrance to Montech. Free parking with no time limit, " +
-      'step-free access, and shared facilities — parcel lockers and electric ' +
-      'vehicle charging — that bring footfall throughout the day.',
+      'step-free access — parcel lockers, electric vehicle charging — that ' +
+      'bring footfall throughout the day.',
     listeNom: (nom: string) => `Retail units to let at ${nom}`,
   },
 
@@ -288,30 +280,29 @@ export const en: Dictionnaire = {
 
     ouQuestion: 'Where is Pôle commercial l\'Albizia?',
     ouReponse: (nom: string, adresse: string) =>
-      `${nom} is at ${adresse}, on the edge of Montech in the Tarn-et-Garonne ` +
+      `${nom} is at ${adresse}, on the D928 road, in the Tarn-et-Garonne ` +
       '(Occitanie, southern France), about twenty minutes from Montauban. ' +
       'Parking is free and untimed, and every shop is step-free.',
 
-    activitesQuestion: 'What kind of business can open in a unit at the centre?',
+    activitesQuestion: 'Permitted uses',
     activitesReponse:
       'The units suit retail, services, beauty and wellbeing, independent ' +
-      'professionals and office use. The first-floor unit is not suitable for ' +
-      'food businesses. Existing tenants cover catering, hairdressing, a spa, ' +
-      'driving tuition, accountancy and insurance broking.',
+      'professionals and tradespeople. Existing tenants cover catering, ' +
+      'hairdressing, wellbeing, motoring, accountancy, insurance broking, a ' +
+      'vape shop and home services.',
 
-    stationnementQuestion: 'Is parking free at Pôle commercial l\'Albizia?',
+    stationnementQuestion: 'Parking',
     stationnementReponse:
       "Yes. Parking at Pôle commercial l'Albizia in Montech is free, untimed " +
       'and needs no disc. It includes bays reserved for people with reduced ' +
       'mobility and a Powerdot rapid electric charging point with three ' +
       'charging bays.',
 
-    horairesQuestion: 'What are the opening hours of Pôle commercial l\'Albizia?',
+    horairesQuestion: 'Opening hours',
     horairesReponse:
-      'The common areas are open Monday to Saturday from 8.30am to 11pm, and ' +
-      'on Sunday from 11am to 11pm. Each business sets its own hours. The ' +
-      'pizza vending machine, the Mondial Relay parcel locker and the electric ' +
-      'charging point are accessible 24 hours a day.',
+      'Shops Monday to Saturday from 8.30am to 11pm and Sunday from 11am to ' +
+      '11pm. Launderette from 7am to 9pm. Vending machines and charging ' +
+      'points available 24/7.',
   },
 
   /* ------------------------------------------------------------ fiche local */

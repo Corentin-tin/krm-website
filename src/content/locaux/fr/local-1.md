@@ -1,17 +1,17 @@
 ---
-reference: 'Local commercial T1'
+reference: 'Local commercial'
 misEnLigne: 2026-09-08
-surface: 71
+surface: 50
 annonce: 'https://www.laforet.com/agence-immobiliere/montech/louer/montech/local-commercial-21075718'
 statut: disponible
 disponibilite: Immédiate
 batiment: B
 accroche: >-
-  71 m² de plain-pied avec vitrine sur le parking : 50 m² de surface de vente
-  et une mezzanine de 20 m².
+  50 m² de plain-pied avec vitrine sur le parking, et une mezzanine pour le
+  stockage.
 atouts:
   - Accès de plain-pied
-  - Mezzanine de 20 m²
+  - Mezzanine de stockage
   - Sanitaires
   - Parking gratuit devant le local
   - Accessible aux personnes à mobilité réduite
@@ -27,14 +27,13 @@ publication: actif
 ordre: 1
 ---
 
-Ce local de 71 m² se situe dans le bâtiment linéaire du pôle commercial
+Ce local de 50 m² se situe dans le bâtiment linéaire du pôle commercial
 l'Albizia, entre des enseignes déjà installées. Sa vitrine donne directement
 sur le parking : les clients voient la devanture depuis leur place de
 stationnement.
 
-Il se compose d'une **surface de vente d'environ 50 m² en rez-de-chaussée**,
-de sanitaires et d'une **mezzanine de 20 m²** utilisable en réserve, en
-bureau ou en espace de travail.
+Il se compose d'une **surface de 50 m² en rez-de-chaussée**, de sanitaires
+et d'une **mezzanine pour le stockage**.
 
 **L'accès se fait de plain-pied**, sans marche ni rampe, aussi bien pour la
 clientèle que pour les livraisons ; le local est accessible aux personnes à

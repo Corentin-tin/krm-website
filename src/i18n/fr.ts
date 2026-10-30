@@ -38,6 +38,8 @@ export const fr = {
     dimanche: 'Dimanche',
     plageSemaine: '8h30 – 23h00',
     plageDimanche: '11h00 – 23h00',
+    laverie: 'Laverie',
+    plageLaverie: '7h00 – 21h00',
   },
 
   /* ------------------------------------------------------------ métadonnées */
@@ -217,17 +219,7 @@ export const fr = {
       'en dehors de ces horaires.',
     stationnementTitre: 'Stationnement et accessibilité',
     parkingTitre: 'Parking gratuit',
-    parkingTexte:
-      'Stationnement gratuit sur site, sans disque ni limitation de durée, ' +
-      'complété par les rues adjacentes.',
     pmrTitre: 'Accès PMR',
-    pmrTexte:
-      'Places dédiées près des entrées, cheminements de plain-pied et ' +
-      'sanitaires adaptés.',
-    electriqueTitre: 'Véhicules électriques',
-    electriqueTexte:
-      'Borne Powerdot avec trois points de charge rapide simultanés, en ' +
-      'libre accès et sans abonnement.',
   },
 
   /* --------------------------------------------------------------- contact */
@@ -265,12 +257,11 @@ export const fr = {
     commercantCta: 'Écrire au pôle →',
     mailSujet: (nom: string) => `Ma fiche sur le site du ${nom}`,
     locauxTitre: 'Les locaux à louer',
-    locauxIntro: (nbCommerces: number) =>
-      `Rejoignez les ${nbCommerces} enseignes déjà installées au pôle ` +
+    locauxIntro:
+      'Rejoignez les enseignes déjà installées au pôle ' +
       "commercial l'Albizia, à l'entrée de Montech. Parking gratuit et sans " +
-      'limite de durée, accès de plain-pied, et des services communs — casiers ' +
-      'de retrait de colis, borne de recharge électrique — qui amènent du ' +
-      'passage tout au long de la journée.',
+      'limite de durée, accès PMR — casiers de retrait de colis, borne de ' +
+      'recharge électrique — qui amènent du passage tout au long de la journée.',
     listeNom: (nom: string) => `Locaux commerciaux à louer au ${nom}`,
   },
 
@@ -278,6 +269,8 @@ export const fr = {
   /**
    * Questions fréquentes, écrites telles qu'elles sont réellement posées —
    * « Y a-t-il des locaux à louer… », pas « Disponibilité locative ».
+   * Exception voulue par le client : les trois dernières sont des titres
+   * courts (« Destination des locaux », « Parking », « Horaires »).
    *
    * Deux contraintes gouvernent ces textes :
    *
@@ -313,32 +306,31 @@ export const fr = {
 
     ouQuestion: 'Où se trouve le pôle commercial l\'Albizia ?',
     ouReponse: (nom: string, adresse: string) =>
-      `Le ${nom} se situe ${adresse}, à l'entrée de Montech, dans le ` +
+      `Le ${nom} se situe ${adresse}, sur la départementale 928, dans le ` +
       "Tarn-et-Garonne (Occitanie), à une vingtaine de minutes de Montauban. " +
       'Le parking est gratuit et sans limite de durée, et tous les commerces ' +
       'sont accessibles de plain-pied.',
 
-    activitesQuestion: 'Quelles activités peut-on ouvrir dans un local du pôle ?',
+    activitesQuestion: 'Destination des locaux',
     activitesReponse:
       'Les locaux se prêtent au commerce de détail, aux services, à la beauté ' +
-      'et au bien-être, aux professions libérales et au bureau. Le plateau ' +
-      "de l'étage ne convient pas aux activités alimentaires. Les enseignes " +
-      'déjà installées couvrent la restauration, la coiffure, le spa, ' +
-      "l'automobile, la comptabilité et le courtage.",
+      'et au bien-être, aux professions libérales et artisans. Les enseignes ' +
+      'déjà installées couvrent la restauration, la coiffure, le bien-être, ' +
+      "l'automobile, la comptabilité, le courtage, le vapo shop et le service " +
+      'à la personne.',
 
-    stationnementQuestion: 'Le parking du pôle est-il gratuit ?',
+    stationnementQuestion: 'Parking',
     stationnementReponse:
       "Oui. Le parking du pôle commercial l'Albizia à Montech est gratuit, " +
       'sans limite de durée et sans disque. Il comprend des places réservées ' +
       'aux personnes à mobilité réduite et une borne de recharge électrique ' +
       'rapide Powerdot à trois points de charge.',
 
-    horairesQuestion: 'À quelle heure le pôle commercial l\'Albizia est-il ouvert ?',
+    horairesQuestion: 'Horaires',
     horairesReponse:
-      'Les parties communes du pôle sont accessibles du lundi au samedi de ' +
-      '8h30 à 23h00, et le dimanche de 11h00 à 23h00. Chaque enseigne fixe ' +
-      'ses propres horaires. Le distributeur de pizzas, le casier Mondial ' +
-      'Relay et la borne de recharge sont accessibles 24h/24.',
+      'Commerces du lundi au samedi de 8h30 à 23h00 et le dimanche de 11h00 ' +
+      'à 23h00. Laverie de 7h00 à 21h00. Distributeurs et bornes accessibles ' +
+      '24h/24, 7j/7.',
   },
 
   /* ------------------------------------------------------------ fiche local */
