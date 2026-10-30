@@ -103,14 +103,13 @@ export const PROFILS: readonly string[] = [
 /**
  * Horaires d'accès du site (parties communes).
  *
- * [À CONFIRMER] — les annuaires en ligne divergent : une source donne
- * lundi–samedi 8h30–23h00, une autre lundi 8h30–21h00 et samedi dès 9h30.
- * On publie ici la version majoritaire, avec une mention de prudence
- * affichée à l'utilisateur. Les horaires de chaque commerce sont propres
- * à l'enseigne et figurent sur sa fiche.
+ * Confirmés par le client le 10 septembre 2026, laverie comprise. La
+ * laverie a ses propres horaires, publiés à côté de ceux du pôle : la
+ * consigne Pickup qu'elle abrite en dépend. Les horaires de chaque
+ * commerce sont propres à l'enseigne et figurent sur sa fiche.
  */
 export const HORAIRES = {
-  confirme: false,
+  confirme: true,
   /**
    * Les libellés affichés (« Lundi – Samedi », « 8h30 – 23h00 ») sont du
    * texte traduisible : ils vivent dans les dictionnaires, et ne sont
@@ -120,6 +119,7 @@ export const HORAIRES = {
   jours: [
     { jours: 'horaires.lundiSamedi', horaire: 'horaires.plageSemaine' },
     { jours: 'horaires.dimanche', horaire: 'horaires.plageDimanche' },
+    { jours: 'horaires.laverie', horaire: 'horaires.plageLaverie' },
   ] satisfies { jours: CleTexte; horaire: CleTexte }[],
   /** Format schema.org openingHoursSpecification. */
   schema: [
