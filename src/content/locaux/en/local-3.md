@@ -7,10 +7,8 @@ statut: disponible
 disponibilite: Immediate
 batiment: A
 accroche: >-
-  74 m² of new space on the first floor of the corner building, served by lift
-  and stairs and lit by large picture windows.
+  74 m² upstairs, bright, excellent visibility, step-free access by lift.
 atouts:
-  - Newly built unit
   - Lift and stairs
   - Accessible to people with reduced mobility
   - Large picture windows
@@ -28,7 +26,7 @@ publication: actif
 ordre: 2
 ---
 
-This **newly built** 74 m² floor occupies the first storey of the corner
+This 74 m² floor occupies the first storey of the corner
 building at the Albizia shopping centre. It is the largest space currently
 available.
 
@@ -38,7 +36,7 @@ with reduced mobility despite being upstairs. It has its own toilets.
 Its large picture windows give it plenty of natural light and visibility from
 the access road. The single open floor lends itself to a fit-out as offices, as
 a professional practice or as a public reception area, and suits **a wide range
-of occupations, food businesses excepted**.
+of occupations**.
 
 On the ground floor of the same building are the self-service launderette and
 other businesses of the centre, with free parking immediately alongside.

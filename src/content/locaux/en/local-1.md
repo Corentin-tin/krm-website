@@ -1,17 +1,17 @@
 ---
-reference: 'Retail unit T1'
+reference: 'Retail unit'
 misEnLigne: 2026-09-08
-surface: 71
+surface: 50
 annonce: 'https://www.laforet.com/agence-immobiliere/montech/louer/montech/local-commercial-21075718'
 statut: disponible
 disponibilite: Immediate
 batiment: B
 accroche: >-
-  71 m² at ground level with a shop window onto the car park: 50 m² of sales
-  floor and a 20 m² mezzanine.
+  50 m² at ground level with a shop window onto the car park, and a mezzanine
+  for storage.
 atouts:
   - Step-free access
-  - 20 m² mezzanine
+  - Storage mezzanine
   - Toilets
   - Free parking outside the unit
   - Accessible to people with reduced mobility
@@ -27,13 +27,12 @@ publication: actif
 ordre: 1
 ---
 
-This 71 m² unit sits in the linear building of the Albizia shopping centre,
+This 50 m² unit sits in the linear building of the Albizia shopping centre,
 between businesses already in place. Its window looks straight onto the car
 park: customers see the shopfront from their parking space.
 
-It comprises a **sales floor of roughly 50 m² at ground level**, toilets and a
-**20 m² mezzanine** that can be used for storage, as an office or as a
-workspace.
+It comprises **50 m² at ground level**, toilets and a **mezzanine for
+storage**.
 
 **Access is step-free**, with no step or ramp, for customers and deliveries
 alike; the unit is accessible to people with reduced mobility.
