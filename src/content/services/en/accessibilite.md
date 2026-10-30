@@ -8,8 +8,5 @@ ordre: 4
 image: ../../../assets/services/pmr.png
 ---
 
-The whole centre is accessible to **people with reduced mobility**: dedicated
-parking bays as close as possible to the entrances, step-free routes and adapted
-toilets.
-
-The shops are all at ground level, with no stairs to climb from the car park.
+Step-free access to **every unit**: at ground level, or by lift for the upper
+floor.
