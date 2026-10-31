@@ -317,9 +317,9 @@ validation :
 - **Coordonnées GPS** — approximatives dans `ADRESSE.geo`, à affiner.
 - **Mentions légales** — compléter le directeur de la publication, le SIREN
   et le RCS dans `EDITEUR` (`src/lib/site.ts`).
-- **Enseignes en brouillon** — deux fiches attendent confirmation
-  (Cross Courtage, Delt@ Expertise) : leur logo est en place, la présence
-  effective reste à vérifier bail en main.
+- **Enseigne en brouillon** — une fiche attend confirmation
+  (Delt@ Expertise) : son logo est en place, la présence effective reste à
+  vérifier bail en main.
 - **Adresse « rue » vs « avenue »** — plusieurs enseignes se déclarent au
   « 4 avenue de la Mouscane » alors que le pôle est au **4 rue de la
   Mouscane** (Maison & Services, La Fabrique de Maëv). C'est une erreur des
