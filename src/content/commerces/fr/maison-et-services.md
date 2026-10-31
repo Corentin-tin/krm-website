@@ -11,7 +11,7 @@ googleMaps: https://www.google.com/maps/place/Maison+et+Services+Montech/@43.961
 image: ../../../assets/commerces/maison-et-services.jpg
 logo: true
 ---
-**Maison & Services**, entretien de la maison et du jardin à domicile.
+**Maison & Services**, entretien de la maison et du jardin.
 
 Ménage, repassage, vitres et espaces verts. Devis gratuit.
 

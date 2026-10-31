@@ -112,7 +112,7 @@ export const fr = {
       'le parking, les accès et les services en libre accès.',
     videoLecture: 'Lire la vidéo de présentation',
     videoDuree: '1 min 42',
-    permanentsTitre: 'Ouvert même quand tout est fermé',
+    permanentsTitre: 'Services accessibles 24h/24',
     /** Écrit les nombres en toutes lettres et gère l'accord — cf. en.ts. */
     permanentsIntro: (n: number) => {
       const mots = ['Aucun', 'Un', 'Deux', 'Trois', 'Quatre', 'Cinq', 'Six', 'Sept'];
@@ -188,7 +188,7 @@ export const fr = {
       `Nouvelles enseignes, nouveaux services et animations du ${nom} à Montech.`,
     titre: 'Actualités du pôle',
     intro:
-      "Nouvelles enseignes, nouveaux services, animations : ce qui bouge à l'Albizia.",
+      "Nouvelles enseignes, nouveaux services et animations du pôle commercial l'Albizia.",
     vide: 'Aucune actualité pour le moment.',
   },
 
@@ -205,8 +205,7 @@ export const fr = {
       'Parking gratuit et accès PMR.',
     titre: 'Infos pratiques',
     intro:
-      'Où nous trouver, comment venir, à quelle heure. Tout ce qu\'il faut ' +
-      'savoir avant de passer.',
+      'Adresse, accès, horaires et stationnement du pôle.',
     situationTexte:
       "Le pôle se situe en bordure de la <strong>RD 928</strong> (avenue de " +
       "Montauban), dans la zone commerciale de la Mouscane, à l'entrée de " +
@@ -316,7 +315,7 @@ export const fr = {
       'Les locaux se prêtent au commerce de détail, aux services, à la beauté ' +
       'et au bien-être, aux professions libérales et artisans. Les enseignes ' +
       'déjà installées couvrent la restauration, la coiffure, le bien-être, ' +
-      "l'automobile, la comptabilité, le courtage, le vapo shop et le service " +
+      "l'automobile, la comptabilité, le courtage, la cigarette électronique et le service " +
       'à la personne.',
 
     stationnementQuestion: 'Parking',
