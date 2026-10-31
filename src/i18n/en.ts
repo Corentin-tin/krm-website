@@ -108,7 +108,7 @@ export const en: Dictionnaire = {
       'park, the access routes and the round-the-clock services.',
     videoLecture: 'Play the presentation video',
     videoDuree: '1 min 42',
-    permanentsTitre: 'Open when everything else is closed',
+    permanentsTitre: 'Services available 24/7',
     /** Nombres en toutes lettres et accord anglais — divergent du français. */
     permanentsIntro: (n: number) => {
       const mots = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven'];
@@ -182,7 +182,7 @@ export const en: Dictionnaire = {
       `New businesses, new services and events at ${nom} in Montech.`,
     titre: 'Latest news',
     intro:
-      "New businesses, new services, events: what's happening at l'Albizia.",
+      "New businesses, new services and events at the Albizia shopping centre.",
     vide: 'No news at the moment.',
   },
 
@@ -199,8 +199,7 @@ export const en: Dictionnaire = {
       'Free parking and wheelchair access.',
     titre: 'Visitor information',
     intro:
-      'Where to find us, how to get here, and when. Everything you need to know ' +
-      'before you visit.',
+      'Address, access, opening hours and parking at the centre.',
     situationTexte:
       'The centre sits just off the <strong>RD 928</strong> (avenue de ' +
       'Montauban), in the Mouscane retail area, at the entrance to Montech as ' +
@@ -288,8 +287,8 @@ export const en: Dictionnaire = {
     activitesReponse:
       'The units suit retail, services, beauty and wellbeing, independent ' +
       'professionals and tradespeople. Existing tenants cover catering, ' +
-      'hairdressing, wellbeing, motoring, accountancy, insurance broking, a ' +
-      'vape shop and home services.',
+      'hairdressing, wellbeing, motoring, accountancy, insurance broking, ' +
+      'e-cigarettes and home services.',
 
     stationnementQuestion: 'Parking',
     stationnementReponse:
