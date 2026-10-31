@@ -16,6 +16,6 @@ logo: true
 ---
 **R Concept Montech**, e-cigarette and CBD shop.
 
-Hardware, e-liquids, coils and accessories.
+Hardware, e-liquids, coils and accessories. Chronopost pickup point on site.
 
 Free parking.
