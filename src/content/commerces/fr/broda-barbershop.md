@@ -11,12 +11,8 @@ googleMaps: https://www.google.com/maps/place/Broda+Barbershop+Montech/@43.96219
 image: ../../../assets/commerces/broda-barbershop.png
 logo: true
 ---
-**Broda Barbershop** est le salon de **coiffure et de barbier** du pôle
-commercial l'Albizia. L'enseigne a repris en avril 2025 le salon tenu
-jusque-là par 1863 Pillon Barbier.
+**Broda Barbershop**, coiffeur et barbier.
 
-Coupe classique, coupe express ou changement de tête, taille de barbe, rasage
-du crâne et soins du visage : l'équipe propose aussi des formules combinant
-coupe et barbe. La prise de rendez-vous se fait en ligne.
+Coupes, taille de barbe, rasage et soins du visage. Rendez-vous en ligne.
 
-Le parking gratuit et l'accès de plain-pied facilitent la venue.
+Parking gratuit.

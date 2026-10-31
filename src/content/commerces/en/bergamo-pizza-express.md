@@ -13,12 +13,8 @@ googleMaps: https://www.google.com/maps/place/BERGAMO+PIZZA+express/@43.961949,1
 image: ../../../assets/commerces/bergamo.jpg
 logo: true
 ---
-**Bergamo Pizza Express** is the **fresh pizza vending machine** at the Albizia
-shopping centre.
+**Bergamo Pizza Express**, fresh pizza vending machine.
 
-Self-service **24 hours a day, 7 days a week**, including when the other shops
-are closed: a solution for a late dinner as much as for a last-minute meal.
-Expect to pay between €8 and €10.50 per pizza.
+Self-service **24 hours a day, 7 days a week**.
 
-The free car park makes it easy to stop for the time it takes to order, and the
-machine is accessible to people with reduced mobility.
+Free parking.

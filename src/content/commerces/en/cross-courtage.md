@@ -8,17 +8,8 @@ fiabilite: source
 image: ../../../assets/commerces/cross-courtage.png
 logo: true
 ---
-**Cross Courtage** is an insurance brokerage **specialising in construction
-insurance**, based at the Albizia shopping centre in Montech.
+**Cross Courtage**, broker specialising in **construction insurance**.
 
-Since 2011, the firm has worked in this field alone. It supports
-**tradespeople, building firms, property developers, property dealers and
-project owners**, negotiating on their behalf with its partner insurers the
-cover specific to the sector: **ten-year liability insurance (décennale),
-building damage insurance (dommages-ouvrage), developer liability, completion
-guarantees** and cover for building design professionals.
+Ten-year liability, building damage, developer liability and completion guarantees for building professionals.
 
-It also finds solutions for harder-to-insure cases (new businesses, cancelled
-policies, past claims) and stays with its clients through to claims handling.
-
-Clients are received at the centre, where parking is free.
+Free parking.

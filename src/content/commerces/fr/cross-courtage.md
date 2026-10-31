@@ -8,18 +8,8 @@ fiabilite: source
 image: ../../../assets/commerces/cross-courtage.png
 logo: true
 ---
-**Cross Courtage** est un cabinet de courtage **spécialisé en assurance
-construction**, installé au pôle commercial l'Albizia, à Montech.
+**Cross Courtage**, courtier spécialisé en **assurance construction**.
 
-Depuis 2011, le cabinet ne traite que ce domaine. Il accompagne les
-**artisans, entreprises du bâtiment, promoteurs, marchands de biens et maîtres
-d'ouvrage**, et négocie pour eux auprès de ses assureurs partenaires les
-garanties propres au secteur : **assurance décennale, dommages-ouvrage, RC
-promoteur, garantie financière d'achèvement** ou encore garanties des
-professions intellectuelles du bâtiment.
+Décennale, dommages-ouvrage, RC promoteur et garantie financière d'achèvement pour les professionnels du bâtiment.
 
-Il sait aussi trouver une solution pour les dossiers plus difficiles à assurer
-(création d'entreprise, contrat résilié, antécédents de sinistres) et suit ses
-clients jusqu'à la gestion des sinistres.
-
-L'accueil se fait au pôle, avec parking gratuit.
+Parking gratuit.

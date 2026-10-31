@@ -13,12 +13,8 @@ googleMaps: https://www.google.com/maps/place/BERGAMO+PIZZA+express/@43.961949,1
 image: ../../../assets/commerces/bergamo.jpg
 logo: true
 ---
-**Bergamo Pizza Express** est le **distributeur automatique de pizzas fraîches**
-du pôle commercial l'Albizia.
+**Bergamo Pizza Express**, distributeur automatique de pizzas fraîches.
 
-En libre-service **24 heures sur 24 et 7 jours sur 7**, y compris quand les
-commerces du pôle sont fermés : une solution pour un dîner tardif comme pour un
-repas de dernière minute. Comptez de 8 € à 10,50 € la pizza.
+En libre-service **24 heures sur 24 et 7 jours sur 7**.
 
-Le parking gratuit permet de s'arrêter le temps de la commande, et le
-distributeur est accessible aux personnes à mobilité réduite.
+Parking gratuit.

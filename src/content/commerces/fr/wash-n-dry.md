@@ -11,15 +11,8 @@ googleMaps: https://www.google.com/maps/place/LAVERIE+MONTECH+WASH'N+DRY/@43.962
 image: ../../../assets/commerces/wash-n-dry.jpg
 logo: true
 ---
-**Wash'n Dry** est la **laverie automatique en libre-service** du pôle
-commercial l'Albizia, ouverte **7 jours sur 7**.
+**Wash'n Dry**, laverie automatique en libre-service.
 
-Machines de plusieurs capacités et sèche-linge rapides : de quoi traiter en une
-fois le linge de la famille, la grosse pièce de literie ou la couette que la
-machine domestique ne prend pas. La **lessive et l'assouplissant professionnels
-sont inclus** dans chaque cycle, et le paiement se fait sur un écran tactile.
+Ouverte **7 jours sur 7**, lessive et assouplissant inclus. Consigne à colis Pickup sur place.
 
-La laverie abrite également une **consigne à colis Pickup** (Chronopost,
-Colissimo, DPD) : on lance une machine et on retire son colis au même endroit.
-
-Aucune réservation : le parking gratuit est devant, à quelques mètres de la porte.
+Parking gratuit.

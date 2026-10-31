@@ -14,11 +14,8 @@ reseaux:
 image: ../../../assets/commerces/rconcept.png
 logo: true
 ---
-**R Concept Montech** is the **e-cigarette and CBD** shop at the Albizia
-shopping centre.
+**R Concept Montech**, e-cigarette and CBD shop.
 
-Vaping hardware, **e-liquids**, coils and accessories: the team advises
-experienced vapers and complete beginners alike on choosing equipment and
-flavours. The shop is open Monday to Saturday.
+Hardware, e-liquids, coils and accessories.
 
-Free parking and step-free access make it easy to stop off to restock.
+Free parking.

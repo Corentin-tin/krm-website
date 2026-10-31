@@ -14,13 +14,8 @@ reseaux:
 image: ../../../assets/commerces/rconcept.png
 logo: true
 ---
-**R Concept Montech** est la boutique de **cigarettes électroniques et de CBD**
-du pôle commercial l'Albizia.
+**R Concept Montech**, boutique de cigarettes électroniques et de CBD.
 
-Matériel de vape, **e-liquides**, résistances et accessoires : l'équipe
-accompagne aussi bien les vapoteurs confirmés que les personnes qui débutent,
-avec des conseils sur le choix du matériel et des saveurs. La boutique est
-ouverte du lundi au samedi.
+Matériel, e-liquides, résistances et accessoires.
 
-Le parking gratuit et l'accès de plain-pied permettent de s'arrêter le temps
-d'un réassort.
+Parking gratuit.

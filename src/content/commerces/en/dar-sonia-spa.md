@@ -11,13 +11,8 @@ siteWeb: https://www.planity.com/dar-sonia-82700-montech
 image: ../../../assets/commerces/dar-sonia.png
 logo: true
 ---
-**Dar Sonia Spa** is the wellbeing space at the Albizia shopping centre, opened
-in February 2026 and run by Sonia, Katy and Jessica.
+**Dar Sonia Spa**, wellbeing spa.
 
-On offer: a **traditional hammam**, **oriental massages** (full body,
-back-neck-shoulders, or as a couple), body scrubs and wraps, purifying and
-hydrating **facial treatments**, **manicures and pedicures**, and
-**oriental-style waxing**. Multi-session courses of treatment and gift cards are
-also available.
+Hammam, oriental massages, facials, manicures, pedicures and oriental-style waxing.
 
-The centre's free car park means there is no need to worry about parking.
+Free parking.

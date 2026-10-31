@@ -10,12 +10,8 @@ googleMaps: https://www.google.com/maps/place/Driving+School+Drive+In+Car/@43.96
 image: ../../../assets/commerces/drive-in-car.jpg
 logo: true
 ---
-**Drive In Car** is the driving school based at the Albizia shopping centre.
+**Drive In Car**, driving school.
 
-Category B licence, accompanied driving from 15 (AAC), supervised driving and
-preparation for the theory test: tuition starts from Montech, with direct access
-to the RD 928 and the surrounding country roads — varied ground for learning, a
-few minutes from the office.
+Category B licence, accompanied driving, supervised driving and theory test.
 
-The centre's free car park makes appointments and the start of each lesson
-easier.
+Free parking.

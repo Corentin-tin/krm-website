@@ -17,15 +17,8 @@ reseaux:
 image: ../../../assets/commerces/la-fabrique-de-maev.png
 logo: true
 ---
-**La Fabrique de Maëv** est la **pâtissière-traiteur** du pôle commercial
-l'Albizia. Maëva, ancienne éducatrice spécialisée devenue pâtissière, y prépare
-ses créations avec Steven.
+**La Fabrique de Maëv**, pâtissière-traiteur.
 
-Au catalogue : **entremets**, **layer cakes** et gâteaux personnalisés (chiffres,
-cœurs), **macarons**, Paris-Brest, tartes, cupcakes et cake pops — pâtisseries
-françaises et gourmandises d'inspiration anglo-saxonne. S'y ajoutent des
-**buffets sucrés-salés sur mesure** pour vos événements, petits ou grands :
-anniversaires, baptêmes, réceptions.
+Entremets, layer cakes, macarons, gâteaux personnalisés et buffets sucrés-salés, sur devis.
 
-Les commandes se font **sur devis**, par téléphone ou depuis le site. Le parking
-gratuit facilite le retrait des commandes.
+Parking gratuit.
