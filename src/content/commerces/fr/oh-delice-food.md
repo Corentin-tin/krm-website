@@ -9,10 +9,8 @@ ordre: 1
 image: ../../../assets/commerces/oh-delice-food.png
 logo: true
 ---
-**Ô Délice Food** assure la restauration rapide du pôle commercial l'Albizia.
+**Ô Délice Food**, restauration rapide.
 
-Sandwichs, kebabs, plats chauds et formules du midi à emporter ou à consommer
-sur place : une adresse pratique pour la pause déjeuner des salariés de la zone
-comme pour un repas rapide en famille.
+Sandwichs, kebabs, plats chauds et formules du midi à emporter ou à consommer sur place.
 
-Le parking gratuit permet de s'arrêter le temps de la commande.
+Parking gratuit.

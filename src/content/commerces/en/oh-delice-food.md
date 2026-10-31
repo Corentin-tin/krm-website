@@ -9,10 +9,8 @@ ordre: 1
 image: ../../../assets/commerces/oh-delice-food.png
 logo: true
 ---
-**Ô Délice Food** is the fast-food outlet at the Albizia shopping centre.
+**Ô Délice Food**, fast food.
 
-Sandwiches, kebabs, hot dishes and lunchtime deals, to take away or to eat in: a
-practical address for the lunch break of people working on the estate, and for a
-quick family meal.
+Sandwiches, kebabs, hot dishes and lunchtime deals, to take away or eat in.
 
-The free car park makes it easy to stop for the time it takes to order.
+Free parking.

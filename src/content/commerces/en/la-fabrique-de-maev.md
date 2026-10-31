@@ -17,15 +17,8 @@ reseaux:
 image: ../../../assets/commerces/la-fabrique-de-maev.png
 logo: true
 ---
-**La Fabrique de Maëv** is the **pastry chef and caterer** at the Albizia
-shopping centre. Maëva, a former specialist support worker turned pastry chef,
-prepares her creations there with Steven.
+**La Fabrique de Maëv**, pastry chef and caterer.
 
-On the menu: **entremets**, **layer cakes** and personalised cakes (numbers,
-hearts), **macarons**, Paris-Brest, tarts, cupcakes and cake pops — French
-patisserie alongside treats of British and American inspiration. There are also
-**made-to-measure sweet and savoury buffets** for events large and small:
-birthdays, christenings and receptions.
+Entremets, layer cakes, macarons, personalised cakes and sweet and savoury buffets, on quotation.
 
-Orders are taken **on quotation**, by telephone or through the website. Free
-parking makes collecting an order easy.
+Free parking.

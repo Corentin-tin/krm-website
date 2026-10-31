@@ -10,11 +10,8 @@ googleMaps: https://www.google.com/maps/place/Driving+School+Drive+In+Car/@43.96
 image: ../../../assets/commerces/drive-in-car.jpg
 logo: true
 ---
-**Drive In Car** est l'auto-école implantée au pôle commercial l'Albizia.
+**Drive In Car**, auto-école.
 
-Permis B, conduite accompagnée (AAC), conduite supervisée et préparation à
-l'épreuve du code de la route : la formation se déroule au départ de Montech,
-avec un accès direct à la RD 928 et aux routes de campagne environnantes —
-un terrain d'apprentissage varié à quelques minutes de l'agence.
+Permis B, conduite accompagnée, conduite supervisée et code de la route.
 
-Le parking gratuit du pôle facilite les rendez-vous et les départs de leçon.
+Parking gratuit.

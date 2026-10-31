@@ -11,12 +11,8 @@ googleMaps: https://www.google.com/maps/place/Maison+et+Services+Montech/@43.961
 image: ../../../assets/commerces/maison-et-services.jpg
 logo: true
 ---
-**Maison & Services** opened its Montech branch in February 2026, at the Albizia
-shopping centre.
+**Maison & Services**, home and garden maintenance.
 
-The company provides **home and garden maintenance in the customer's own home**:
-cleaning, ironing, window cleaning and garden upkeep. Its teams work for
-households in Montech and across the Tarn-et-Garonne, either as one-off jobs or
-under a regular contract, with a free quotation.
+Cleaning, ironing, windows and garden upkeep. Free quotation.
 
-Clients are received at the centre, where parking is free.
+Free parking.

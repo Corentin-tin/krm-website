@@ -11,12 +11,8 @@ googleMaps: https://www.google.com/maps/place/Broda+Barbershop+Montech/@43.96219
 image: ../../../assets/commerces/broda-barbershop.png
 logo: true
 ---
-**Broda Barbershop** is the **hairdressing and barbering** salon at the Albizia
-shopping centre. The business took over in April 2025 from 1863 Pillon Barbier,
-who had run the salon until then.
+**Broda Barbershop**, hairdresser and barber.
 
-Classic cut, express cut or a complete change of style, beard trimming, head
-shaving and facial treatments: the team also offers packages combining a cut and
-a beard trim. Appointments are booked online.
+Haircuts, beard trims, shaves and facial treatments. Online booking.
 
-Free parking and step-free access make visiting straightforward.
+Free parking.

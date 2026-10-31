@@ -11,12 +11,8 @@ googleMaps: https://www.google.com/maps/place/Maison+et+Services+Montech/@43.961
 image: ../../../assets/commerces/maison-et-services.jpg
 logo: true
 ---
-**Maison & Services** a ouvert son agence de Montech en février 2026, au pôle
-commercial l'Albizia.
+**Maison & Services**, entretien de la maison et du jardin à domicile.
 
-L'enseigne propose l'**entretien de la maison et du jardin à domicile** :
-ménage, repassage, nettoyage de vitres et entretien des espaces verts. Les
-interventions se font chez les particuliers de Montech et du Tarn-et-Garonne,
-en prestation ponctuelle comme en contrat régulier, sur devis gratuit.
+Ménage, repassage, vitres et espaces verts. Devis gratuit.
 
-L'accueil se fait au pôle, avec parking gratuit.
+Parking gratuit.

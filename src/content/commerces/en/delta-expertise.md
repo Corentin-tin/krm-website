@@ -9,12 +9,6 @@ fiabilite: a-confirmer
 image: ../../../assets/commerces/delta-expertise.png
 logo: true
 ---
-**Delt@ Expertise** is the **chartered accountancy firm** based at the Albizia
-shopping centre in Montech.
+**Delt@ Expertise**, chartered accountancy firm.
 
-The practice works with **companies, tradespeople, retailers and self-employed
-professionals** in the area: bookkeeping and account reviews, preparation of
-annual accounts and tax returns, advice on setting up a business, and management
-support throughout the year.
-
-Clients are received at the centre, where parking is free.
+Free parking.

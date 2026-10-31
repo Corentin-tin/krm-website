@@ -11,16 +11,8 @@ googleMaps: https://www.google.com/maps/place/LAVERIE+MONTECH+WASH'N+DRY/@43.962
 image: ../../../assets/commerces/wash-n-dry.jpg
 logo: true
 ---
-**Wash'n Dry** is the **self-service launderette** at the Albizia shopping
-centre, open **7 days a week**.
+**Wash'n Dry**, self-service launderette.
 
-Machines in several sizes and fast tumble dryers: enough to deal in one go with
-the family wash, a large piece of bedding or the duvet a domestic machine cannot
-take. **Professional detergent and softener are included** in every cycle, and
-payment is made on a touchscreen.
+Open **7 days a week**, detergent and softener included. Pickup parcel locker on site.
 
-The launderette also houses a **Pickup parcel locker** (Chronopost, Colissimo,
-DPD): you can start a machine and collect your parcel in the same place.
-
-No booking needed: the free car park is right outside, a few metres from the
-door.
+Free parking.
