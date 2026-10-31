@@ -1,6 +1,6 @@
 ---
 nom: "Consigne Pickup"
-resume: "Une consigne Pickup installée dans la laverie : Chronopost, Colissimo et DPD, aux heures d'ouverture de celle-ci."
+resume: "Des consignes Pickup dans la laverie et chez R Concept : Chronopost, Colissimo et DPD, aux heures d'ouverture."
 icone: colis
 enAvant: false
 permanent: false
@@ -13,3 +13,6 @@ image: ../../../assets/services/pickup.png
 Une **consigne automatique Pickup** est installée **à l'intérieur de la laverie
 Wash'n Dry**. Colis **Chronopost**, **Colissimo** et **DPD**, aux **horaires de
 la laverie**.
+
+Une consigne se trouve également chez **R Concept Montech**, aux horaires
+d'ouverture de la boutique.

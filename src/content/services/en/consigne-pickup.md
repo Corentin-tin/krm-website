@@ -1,6 +1,6 @@
 ---
 nom: "Pickup parcel locker"
-resume: "A Pickup locker inside the launderette: Chronopost, Colissimo and DPD, during launderette opening hours."
+resume: "Pickup lockers in the launderette and at R Concept: Chronopost, Colissimo and DPD, during opening hours."
 icone: colis
 enAvant: false
 permanent: false
@@ -13,3 +13,6 @@ image: ../../../assets/services/pickup.png
 An **automated Pickup locker** is installed **inside the Wash'n Dry
 launderette**. **Chronopost**, **Colissimo** and **DPD** parcels, during the
 **launderette's opening hours**.
+
+There is also a locker at **R Concept Montech**, during the shop's opening
+hours.
