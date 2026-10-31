@@ -16,6 +16,6 @@ logo: true
 ---
 **R Concept Montech**, boutique de cigarettes électroniques et de CBD.
 
-Matériel, e-liquides, résistances et accessoires.
+Matériel, e-liquides, résistances et accessoires. Point relais Chronopost sur place.
 
 Parking gratuit.
