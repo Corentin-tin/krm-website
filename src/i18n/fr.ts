@@ -30,6 +30,11 @@ export const fr = {
     parkingPlainPied:
       "Parking gratuit et accès de plain-pied sur l'ensemble du pôle.",
     nousContacter: 'Nous contacter',
+    laisserAvis: 'Laisser un avis',
+    /** Précise le comportement du lien pour les lecteurs d'écran. */
+    laisserAvisA11y: 'Laisser un avis Google sur le pôle (s’ouvre sur Google)',
+    voirAvis: 'Voir les avis',
+    voirAvisA11y: 'Voir les avis Google sur le pôle (s’ouvre sur Google)',
   },
 
   /* ------------------------------------------------------------- horaires */
@@ -74,6 +79,8 @@ export const fr = {
     situation: 'En bordure de la RD 928 — avenue de Montauban',
     arguments: 'Parking gratuit · Accès PMR · Services 24h/24',
     horairesMentionCourte: 'Horaires indicatifs des parties communes.',
+    avisAccroche: 'Un passage au pôle ? Votre avis aide les prochains visiteurs.',
+    avisLien: 'Laisser un avis Google',
     copyright: (annee: number, nom: string) => `© ${annee} ${nom}. Tous droits réservés.`,
   },
 

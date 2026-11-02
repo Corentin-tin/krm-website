@@ -26,6 +26,10 @@ export const en: Dictionnaire = {
     voirSurMaps: 'View on Google Maps',
     parkingPlainPied: 'Free parking and step-free access throughout the centre.',
     nousContacter: 'Contact us',
+    laisserAvis: 'Leave a review',
+    laisserAvisA11y: 'Leave a Google review of the centre (opens on Google)',
+    voirAvis: 'See reviews',
+    voirAvisA11y: 'See Google reviews of the centre (opens on Google)',
   },
 
   /* ------------------------------------------------------------- horaires */
@@ -70,6 +74,8 @@ export const en: Dictionnaire = {
     situation: 'Just off the RD 928 — avenue de Montauban',
     arguments: 'Free parking · Step-free access · 24/7 services',
     horairesMentionCourte: 'Common-area hours, for guidance only.',
+    avisAccroche: 'Been to the centre? Your review helps future visitors.',
+    avisLien: 'Leave a Google review',
     copyright: (annee: number, nom: string) => `© ${annee} ${nom}. All rights reserved.`,
   },
 

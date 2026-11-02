@@ -74,6 +74,30 @@ export const ADRESSE_COMPLETE = `${ADRESSE.rue}, ${ADRESSE.codePostal} ${ADRESSE
 export const GOOGLE_KG_MID = '/g/1tdj6wn9';
 
 /**
+ * Lien direct vers le formulaire d'avis Google du pôle.
+ *
+ * `placeid` est l'identifiant de lieu de la fiche, dérivé de son identifiant
+ * interne (`0x12ac085b0b7fff19:0x6e9112be8924e518`, relevé le 2 novembre 2026
+ * dans l'URL de la fiche). Ce lien ouvre le formulaire sans passer par la
+ * recherche, et fonctionne que la fiche soit revendiquée ou non.
+ *
+ * [À FAIRE] Une fois la fiche revendiquée, le lien court `g.page/r/…/review`
+ * de la fiche est plus lisible : il remplacerait celui-ci.
+ */
+export const GOOGLE_PLACE_ID = 'ChIJGf9_C1sIrBIRGOUkib4SkW4';
+export const LIEN_AVIS_GOOGLE = `https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}`;
+
+/**
+ * Fiche Google du pôle, ouverte sur ses avis existants.
+ *
+ * Adressée par le CID de la fiche (valeur décimale de la seconde moitié de
+ * son identifiant interne) : `maps?cid=` ouvre la fiche Maps, où les avis
+ * figurent sous la note.
+ */
+export const GOOGLE_CID = '7967169825349100824';
+export const LIEN_VOIR_AVIS_GOOGLE = `https://www.google.com/maps?cid=${GOOGLE_CID}`;
+
+/**
  * Présence du pôle ailleurs sur le web, publiée en `sameAs`.
  *
  * C'est la propriété qui permet à un moteur de reconnaître « Pôle commercial
