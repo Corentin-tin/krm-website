@@ -5,6 +5,7 @@ import VideoPresentation from '../components/VideoPresentation.astro';
 import CarteCommerce from '../components/CarteCommerce.astro';
 import Faq from '../components/Faq.astro';
 import Icone from '../components/Icone.astro';
+import LienAvis from '../components/LienAvis.astro';
 import { schemaFaq, schemaPole } from '../lib/seo';
 import { ADRESSE_COMPLETE, EDITEUR, HORAIRES, SITE } from '../lib/site';
 import {
@@ -275,12 +276,16 @@ const permanents = await getPermanents(locale);
         <p class="mt-3 text-sm leading-relaxed text-albizia-700">
           {textes.accueil.venirIntro}
         </p>
-        <a
-          href={chemin('infosPratiques', locale)}
-          class="mt-6 inline-block rounded-lg bg-albizia-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
-        >
-          {textes.accueil.venirCta}
-        </a>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a
+            href={chemin('infosPratiques', locale)}
+            class="inline-block rounded-lg bg-albizia-700 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-albizia-800"
+          >
+            {textes.accueil.venirCta}
+          </a>
+          <LienAvis locale={locale} action="ecrire" />
+          <LienAvis locale={locale} action="lire" />
+        </div>
       </div>
 
       <div>

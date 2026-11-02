@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EnTetePage from '../components/EnTetePage.astro';
 import Icone from '../components/Icone.astro';
+import LienAvis from '../components/LienAvis.astro';
 import { Image } from 'astro:assets';
 import logoMaps from '../assets/reseaux/google-maps.png';
 import logoParking from '../assets/services/parking.png';
@@ -85,6 +86,8 @@ const lienCarte = `https://www.google.com/maps/search/?api=1&query=${requete}`;
             <Image src={logoMaps} alt="" width={32} height={45} class="h-5 w-auto" />
             {textes.infos.ctaCarte}
           </a>
+          <LienAvis locale={locale} action="ecrire" />
+          <LienAvis locale={locale} action="lire" />
         </div>
       </section>
 

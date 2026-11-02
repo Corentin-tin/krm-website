@@ -2,6 +2,7 @@
 import { ADRESSE, CONTACT, HORAIRES, SITE } from '../lib/site';
 import { getPermanents } from '../lib/contenu';
 import SelecteurLangue from './SelecteurLangue.astro';
+import LienAvis from './LienAvis.astro';
 import { dico, t, type Locale } from '../i18n';
 import { chemin, type CleRoute } from '../i18n/routes';
 import { navPied } from '../i18n/navigation';
@@ -52,6 +53,10 @@ const permanents = await getPermanents(locale);
       }
       <p class="mt-4 text-sm text-albizia-200">
         {t(locale, 'pied.arguments')}
+      </p>
+      <p class="mt-4 text-sm text-albizia-200">
+        {t(locale, 'pied.avisAccroche')}
+        <LienAvis locale={locale} action="ecrire" variante="pied" class="ml-1 whitespace-nowrap" />
       </p>
     </div>
 

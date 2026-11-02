@@ -1,0 +1,63 @@
+---
+/**
+ * Boutons vers les avis Google du pôle : en écrire un, ou lire ceux existants.
+ *
+ * Un seul composant pour que le logo, le libellé, l'étiquette d'accessibilité
+ * et le `rel` restent identiques partout où le bouton apparaît. Le fond blanc
+ * est voulu : le logo Google est conçu pour un fond clair, ce qui permet de
+ * l'utiliser tel quel jusque dans le pied de page sombre.
+ */
+import { Image } from 'astro:assets';
+import logoAvis from '../assets/reseaux/google-reviews.png';
+import { LIEN_AVIS_GOOGLE, LIEN_VOIR_AVIS_GOOGLE } from '../lib/site';
+import { t, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  action: 'ecrire' | 'lire';
+  /**
+   * `bouton` : logo Google sur fond blanc. `pied` : simple lien souligné, pour
+   * le pied de page sombre, où un bouton blanc détonnerait.
+   */
+  variante?: 'bouton' | 'pied';
+  class?: string;
+}
+
+const { locale, action, variante = 'bouton', class: classe = '' } = Astro.props;
+
+const ACTIONS = {
+  ecrire: {
+    href: LIEN_AVIS_GOOGLE,
+    libelle: 'commun.laisserAvis',
+    a11y: 'commun.laisserAvisA11y',
+  },
+  lire: {
+    href: LIEN_VOIR_AVIS_GOOGLE,
+    libelle: 'commun.voirAvis',
+    a11y: 'commun.voirAvisA11y',
+  },
+} as const;
+
+const STYLES = {
+  bouton:
+    'inline-flex items-center gap-3 rounded-lg border border-albizia-300 bg-white px-4 py-2.5 text-sm font-semibold text-albizia-800 transition-colors hover:bg-albizia-50',
+  pied: 'rounded font-medium text-white underline decoration-albizia-400 underline-offset-4 hover:decoration-terracotta-300',
+};
+
+const { href, libelle, a11y } = ACTIONS[action];
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={t(locale, a11y)}
+  class:list={[STYLES[variante], classe]}
+>
+  {
+    variante === 'bouton' && (
+      <Image src={logoAvis} alt="" width={60} height={24} class="h-5 w-auto" loading="lazy" />
+    )
+  }
+  {variante === 'pied' ? t(locale, 'pied.avisLien') : t(locale, libelle)}
+</a>
