@@ -11,6 +11,7 @@ reseaux:
   - reseau: instagram
     url: https://www.instagram.com/muriel_mjb_esthetique/
 image: ../../../assets/commerces/mjb-esthetique.jpg
+logo: true
 ---
 **MJB Esthétique**, institut de beauté.
 
